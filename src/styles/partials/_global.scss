@@ -1,0 +1,5 @@
+@use "./typography" as *;
+
+.app {
+  font-family: $font-stack;
+}
