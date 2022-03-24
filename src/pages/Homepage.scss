@@ -1,0 +1,24 @@
+@use "../styles/partials/colours" as *;
+@use "../styles/partials/keyframes" as *;
+
+.home-screen-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.home-screen {
+  width: 50%;
+  margin: auto;
+  &__title {
+    color: $primary-colour-one;
+    &::after {
+      content: "__";
+      position: relative;
+      left: 0.2rem;
+      animation: flashingUnderscore 2s linear infinite;
+    }
+  }
+  &__welcome-message {
+    color: $primary-colour-one;
+  }
+}
