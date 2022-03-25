@@ -13,4 +13,7 @@
   &:focus {
     outline: none;
   }
+  &--error {
+    border-bottom: 1px solid $secondary-colour-three;
+  }
 }

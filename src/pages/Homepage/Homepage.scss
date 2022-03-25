@@ -1,5 +1,5 @@
-@use "../styles/partials/colours" as *;
-@use "../styles/partials/keyframes" as *;
+@use "../../styles/partials/colours" as *;
+@use "../../styles/partials/keyframes" as *;
 
 .home-screen-wrapper {
   display: flex;
@@ -41,7 +41,7 @@
   }
   &__seed-title {
     font-weight: 700;
-    margin: 1rem 0;
+    margin: 2rem 0 1rem;
     font-size: 1.25rem;
   }
   &__seed-input {

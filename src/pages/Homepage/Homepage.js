@@ -1,14 +1,15 @@
 import "./Homepage.scss";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import InputSingleLetter from "../components/InputSingleLetter/InputSingleLetter";
-import factorioImg from "../assets/images/factorio.gif";
+import InputSingleLetter from "../../components/InputSingleLetter/InputSingleLetter";
+import factorioImg from "../../assets/images/factorio.gif";
 
 const Homepage = ({ username, setUserName }) => {
   const [userCharOne, setUserCharOne] = useState("");
   const [userCharTwo, setUserCharTwo] = useState("");
   const [userCharThree, setUserCharThree] = useState("");
   const [seed, setSeed] = useState("");
+  const [error, setError] = useState(false);
   let history = useHistory();
 
   const handleInput = (e) => {
@@ -35,7 +36,9 @@ const Homepage = ({ username, setUserName }) => {
       let fullName = `${userCharOne}${userCharTwo}${userCharThree}`;
       setUserName(fullName);
       history.push("/game");
+      return;
     }
+    setError(true);
   };
 
   return (
@@ -55,12 +58,27 @@ const Homepage = ({ username, setUserName }) => {
           <form className="home-screen__form">
             <h2 className="home-screen__credentials-title">Credentials</h2>
             <div>
-              <InputSingleLetter onChange={handleInput} name={"firstLetter"} />
-              <InputSingleLetter onChange={handleInput} name={"secondLetter"} />
-              <InputSingleLetter onChange={handleInput} name={"thirdLetter"} />
+              <InputSingleLetter
+                onChange={handleInput}
+                name={"firstLetter"}
+                value={userCharOne}
+                error={error}
+              />
+              <InputSingleLetter
+                onChange={handleInput}
+                name={"secondLetter"}
+                value={userCharTwo}
+                error={error}
+              />
+              <InputSingleLetter
+                onChange={handleInput}
+                name={"thirdLetter"}
+                value={userCharThree}
+                error={error}
+              />
             </div>
             <label className="home-screen__seed-title" htmlFor="seed">
-              SEED ?
+              SEED?
             </label>
             <input
               className="home-screen__seed-input"
