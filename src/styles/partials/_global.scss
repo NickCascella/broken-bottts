@@ -3,3 +3,14 @@
 .app {
   font-family: $font-stack;
 }
+
+input,
+button {
+  font-family: $font-stack;
+}
+
+button {
+  &:hover {
+    cursor: pointer;
+  }
+}

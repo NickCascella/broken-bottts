@@ -4,11 +4,19 @@
 .home-screen-wrapper {
   display: flex;
   justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 2rem;
+  box-sizing: border-box;
+  background: black;
 }
 
 .home-screen {
-  width: 50%;
-  margin: auto;
+  position: relative;
+  width: 100%;
+  max-width: 37rem;
+  padding: 2rem;
+  z-index: 2;
   &__title {
     color: $primary-colour-one;
     &::after {
@@ -20,5 +28,61 @@
   }
   &__welcome-message {
     color: $primary-colour-one;
+    line-height: 1.5rem;
+  }
+  &__form {
+    color: $primary-colour-one;
+    display: flex;
+    flex-direction: column;
+  }
+  &__credentials-title {
+    font-size: 1.25rem;
+    margin: 1rem 0;
+  }
+  &__seed-title {
+    font-weight: 700;
+    margin: 1rem 0;
+    font-size: 1.25rem;
+  }
+  &__seed-input {
+    color: $primary-colour-one;
+    font-size: 1.25rem;
+    text-align: center;
+    border: none;
+    border-bottom: 1px solid $secondary-colour-one;
+    background: none;
+    margin-bottom: 1rem;
+    &:focus {
+      outline: none;
+    }
+  }
+  &__proceed-btn {
+    padding: 0.5rem;
+    width: max-content;
+    color: $primary-colour-one;
+    align-self: center;
+    margin: 1rem 0;
+    border: none;
+    outline: 1px solid $primary-colour-one;
+    background-color: transparent;
+    border-radius: 0.2rem;
+    transition: background 0.3s ease-in-out;
+    &:hover {
+      background: $primary-colour-two;
+    }
+  }
+}
+
+.background-img-container {
+  position: relative;
+  .menu-background {
+    border-radius: 1rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    filter: brightness(0.2);
+    box-shadow: 0 0 10px 10px white;
   }
 }
