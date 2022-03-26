@@ -58,7 +58,7 @@ const Gamepage = ({ userName, levelsData }) => {
         </div>
       </section>
       <div className="game-page__game-wrapper">
-        <div className="game-page__screen"></div>
+        <div className="game-page__screen">s</div>
         <div className="game-page__dash">d</div>
       </div>
     </section>
