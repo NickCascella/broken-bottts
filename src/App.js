@@ -10,6 +10,7 @@ import Homepage from "./pages/Homepage/Homepage";
 
 function App() {
   const [userName, setUserName] = useState("");
+  const [levelsData, setLevelsData] = useState(null);
 
   return (
     <Router>
@@ -18,7 +19,11 @@ function App() {
           <Route
             path="/home"
             render={() => (
-              <Homepage userName={userName} setUserName={setUserName} />
+              <Homepage
+                userName={userName}
+                setUserName={setUserName}
+                setLevelsData={setLevelsData}
+              />
             )}
           />
           <Redirect exact from="/" to="/home" />

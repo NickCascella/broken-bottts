@@ -3,8 +3,9 @@ import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import InputSingleLetter from "../../components/InputSingleLetter/InputSingleLetter";
 import factorioImg from "../../assets/images/factorio.gif";
+import getBottts from "../../utils/botCreation";
 
-const Homepage = ({ username, setUserName }) => {
+const Homepage = ({ username, setUserName, setLevelsData }) => {
   const [userCharOne, setUserCharOne] = useState("");
   const [userCharTwo, setUserCharTwo] = useState("");
   const [userCharThree, setUserCharThree] = useState("");
@@ -30,12 +31,15 @@ const Homepage = ({ username, setUserName }) => {
     }
   };
 
-  const startGame = (e) => {
+  const startGame = async (e) => {
     e.preventDefault();
+
     if (userCharOne && userCharTwo && userCharThree) {
+      let bottts = await getBottts();
       let fullName = `${userCharOne}${userCharTwo}${userCharThree}`;
+      setLevelsData(bottts);
       setUserName(fullName);
-      history.push("/game");
+      history.push("/broken-bottts");
       return;
     }
     setError(true);
