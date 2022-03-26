@@ -20,7 +20,7 @@ const levelOneBottts = () => {
   }
   levelOneBottts.push(targetBottt);
   levelOne.targetBottt = targetBottt;
-  levelOne.allBotts = levelOneBottts;
+  levelOne.allBottts = levelOneBottts;
   return levelOne;
 };
 
@@ -54,7 +54,7 @@ const levelTwoBottts = (botttStyles) => {
   }
   levelTwoBottts.push(targetBottt);
   levelTwo.targetBottt = targetBottt;
-  levelTwo.allBotts = levelTwoBottts;
+  levelTwo.allBottts = levelTwoBottts;
   return levelTwo;
 };
 
@@ -70,7 +70,24 @@ const getBottts = async () => {
     return bottts;
   } catch (err) {
     console.log(err);
+    return err;
   }
 };
 
+const getBrokenBottts = () => {
+  let placeholderBottts = {};
+  let svg = () =>
+    createAvatar(style, {
+      dataUri: true,
+      seed: uuid(),
+      primaryColorLevel: 8,
+    });
+  placeholderBottts.botttOne = svg();
+  placeholderBottts.botttTwo = svg();
+  placeholderBottts.botttThree = svg();
+  placeholderBottts.botttFour = svg();
+  return placeholderBottts;
+};
+
 export default getBottts;
+export { getBrokenBottts };

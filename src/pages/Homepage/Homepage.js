@@ -5,7 +5,7 @@ import InputSingleLetter from "../../components/InputSingleLetter/InputSingleLet
 import factorioImg from "../../assets/images/factorio.gif";
 import getBottts from "../../utils/botCreation";
 
-const Homepage = ({ username, setUserName, setLevelsData }) => {
+const Homepage = ({ setUserName, setLevelsData }) => {
   const [userCharOne, setUserCharOne] = useState("");
   const [userCharTwo, setUserCharTwo] = useState("");
   const [userCharThree, setUserCharThree] = useState("");

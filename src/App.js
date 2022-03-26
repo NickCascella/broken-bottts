@@ -7,6 +7,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import Homepage from "./pages/Homepage/Homepage";
+import Gamepage from "./pages/Gamepage/Gamepage";
 
 function App() {
   const [userName, setUserName] = useState("");
@@ -24,6 +25,12 @@ function App() {
                 setUserName={setUserName}
                 setLevelsData={setLevelsData}
               />
+            )}
+          />
+          <Route
+            path="/broken-bottts"
+            render={() => (
+              <Gamepage userName={userName} levelsData={levelsData} />
             )}
           />
           <Redirect exact from="/" to="/home" />

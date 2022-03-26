@@ -1,0 +1,86 @@
+@use "../../styles/partials/colours" as *;
+@use "../../styles/partials/keyframes" as *;
+
+.game-page {
+  &__header {
+    // height: 10vh;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 2rem;
+    color: $primary-colour-one;
+    background-color: black;
+    overflow: hidden;
+    .display-one {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 25%;
+      height: 100%;
+      &__name-seed {
+        text-align: left;
+        margin: 1rem 0;
+        text-align: left;
+        line-height: 1.5rem;
+        &--title {
+          display: block;
+          font-weight: 700;
+        }
+        &--name {
+          margin-bottom: 0;
+        }
+      }
+    }
+    .display-two {
+      display: flex;
+      flex-direction: column;
+      width: 50%;
+      &__name {
+        font-size: 1.6rem;
+      }
+      &__captured-bottts {
+        display: flex;
+        justify-content: space-evenly;
+        border: 2px solid $primary-colour-one;
+        border-bottom: none;
+      }
+      &__captured-bottt {
+        padding: 0.3rem;
+        flex-grow: 1;
+        width: 5rem;
+        height: 5rem;
+        background-color: black;
+        background-image: url("../../assets/images/binary.gif");
+        background-position: center;
+        background-size: cover;
+        &--found {
+          background-image: url("../../assets/images/goodBinary.gif");
+        }
+      }
+    }
+    .display-three {
+      font-size: 1.5rem;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      width: 25%;
+    }
+  }
+  &__game-wrapper {
+    display: flex;
+    box-sizing: border-box;
+    padding: 0 2rem;
+    // height: 90vh;
+  }
+  &__screen {
+    width: 80%;
+    height: 100%;
+    background-color: green;
+  }
+  &__dash {
+    width: 25%;
+    height: 100%;
+    background-color: rgb(100, 0, 128);
+  }
+}
