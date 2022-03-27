@@ -10,7 +10,11 @@ const Gamepage = ({ userName, levelsData }) => {
   const { timer, startTimer, pauseTimer, resetTimer } = useTimer(0);
   const [placeholderBottts, setPlaceholderBottts] = useState({});
   const [target, setTarget] = useState("");
+  const [wrongSelection, setWrongSelection] = useState(false);
+  const [correctSelection, setCorrectSelection] = useState(false);
+  const [disableClick, setDisableClick] = useState(false);
   const [selectedChoice, setSelectedChoice] = useState("");
+  const [levelsCompleted, setLevelsCompleted] = useState(0);
 
   useEffect(() => {
     console.log(levelsData);
@@ -20,10 +24,34 @@ const Gamepage = ({ userName, levelsData }) => {
   }, []);
 
   useEffect(() => {
-    if (selectedChoice === target) {
-      console.log("Match");
+    if (!disableClick && (selectedChoice !== "" || target !== "")) {
+      if (selectedChoice === target) {
+        setWrongSelection(false);
+        setCorrectSelection(true);
+        setDisableClick(true);
+        setTimeout(() => {
+          setCorrectSelection(false);
+          setDisableClick(false);
+          setLevelsCompleted(levelsCompleted + 1);
+          setPlaceholderBottts({
+            ...placeholderBottts,
+            botttOne: selectedChoice,
+          });
+        }, 3000);
+        console.log("Match");
+      } else {
+        setWrongSelection(true);
+        setDisableClick(true);
+        setTimeout(() => {
+          setWrongSelection(false);
+          setDisableClick(false);
+        }, 3000);
+      }
     }
   }, [selectedChoice]);
+
+  const selectChoiceImg = (src) =>
+    !disableClick ? setSelectedChoice(src) : null;
 
   if (!placeholderBottts.botttOne) return <div>Loading...</div>;
 
@@ -44,7 +72,9 @@ const Gamepage = ({ userName, levelsData }) => {
           <h1 className="display-two__name">Broken Bottts</h1>
           <div className="display-two__captured-bottts">
             <img
-              className="display-two__captured-bottt display-two__captured-bottt--found"
+              className={`display-two__captured-bottt ${
+                levelsCompleted > 0 && "display-two__captured-bottt--found"
+              }`}
               src={placeholderBottts.botttOne}
               alt="broken robot"
             />
@@ -72,7 +102,7 @@ const Gamepage = ({ userName, levelsData }) => {
       <div className="game-page__game-wrapper">
         <div className="game-page__screen">
           <LevelOne
-            setSelectedChoice={setSelectedChoice}
+            setSelectedChoice={selectChoiceImg}
             levelData={levelsData.levelOne.allBottts}
           />
         </div>
@@ -85,13 +115,25 @@ const Gamepage = ({ userName, levelsData }) => {
           />
           <h2 className="dash__header">Selected Robot</h2>
           <img
-            className="dash__target-robot"
+            className={`dash__target-robot ${
+              wrongSelection &&
+              target !== placeholderBottts.botttOne &&
+              "dash__target-robot--incorrect"
+            } ${
+              correctSelection &&
+              target !== placeholderBottts.botttOne &&
+              "dash__target-robot--correct"
+            } `}
             src={selectedChoice || placeholderBottts.botttOne}
             alt="target robot"
           />
           <h2 className="dash__header">BB Chat</h2>
           <div className="dash__chat-box">
-            <p className="dash__chat-text">Testing dasdkasd ada dasda sd as</p>
+            <p className="dash__chat-text">
+              {wrongSelection && "Cannot believe we hired you for this...."}
+              {correctSelection && "Wow so you actually ARE good at something!"}
+              {!correctSelection && !wrongSelection && "........"}
+            </p>
           </div>
         </div>
       </div>

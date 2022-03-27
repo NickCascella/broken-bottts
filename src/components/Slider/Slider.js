@@ -1,4 +1,5 @@
 import "./Slider.scss";
+import { v4 as uuid } from "uuid";
 
 const Slider = ({
   sliderClass,
@@ -12,7 +13,7 @@ const Slider = ({
     <div className={sliderClass}>
       <div className={trackClass}>
         {displayedImgs.map((src) => (
-          <div className={slideClass}>
+          <div key={uuid()} className={slideClass}>
             <img
               src={src}
               onClick={(e) => {

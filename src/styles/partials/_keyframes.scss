@@ -1,3 +1,5 @@
+@use "./colours" as *;
+
 @keyframes flashingUnderscore {
   0% {
     opacity: 1;
@@ -25,5 +27,29 @@
   }
   100% {
     transform: translateX(calc(200px * 5));
+  }
+}
+
+@keyframes wrongSelection {
+  0% {
+    background-color: black;
+  }
+  50% {
+    background-color: $secondary-colour-four;
+  }
+  100% {
+    background-color: black;
+  }
+}
+
+@keyframes correctSelection {
+  0% {
+    background-color: black;
+  }
+  50% {
+    background-color: $primary-colour-three;
+  }
+  100% {
+    background-color: black;
   }
 }
