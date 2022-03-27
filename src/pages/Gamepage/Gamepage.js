@@ -76,19 +76,23 @@ const Gamepage = ({ userName, levelsData }) => {
             levelData={levelsData.levelOne.allBottts}
           />
         </div>
-        <div className="game-page__dash">
-          <h2>Target Robot</h2>
+        <div className="dash">
+          <h2 className="dash__header">Target Robot</h2>
           <img
-            className="game-page__target-robot"
+            className="dash__target-robot"
             src={levelsData.levelOne.targetBottt}
             alt="target robot"
           />
-          <h2>Selected Robot</h2>
+          <h2 className="dash__header">Selected Robot</h2>
           <img
-            className="game-page__target-robot"
+            className="dash__target-robot"
             src={selectedChoice || placeholderBottts.botttOne}
             alt="target robot"
           />
+          <h2 className="dash__header">BB Chat</h2>
+          <div className="dash__chat-box">
+            <p className="dash__chat-text">Testing dasdkasd ada dasda sd as</p>
+          </div>
         </div>
       </div>
     </section>
