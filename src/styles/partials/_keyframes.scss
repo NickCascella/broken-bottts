@@ -9,3 +9,21 @@
     opacity: 1;
   }
 }
+
+// @keyframes scrollLevelOne {
+//   0% {
+//     transform: translateX(0);
+//   }
+//   100% {
+//     transform: translateX(calc(-200px * 5));
+//   }
+// }
+
+@keyframes scrollRightLevelOne {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(200px * 5));
+  }
+}

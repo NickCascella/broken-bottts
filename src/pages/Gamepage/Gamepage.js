@@ -4,16 +4,28 @@ import { useEffect, useState, useRef } from "react";
 import useTimer from "../../hooks/Timer";
 import formatTime from "../../utils/formatTime";
 import { getBrokenBottts } from "../../utils/botCreation";
-import binaryGif from "../../../src/assets/images/binary.gif";
+import LevelOne from "../../components/LevelOne/LevelOne";
 
 const Gamepage = ({ userName, levelsData }) => {
   const { timer, startTimer, pauseTimer, resetTimer } = useTimer(0);
   const [placeholderBottts, setPlaceholderBottts] = useState({});
+  const [target, setTarget] = useState("");
+  const [selectedChoice, setSelectedChoice] = useState("");
 
   useEffect(() => {
+    console.log(levelsData);
+    setTarget(levelsData.levelOne.targetBottt);
     startTimer();
     setPlaceholderBottts(getBrokenBottts());
   }, []);
+
+  useEffect(() => {
+    if (selectedChoice === target) {
+      console.log("Match");
+    }
+  }, [selectedChoice]);
+
+  if (!placeholderBottts.botttOne) return <div>Loading...</div>;
 
   return (
     <section className="game-page">
@@ -58,8 +70,26 @@ const Gamepage = ({ userName, levelsData }) => {
         </div>
       </section>
       <div className="game-page__game-wrapper">
-        <div className="game-page__screen">s</div>
-        <div className="game-page__dash">d</div>
+        <div className="game-page__screen">
+          <LevelOne
+            setSelectedChoice={setSelectedChoice}
+            levelData={levelsData.levelOne.allBottts}
+          />
+        </div>
+        <div className="game-page__dash">
+          <h2>Target Robot</h2>
+          <img
+            className="game-page__target-robot"
+            src={levelsData.levelOne.targetBottt}
+            alt="target robot"
+          />
+          <h2>Selected Robot</h2>
+          <img
+            className="game-page__target-robot"
+            src={selectedChoice || placeholderBottts.botttOne}
+            alt="target robot"
+          />
+        </div>
       </div>
     </section>
   );

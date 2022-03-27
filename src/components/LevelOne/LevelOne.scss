@@ -1,0 +1,73 @@
+@use "../../styles/partials/colours" as *;
+@use "../../styles/partials/keyframes" as *;
+
+.level-one {
+  z-index: 2;
+  height: 100%;
+  box-sizing: border-box;
+  border: 10px solid pink;
+  border-image: repeating-linear-gradient(
+      -55deg,
+      #000,
+      #000 20px,
+      #ffb101 20px,
+      #ffb101 40px
+    )
+    10;
+
+  &__slider {
+    // width: 90%;
+    height: 33%;
+    margin: auto;
+    position: relative;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+
+    // background-color: yellow;
+    &::before {
+      content: "";
+      background: url("../../assets/images/warpPipe.png");
+      transform: rotate(90deg);
+      background-repeat: no-repeat;
+      background-size: cover;
+      width: 10%;
+      height: 30%;
+      position: absolute;
+      left: 0;
+      z-index: 3;
+    }
+    &::after {
+      content: "";
+      background-color: rgb(242, 0, 255);
+      width: 5%;
+      height: 40%;
+      position: absolute;
+      right: 0;
+      z-index: 3;
+    }
+  }
+
+  &__slide-track {
+    display: flex;
+    width: calc(200px * 10);
+    animation: scrollRightLevelOne 8s linear infinite;
+    position: relative;
+    right: 1000px;
+    //right needs to be slightly higher then the sum of all widths of first set of images
+  }
+
+  &__slide {
+    box-sizing: border-box;
+    // height: 80px;
+    width: 200px;
+    display: flex;
+    align-items: center;
+    // padding: 15px;
+  }
+
+  &__img {
+    height: 80px;
+    width: 200px;
+  }
+}

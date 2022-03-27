@@ -10,7 +10,7 @@
     box-sizing: border-box;
     padding: 0 2rem;
     color: $primary-colour-one;
-    background-color: black;
+    background-color: $secondary-colour-two;
     overflow: hidden;
     .display-one {
       display: flex;
@@ -50,7 +50,7 @@
         flex-grow: 1;
         width: 5rem;
         height: 5rem;
-        background-color: black;
+        background-color: $secondary-colour-two;
         background-image: url("../../assets/images/binary.gif");
         background-position: center;
         background-size: cover;
@@ -71,16 +71,44 @@
     display: flex;
     box-sizing: border-box;
     padding: 0 2rem;
+    background-color: $secondary-colour-two;
     // height: 90vh;
   }
   &__screen {
     width: 75%;
     height: 100%;
-    background-color: green;
+    height: 40rem;
+    overflow: hidden;
+    position: relative;
+    &::before {
+      content: "";
+      top: 10px;
+      left: 10px;
+      position: absolute;
+      background: url("../../assets/images/city.gif");
+      opacity: 0.3;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      width: calc(100% - 20px);
+      height: calc(100% - 20px);
+    }
   }
+
   &__dash {
+    color: $primary-colour-one;
     width: 25%;
     height: 100%;
-    background-color: rgb(100, 0, 128);
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__target-robot {
+    width: 8rem;
+    height: 8rem;
+    border: 3px solid $primary-colour-one;
+    margin-top: 3rem;
   }
 }
