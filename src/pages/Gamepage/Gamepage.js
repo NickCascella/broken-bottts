@@ -1,9 +1,11 @@
 import "./Gamepage.scss";
 import { v4 as uuid } from "uuid";
 import { useEffect, useState, useRef } from "react";
+import { useHistory } from "react-router-dom";
 import useTimer from "../../hooks/Timer";
 import formatTime from "../../utils/formatTime";
 import { getBrokenBottts } from "../../utils/botCreation";
+import LoadingBars from "../../components/LoadingBars/LoadingBars";
 import LevelOne from "../../components/LevelOne/LevelOne";
 
 const Gamepage = ({ userName, levelsData }) => {
@@ -15,9 +17,11 @@ const Gamepage = ({ userName, levelsData }) => {
   const [disableClick, setDisableClick] = useState(false);
   const [selectedChoice, setSelectedChoice] = useState("");
   const [levelsCompleted, setLevelsCompleted] = useState(0);
+  const [levelTransition, setLevelTransition] = useState(false);
+  let history = useHistory();
 
   useEffect(() => {
-    console.log(levelsData);
+    if (!levelsData) return history.push("/");
     setTarget(levelsData.levelOne.targetBottt);
     startTimer();
     setPlaceholderBottts(getBrokenBottts());
@@ -37,8 +41,17 @@ const Gamepage = ({ userName, levelsData }) => {
             ...placeholderBottts,
             botttOne: selectedChoice,
           });
+          setLevelTransition(true);
+          setTimeout(() => {
+            if (levelsCompleted === 0) {
+              console.log(levelsCompleted);
+
+              setTarget(levelsData.levelTwo.targetBottt);
+              setSelectedChoice(placeholderBottts.botttTwo);
+            }
+            setLevelTransition(false);
+          }, 5500);
         }, 3000);
-        console.log("Match");
       } else {
         setWrongSelection(true);
         setDisableClick(true);
@@ -79,7 +92,9 @@ const Gamepage = ({ userName, levelsData }) => {
               alt="broken robot"
             />
             <img
-              className="display-two__captured-bottt"
+              className={`display-two__captured-bottt ${
+                levelsCompleted > 1 && "display-two__captured-bottt--found"
+              }`}
               src={placeholderBottts.botttTwo}
               alt="broken robot"
             />{" "}
@@ -104,17 +119,18 @@ const Gamepage = ({ userName, levelsData }) => {
           <LevelOne
             setSelectedChoice={selectChoiceImg}
             levelData={levelsData.levelOne.allBottts}
+            levelsCompleted={levelsCompleted}
           />
         </div>
         <div className="dash">
           <h2 className="dash__header">Target Robot</h2>
-          <img
-            className="dash__target-robot"
-            src={levelsData.levelOne.targetBottt}
-            alt="target robot"
-          />
+          <div className="dash__target-robot">
+            {!levelTransition && <img src={target} alt="target robot" />}
+            {levelTransition && <LoadingBars />}
+          </div>
+
           <h2 className="dash__header">Selected Robot</h2>
-          <img
+          <div
             className={`dash__target-robot ${
               wrongSelection &&
               target !== placeholderBottts.botttOne &&
@@ -124,9 +140,15 @@ const Gamepage = ({ userName, levelsData }) => {
               target !== placeholderBottts.botttOne &&
               "dash__target-robot--correct"
             } `}
-            src={selectedChoice || placeholderBottts.botttOne}
-            alt="target robot"
-          />
+          >
+            {!levelTransition && (
+              <img
+                src={selectedChoice || placeholderBottts.botttOne}
+                alt="target robot"
+              />
+            )}
+            {levelTransition && <LoadingBars />}
+          </div>
           <h2 className="dash__header">BB Chat</h2>
           <div className="dash__chat-box">
             <p className="dash__chat-text">

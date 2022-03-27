@@ -3,7 +3,7 @@ import Slider from "../Slider/Slider";
 import { useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
 
-const LevelOne = ({ levelData, setSelectedChoice }) => {
+const LevelOne = ({ levelData, setSelectedChoice, levelsCompleted }) => {
   const [splitArray, setSplitArray] = useState([]);
 
   useEffect(() => {
@@ -24,7 +24,9 @@ const LevelOne = ({ levelData, setSelectedChoice }) => {
   if (!splitArray.length) return <div>loading...</div>;
 
   return (
-    <section className="level-one">
+    <section
+      className={`level-one ${levelsCompleted === 1 && "level-one--completed"}`}
+    >
       <Slider
         sliderClass={"level-one__slider"}
         trackClass={"level-one__slide-track"}

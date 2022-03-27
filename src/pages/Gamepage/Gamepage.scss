@@ -115,6 +115,7 @@
       word-wrap: break-word;
     }
     &__target-robot {
+      position: relative;
       width: 6rem;
       height: 6rem;
       border: 3px solid $primary-colour-one;
