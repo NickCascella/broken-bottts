@@ -1,5 +1,4 @@
 import "./Gamepage.scss";
-import { v4 as uuid } from "uuid";
 import { useEffect, useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import useTimer from "../../hooks/Timer";
@@ -7,6 +6,8 @@ import formatTime from "../../utils/formatTime";
 import { getBrokenBottts } from "../../utils/botCreation";
 import LoadingBars from "../../components/LoadingBars/LoadingBars";
 import LevelOne from "../../components/LevelOne/LevelOne";
+import LevelTwo from "../../components/LevelTwo/LevelTwo";
+import LevelThree from "../../components/LevelThree/LevelThree";
 
 const Gamepage = ({ userName, levelsData }) => {
   const { timer, startTimer, pauseTimer, resetTimer } = useTimer(0);
@@ -18,12 +19,15 @@ const Gamepage = ({ userName, levelsData }) => {
   const [selectedChoice, setSelectedChoice] = useState("");
   const [levelsCompleted, setLevelsCompleted] = useState(0);
   const [levelTransition, setLevelTransition] = useState(false);
+  const [levelOneComplete, setLevelOneComplete] = useState(false);
+  const [levelTwoComplete, setLevelTwoComplete] = useState(false);
+
   let history = useHistory();
 
   useEffect(() => {
     if (!levelsData) return history.push("/");
     setTarget(levelsData.levelOne.targetBottt);
-    startTimer();
+    // startTimer();
     setPlaceholderBottts(getBrokenBottts());
   }, []);
 
@@ -34,20 +38,44 @@ const Gamepage = ({ userName, levelsData }) => {
         setCorrectSelection(true);
         setDisableClick(true);
         setTimeout(() => {
+          let levelsCompletedCopy = levelsCompleted.valueOf() + 1;
           setCorrectSelection(false);
           setDisableClick(false);
-          setLevelsCompleted(levelsCompleted + 1);
+          setLevelsCompleted(levelsCompletedCopy);
+
           setPlaceholderBottts({
             ...placeholderBottts,
-            botttOne: selectedChoice,
+            botttOne:
+              levelsCompletedCopy === 1
+                ? selectedChoice
+                : placeholderBottts.botttOne,
+            botttTwo:
+              levelsCompletedCopy === 2
+                ? selectedChoice
+                : placeholderBottts.botttTwo,
+            botttThree:
+              levelsCompletedCopy === 3
+                ? selectedChoice
+                : placeholderBottts.botttThree,
+            botttFour:
+              levelsCompletedCopy === 4
+                ? selectedChoice
+                : placeholderBottts.botttFour,
           });
+
           setLevelTransition(true);
           setTimeout(() => {
-            if (levelsCompleted === 0) {
-              console.log(levelsCompleted);
-
+            if (levelsCompletedCopy === 1) {
+              setLevelOneComplete(true);
               setTarget(levelsData.levelTwo.targetBottt);
-              setSelectedChoice(placeholderBottts.botttTwo);
+              setSelectedChoice(null);
+            } else if (levelsCompletedCopy === 2) {
+              setLevelTwoComplete(true);
+              setTarget(levelsData.levelThree.targetBottt);
+              setSelectedChoice(null);
+            } else if (levelsCompletedCopy === 3) {
+              setTarget(levelsData.levelFour.targetBottt);
+              setSelectedChoice(null);
             }
             setLevelTransition(false);
           }, 5500);
@@ -99,12 +127,16 @@ const Gamepage = ({ userName, levelsData }) => {
               alt="broken robot"
             />{" "}
             <img
-              className="display-two__captured-bottt"
+              className={`display-two__captured-bottt ${
+                levelsCompleted > 2 && "display-two__captured-bottt--found"
+              }`}
               src={placeholderBottts.botttThree}
               alt="broken robot"
             />{" "}
             <img
-              className="display-two__captured-bottt"
+              className={`display-two__captured-bottt ${
+                levelsCompleted > 3 && "display-two__captured-bottt--found"
+              }`}
               src={placeholderBottts.botttFour}
               alt="broken robot"
             />
@@ -115,10 +147,27 @@ const Gamepage = ({ userName, levelsData }) => {
         </div>
       </section>
       <div className="game-page__game-wrapper">
-        <div className="game-page__screen">
+        <div
+          className={`game-page__screen ${
+            wrongSelection && "game-page__screen--incorrect"
+          }`}
+        >
           <LevelOne
+            completed={levelOneComplete}
             setSelectedChoice={selectChoiceImg}
             levelData={levelsData.levelOne.allBottts}
+            levelsCompleted={levelsCompleted}
+          />
+          <LevelTwo
+            previousComplete={levelOneComplete}
+            setSelectedChoice={selectChoiceImg}
+            levelData={levelsData.levelTwo.allBottts}
+            levelsCompleted={levelsCompleted}
+          />
+          <LevelThree
+            previousComplete={levelTwoComplete}
+            setSelectedChoice={selectChoiceImg}
+            levelData={levelsData.levelThree.allBottts}
             levelsCompleted={levelsCompleted}
           />
         </div>
@@ -131,7 +180,9 @@ const Gamepage = ({ userName, levelsData }) => {
 
           <h2 className="dash__header">Selected Robot</h2>
           <div
-            className={`dash__target-robot ${
+            className={`dash__target-robot 
+             ${!selectedChoice && "dash__target-robot--empty"}
+            ${
               wrongSelection &&
               target !== placeholderBottts.botttOne &&
               "dash__target-robot--incorrect"
@@ -142,10 +193,11 @@ const Gamepage = ({ userName, levelsData }) => {
             } `}
           >
             {!levelTransition && (
-              <img
-                src={selectedChoice || placeholderBottts.botttOne}
-                alt="target robot"
-              />
+              <>
+                {selectedChoice && (
+                  <img src={selectedChoice} alt="target robot" />
+                )}
+              </>
             )}
             {levelTransition && <LoadingBars />}
           </div>

@@ -3,7 +3,12 @@ import Slider from "../Slider/Slider";
 import { useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
 
-const LevelOne = ({ levelData, setSelectedChoice, levelsCompleted }) => {
+const LevelOne = ({
+  levelData,
+  setSelectedChoice,
+  levelsCompleted,
+  completed,
+}) => {
   const [splitArray, setSplitArray] = useState([]);
 
   useEffect(() => {
@@ -25,7 +30,9 @@ const LevelOne = ({ levelData, setSelectedChoice, levelsCompleted }) => {
 
   return (
     <section
-      className={`level-one ${levelsCompleted === 1 && "level-one--completed"}`}
+      className={`level-one ${
+        levelsCompleted === 1 && "level-one--completed"
+      } ${completed && "level-one--fix"}`}
     >
       <Slider
         sliderClass={"level-one__slider"}

@@ -12,44 +12,101 @@
   }
 }
 
-// @keyframes scrollLevelOne {
-//   0% {
-//     transform: translateX(0);
-//   }
-//   100% {
-//     transform: translateX(calc(-200px * 5));
-//   }
-// }
-
-@keyframes scrollRightLevelOne {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(calc(200px * 5));
-  }
-}
-
 @keyframes wrongSelection {
   0% {
-    background-color: black;
+    background-color: $secondary-colour-two;
   }
   50% {
     background-color: $secondary-colour-four;
   }
   100% {
-    background-color: black;
+    background-color: $secondary-colour-two;
   }
 }
 
 @keyframes correctSelection {
   0% {
-    background-color: black;
+    background-color: $secondary-colour-two;
   }
   50% {
     background-color: $primary-colour-three;
   }
   100% {
-    background-color: black;
+    background-color: $secondary-colour-two;
+  }
+}
+
+@keyframes dimScreen {
+  20% {
+    filter: brightness(0.2) grayscale(1);
+  }
+  80% {
+    filter: brightness(0.2) grayscale(1);
+  }
+  100% {
+    filter: brightness(1) grayscale(0);
+  }
+}
+
+@keyframes slideUpStarting {
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes slideUpStartingTwo {
+  100% {
+    transform: translateY(-200%);
+  }
+}
+
+@keyframes slideUpCompleted {
+  30% {
+    filter: brightness(0.05);
+  }
+
+  100% {
+    transform: translateY(-100%);
+    filter: brightness(0.01);
+  }
+}
+
+@keyframes slideUpCompletedLevelTwo {
+  30% {
+    filter: brightness(0.05);
+  }
+
+  100% {
+    transform: translateY(-200%);
+    filter: brightness(0.01);
+  }
+}
+
+@keyframes slideUpCompletedLevelThree {
+  30% {
+    filter: brightness(0.05);
+  }
+
+  100% {
+    transform: translateY(-300%);
+    filter: brightness(0.01);
+  }
+}
+
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-200px * 5));
+  }
+}
+
+@keyframes scrollRight {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(200px * 5));
   }
 }

@@ -44,7 +44,7 @@
         display: flex;
         justify-content: space-evenly;
         border: 2px solid $primary-colour-one;
-        border-bottom: none;
+        // border-bottom: none;
       }
       &__captured-bottt {
         padding: 0.3rem;
@@ -80,6 +80,9 @@
     height: 40rem;
     overflow: hidden;
     position: relative;
+    &--incorrect {
+      animation: dimScreen 3s linear;
+    }
     &::before {
       content: "";
       top: 10px;
@@ -120,6 +123,9 @@
       height: 6rem;
       border: 3px solid $primary-colour-one;
       margin-top: 2rem;
+      &--empty {
+        background-color: $secondary-colour-two;
+      }
       &--incorrect {
         animation: wrongSelection 1s linear infinite;
       }
