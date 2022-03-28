@@ -48,6 +48,8 @@
   }
 }
 
+//level moving into position
+
 @keyframes slideUpStarting {
   100% {
     transform: translateY(-100%);
@@ -59,6 +61,14 @@
     transform: translateY(-200%);
   }
 }
+
+@keyframes slideUpStartingThree {
+  100% {
+    transform: translateY(-300%);
+  }
+}
+
+//Level completed
 
 @keyframes slideUpCompleted {
   30% {
@@ -83,12 +93,31 @@
 }
 
 @keyframes slideUpCompletedLevelThree {
+  0% {
+    transform: translateY(-200%);
+  }
+
   30% {
     filter: brightness(0.05);
   }
 
   100% {
     transform: translateY(-300%);
+    filter: brightness(0.01);
+  }
+}
+
+@keyframes slideUpCompletedLevelFour {
+  0% {
+    transform: translateY(-300%);
+  }
+
+  30% {
+    filter: brightness(0.05);
+  }
+
+  100% {
+    transform: translateY(-400%);
     filter: brightness(0.01);
   }
 }
@@ -108,5 +137,15 @@
   }
   100% {
     transform: translateX(calc(200px * 5));
+  }
+}
+
+@keyframes scrollUp {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(calc(-120px * 5));
   }
 }

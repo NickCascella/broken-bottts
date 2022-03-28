@@ -1,12 +1,13 @@
 @use "../../styles/partials/colours" as *;
 @use "../../styles/partials/keyframes" as *;
 
-.level-two {
+.level-four {
   position: relative;
   z-index: 2;
   height: 100%;
   box-sizing: border-box;
   border: 10px solid pink;
+
   border-image: repeating-linear-gradient(
       -55deg,
       #000,
@@ -15,34 +16,48 @@
       #ffb101 40px
     )
     10;
+  transform: translateY(-200%);
   &--starting {
-    animation: slideUpStarting 5s linear forwards;
-  }
-  &--prev-completed {
-    transform: translateY(-100%);
-  }
-  &--completed {
-    animation: slideUpCompletedLevelTwo 5s linear forwards;
+    animation: slideUpStartingThree 5s linear forwards;
   }
 
+  &--completed {
+    animation: slideUpCompletedLevelFour 5s linear forwards;
+  }
+  display: flex;
+  flex-direction: column;
+
+  // .test {
+  //   position: absolute;
+  //   top: 0;
+  //   left: 0;
+  //   transform: rotate(90deg);
+  //   display: flex;
+  //   flex-direction: column;
+  //   width: 60%;
+  //   height: 120%;
+  //   img {
+  //     transform: rotate(-90deg);
+  //   }
+  // }
+
   &__slider {
+    // width: 90%;
     width: 100%;
-    height: 20%;
+    height: 14.25%;
     margin: auto;
     position: relative;
     display: grid;
     place-items: center;
     overflow: hidden;
-
-    // background-color: yellow;
     &::before {
       content: "";
       background: url("../../assets/images/warpPipe.png");
       transform: rotate(90deg);
       background-repeat: no-repeat;
       background-size: cover;
-      width: 10%;
-      height: 50%;
+      width: 7%;
+      height: 70%;
       position: absolute;
       left: -22.5px;
       z-index: 1;
@@ -54,8 +69,8 @@
 
       background-repeat: no-repeat;
       background-size: cover;
-      width: 10%;
-      height: 50%;
+      width: 7%;
+      height: 70%;
       position: absolute;
       right: -22.5px;
     }
@@ -64,10 +79,13 @@
   &__slide-track {
     display: flex;
     width: calc(200px * 10);
-    animation: scrollRight 4s linear infinite;
+    animation: scrollRight 5s linear infinite;
     position: relative;
     right: 1000px;
-    //right needs to be slightly higher then the sum of all widths of first set of images
+    &--left {
+      animation: scrollLeft 5s linear infinite;
+      right: 0px;
+    }
   }
 
   &__slide {

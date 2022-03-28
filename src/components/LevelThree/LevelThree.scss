@@ -24,6 +24,10 @@
     animation: slideUpCompletedLevelThree 5s linear forwards;
   }
 
+  &--prev-completed {
+    transform: translateY(-100%);
+  }
+
   &__slider {
     // width: 90%;
     width: 100%;

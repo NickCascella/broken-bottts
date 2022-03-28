@@ -105,7 +105,7 @@ const levelFourBottts = () => {
   };
 
   const targetBottt = createAvatar(style, customDesign);
-  for (let i = 0; i < 41; i++) {
+  for (let i = 0; i < 39; i++) {
     levelFourBottts.push(createAvatar(style, { ...customDesign, flip: true }));
   }
   levelFourBottts.splice(
@@ -128,7 +128,7 @@ const getBottts = async () => {
     bottts.levelOne = levelOneBottts();
     bottts.levelTwo = levelTwoBottts(botttStyles);
     bottts.levelThree = levelThreeBottts(botttStyles);
-    bottts.levelThree = levelFourBottts();
+    bottts.levelFour = levelFourBottts();
     return bottts;
   } catch (err) {
     console.log(err);

@@ -1,7 +1,7 @@
 import "./LevelOne.scss";
 import Slider from "../Slider/Slider";
 import { useEffect, useState } from "react";
-import { v4 as uuid } from "uuid";
+import organizeBots from "../../utils/botSetOrganization";
 
 const LevelOne = ({
   levelData,
@@ -12,17 +12,7 @@ const LevelOne = ({
   const [splitArray, setSplitArray] = useState([]);
 
   useEffect(() => {
-    let levelDataCopy = [...levelData];
-    let setOneA = levelDataCopy.splice(0, 5);
-    let setOneB = [...setOneA];
-    const setOne = setOneA.concat(setOneB);
-    let setTwoA = levelDataCopy.splice(0, 5);
-    let setTwoB = [...setTwoA];
-    const setTwo = setTwoA.concat(setTwoB);
-    let setThreeA = levelDataCopy.splice(0, 5);
-    let setThreeB = [...setThreeA];
-    const setThree = setThreeA.concat(setThreeB);
-    let newArraySet = [setOne, setTwo, setThree];
+    let newArraySet = organizeBots(levelData, 3, 5);
     setSplitArray(newArraySet);
   }, []);
 
@@ -34,30 +24,16 @@ const LevelOne = ({
         levelsCompleted === 1 && "level-one--completed"
       } ${completed && "level-one--fix"}`}
     >
-      <Slider
-        sliderClass={"level-one__slider"}
-        trackClass={"level-one__slide-track"}
-        slideClass={"level-one__slide"}
-        imgClass={"level-one__img"}
-        setSelectedChoice={setSelectedChoice}
-        displayedImgs={splitArray[0]}
-      />
-      <Slider
-        sliderClass={"level-one__slider"}
-        trackClass={"level-one__slide-track"}
-        slideClass={"level-one__slide"}
-        imgClass={"level-one__img"}
-        setSelectedChoice={setSelectedChoice}
-        displayedImgs={splitArray[1]}
-      />
-      <Slider
-        sliderClass={"level-one__slider"}
-        trackClass={"level-one__slide-track"}
-        slideClass={"level-one__slide"}
-        imgClass={"level-one__img"}
-        setSelectedChoice={setSelectedChoice}
-        displayedImgs={splitArray[2]}
-      />
+      {splitArray.map((botttsSet) => (
+        <Slider
+          sliderClass={"level-one__slider"}
+          trackClass={"level-one__slide-track"}
+          slideClass={"level-one__slide"}
+          imgClass={"level-one__img"}
+          setSelectedChoice={setSelectedChoice}
+          displayedImgs={botttsSet}
+        />
+      ))}
     </section>
   );
 };

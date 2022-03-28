@@ -8,6 +8,7 @@ import LoadingBars from "../../components/LoadingBars/LoadingBars";
 import LevelOne from "../../components/LevelOne/LevelOne";
 import LevelTwo from "../../components/LevelTwo/LevelTwo";
 import LevelThree from "../../components/LevelThree/LevelThree";
+import LevelFour from "../../components/LevelFour/LevelFour";
 
 const Gamepage = ({ userName, levelsData }) => {
   const { timer, startTimer, pauseTimer, resetTimer } = useTimer(0);
@@ -21,6 +22,7 @@ const Gamepage = ({ userName, levelsData }) => {
   const [levelTransition, setLevelTransition] = useState(false);
   const [levelOneComplete, setLevelOneComplete] = useState(false);
   const [levelTwoComplete, setLevelTwoComplete] = useState(false);
+  const [levelThreeComplete, setLevelThreeComplete] = useState(false);
 
   let history = useHistory();
 
@@ -64,20 +66,22 @@ const Gamepage = ({ userName, levelsData }) => {
           });
 
           setLevelTransition(true);
+          setDisableClick(true);
           setTimeout(() => {
             if (levelsCompletedCopy === 1) {
               setLevelOneComplete(true);
               setTarget(levelsData.levelTwo.targetBottt);
-              setSelectedChoice(null);
             } else if (levelsCompletedCopy === 2) {
               setLevelTwoComplete(true);
               setTarget(levelsData.levelThree.targetBottt);
-              setSelectedChoice(null);
             } else if (levelsCompletedCopy === 3) {
               setTarget(levelsData.levelFour.targetBottt);
-              setSelectedChoice(null);
+            } else if (levelsCompletedCopy === 4) {
+              setTarget(levelsData.levelOne.targetBottt);
             }
+            setSelectedChoice(null);
             setLevelTransition(false);
+            setDisableClick(false);
           }, 5500);
         }, 3000);
       } else {
@@ -168,6 +172,12 @@ const Gamepage = ({ userName, levelsData }) => {
             previousComplete={levelTwoComplete}
             setSelectedChoice={selectChoiceImg}
             levelData={levelsData.levelThree.allBottts}
+            levelsCompleted={levelsCompleted}
+          />
+          <LevelFour
+            previousComplete={levelThreeComplete}
+            setSelectedChoice={selectChoiceImg}
+            levelData={levelsData.levelFour.allBottts}
             levelsCompleted={levelsCompleted}
           />
         </div>
