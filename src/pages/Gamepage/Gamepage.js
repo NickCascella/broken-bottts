@@ -1,8 +1,6 @@
 import "./Gamepage.scss";
 import { useEffect, useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
-import useTimer from "../../hooks/Timer";
-import formatTime from "../../utils/formatTime";
 import { getBrokenBottts } from "../../utils/botCreation";
 import LoadingBars from "../../components/LoadingBars/LoadingBars";
 import Loadingpage from "../Loadingpage/Loadingpage";
@@ -13,7 +11,6 @@ import LevelFour from "../../components/LevelFour/LevelFour";
 import Timer from "../../components/Timer/Timer";
 
 const Gamepage = ({ userName, levelsData }) => {
-  const { timer, startTimer, pauseTimer, resetTimer } = useTimer(0);
   const [placeholderBottts, setPlaceholderBottts] = useState({});
   const [target, setTarget] = useState("");
   const [wrongSelection, setWrongSelection] = useState(false);
@@ -31,7 +28,6 @@ const Gamepage = ({ userName, levelsData }) => {
   useEffect(() => {
     if (!levelsData) return history.push("/");
     setTarget(levelsData.levelOne.targetBottt);
-    // startTimer();
     setPlaceholderBottts(getBrokenBottts());
   }, []);
 

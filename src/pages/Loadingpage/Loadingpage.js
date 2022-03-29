@@ -1,6 +1,15 @@
+import { useEffect, useState } from "react";
 import "./Loadingpage.scss";
 
 const Loadingpage = ({ page }) => {
+  const [completeLoading, setCompleteLoading] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setCompleteLoading(true);
+    }, 4500);
+  }, []);
+
   return (
     <div
       className={`loading-page ${page === "game" && "loading-page--load-out"}`}
@@ -9,13 +18,18 @@ const Loadingpage = ({ page }) => {
         <div className="loading-page__modal">
           {page === "home" && (
             <h1 className="loading-page__title">
-              Looking for alternative games....
+              Phishing all your passwords....
             </h1>
           )}
 
-          {page === "game" && (
+          {page === "game" && !completeLoading && (
             <h1 className="loading-page__title loading-page__title--no-delay">
-              Downloading additional ram....
+              Uninstalling all your ram....
+            </h1>
+          )}
+          {page === "game" && completeLoading && (
+            <h1 className="loading-page__title loading-page__title--line-two">
+              Ram removed.......initializing game.
             </h1>
           )}
 

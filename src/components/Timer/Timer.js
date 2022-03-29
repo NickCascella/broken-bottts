@@ -9,7 +9,7 @@ const Timer = () => {
       startTimer();
     }, 11000);
   }, []);
-  return <div>{formatTime(timer)}</div>;
+  return <>{formatTime(timer)}</>;
 };
 
 export default Timer;

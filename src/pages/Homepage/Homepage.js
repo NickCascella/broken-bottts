@@ -38,18 +38,16 @@ const Homepage = ({ setUserName, setLevelsData }) => {
 
   const startGame = async (e) => {
     e.preventDefault();
-
     if (userCharOne && userCharTwo && userCharThree) {
       let bottts = await getBottts();
       let fullName = `${userCharOne}${userCharTwo}${userCharThree}`;
       setLevelsData(bottts);
       setUserName(fullName);
-      // setGameStart(true);
-      // setTimeout(() => {
-      //   setGameStart(false);
-      //   history.push("/broken-bottts");
-      // }, 7000);
-      history.push("/broken-bottts");
+      setGameStart(true);
+      setTimeout(() => {
+        setGameStart(false);
+        history.push("/broken-bottts");
+      }, 7000);
       return;
     }
     setError(true);
