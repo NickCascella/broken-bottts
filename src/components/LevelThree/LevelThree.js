@@ -2,7 +2,6 @@ import "./LevelThree.scss";
 import Slider from "../Slider/Slider";
 import { useEffect, useState } from "react";
 import organizeBots from "../../utils/botSetOrganization";
-import { v4 as uuid } from "uuid";
 
 const LevelThree = ({
   levelData,
@@ -29,7 +28,7 @@ const LevelThree = ({
     >
       {splitArray.map((botttsSet, i) => (
         <Slider
-          key={uuid()}
+          key={i}
           sliderClass={"level-three__slider"}
           trackClass={`level-three__slide-track ${
             i % 2 === 0 && "level-three__slide-track--left"

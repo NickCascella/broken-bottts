@@ -10,6 +10,7 @@ import LevelOne from "../../components/LevelOne/LevelOne";
 import LevelTwo from "../../components/LevelTwo/LevelTwo";
 import LevelThree from "../../components/LevelThree/LevelThree";
 import LevelFour from "../../components/LevelFour/LevelFour";
+import Timer from "../../components/Timer/Timer";
 
 const Gamepage = ({ userName, levelsData }) => {
   const { timer, startTimer, pauseTimer, resetTimer } = useTimer(0);
@@ -151,7 +152,7 @@ const Gamepage = ({ userName, levelsData }) => {
             </div>
           </div>
           <div className="display-three">
-            <p>{formatTime(timer)}</p>
+            <Timer />
           </div>
         </section>
         <div className="game-page__game-wrapper">

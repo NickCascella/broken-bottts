@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import InputSingleLetter from "../../components/InputSingleLetter/InputSingleLetter";
 import factorioImg from "../../assets/images/factorio.gif";
+import circuitsImg from "../../assets/images/circuits.gif";
 import getBottts from "../../utils/botCreation";
 import Loadingpage from "../Loadingpage/Loadingpage";
 
@@ -13,6 +14,8 @@ const Homepage = ({ setUserName, setLevelsData }) => {
   const [seed, setSeed] = useState("");
   const [gameStart, setGameStart] = useState(false);
   const [error, setError] = useState(false);
+  const [viewHighscores, setViewHighscores] = useState(false);
+  const [initalRender, setInitialRender] = useState(true);
   let history = useHistory();
 
   const handleInput = (e) => {
@@ -41,21 +44,25 @@ const Homepage = ({ setUserName, setLevelsData }) => {
       let fullName = `${userCharOne}${userCharTwo}${userCharThree}`;
       setLevelsData(bottts);
       setUserName(fullName);
-      setGameStart(true);
-      setTimeout(() => {
-        setGameStart(false);
-        history.push("/broken-bottts");
-      }, 7000);
-
+      // setGameStart(true);
+      // setTimeout(() => {
+      //   setGameStart(false);
+      //   history.push("/broken-bottts");
+      // }, 7000);
+      history.push("/broken-bottts");
       return;
     }
     setError(true);
   };
 
   return (
-    <>
+    <div className="screen-wrapper">
       {gameStart && <Loadingpage page={"home"} />}
-      <div className="home-screen-wrapper">
+      <div
+        className={`home-screen-wrapper  ${
+          !viewHighscores && !initalRender && "home-screen-wrapper--shift-right"
+        } ${viewHighscores && "home-screen-wrapper--shift-left"}`}
+      >
         <div className="background-img-container">
           <section className="home-screen">
             <h1 className="home-screen__title">Broken Bottts</h1>
@@ -101,6 +108,16 @@ const Homepage = ({ setUserName, setLevelsData }) => {
               <button className="home-screen__proceed-btn" onClick={startGame}>
                 Proceed
               </button>
+              <button
+                className="home-screen__proceed-btn"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setInitialRender(false);
+                  setViewHighscores(!viewHighscores);
+                }}
+              >
+                Highscores
+              </button>
             </form>
           </section>
           <img
@@ -110,7 +127,44 @@ const Homepage = ({ setUserName, setLevelsData }) => {
           />
         </div>
       </div>
-    </>
+      <div
+        className={`highscores-tab-wrapper  ${
+          !viewHighscores &&
+          !initalRender &&
+          "highscores-tab-wrapper--shift-right"
+        } ${viewHighscores && "highscores-tab-wrapper--shift-left"}`}
+      >
+        <div className="highscores-tab__wrap">
+          <div className="background-img-container">
+            <section className="highscore-screen">
+              <h2>Highscores</h2>
+              <div className="highscore-screen__table">
+                <div className="highscore-screen__table-headers">
+                  <div>User</div>
+                  <div>Time</div>
+                  <div>Seed</div>
+                  <div>Seeded Run?</div>
+                </div>
+              </div>
+              <button
+                className="home-screen__proceed-btn"
+                onClick={() => {
+                  setInitialRender(false);
+                  setViewHighscores(!viewHighscores);
+                }}
+              >
+                Home
+              </button>
+            </section>
+            <img
+              className="menu-background menu-background--colour-one"
+              src={circuitsImg}
+              alt="circuits gif"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

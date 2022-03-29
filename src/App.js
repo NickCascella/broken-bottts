@@ -33,7 +33,7 @@ function App() {
               <Gamepage userName={userName} levelsData={levelsData} />
             )}
           />
-          <Redirect exact from="/" to="/home" />
+          <Redirect path="*" to="/home" />
         </Switch>
       </div>
     </Router>

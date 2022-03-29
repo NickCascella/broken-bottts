@@ -2,7 +2,7 @@ import "./LevelFour.scss";
 import Slider from "../Slider/Slider";
 import { useEffect, useState } from "react";
 import organizeBots from "../../utils/botSetOrganization";
-import { v4 as uuid } from "uuid";
+import Timer from "../Timer/Timer";
 
 const LevelFour = ({ levelData, setSelectedChoice, levelsCompleted }) => {
   const [splitArray, setSplitArray] = useState([]);
@@ -22,7 +22,7 @@ const LevelFour = ({ levelData, setSelectedChoice, levelsCompleted }) => {
     >
       {splitArray.map((botttsSet, i) => (
         <Slider
-          key={uuid()}
+          key={i}
           sliderClass={"level-four__slider"}
           trackClass={`level-four__slide-track ${
             i % 2 === 0 && "level-four__slide-track--left"

@@ -2,7 +2,6 @@ import "./LevelOne.scss";
 import Slider from "../Slider/Slider";
 import { useEffect, useState } from "react";
 import organizeBots from "../../utils/botSetOrganization";
-import { v4 as uuid } from "uuid";
 
 const LevelOne = ({
   levelData,
@@ -25,9 +24,9 @@ const LevelOne = ({
         levelsCompleted === 1 && "level-one--completed"
       } ${completed && "level-one--fix"}`}
     >
-      {splitArray.map((botttsSet) => (
+      {splitArray.map((botttsSet, i) => (
         <Slider
-          key={uuid()}
+          key={i}
           sliderClass={"level-one__slider"}
           trackClass={"level-one__slide-track"}
           slideClass={"level-one__slide"}
