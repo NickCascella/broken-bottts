@@ -2,6 +2,7 @@ import "./LevelTwo.scss";
 import Slider from "../Slider/Slider";
 import { useEffect, useState } from "react";
 import organizeBots from "../../utils/botSetOrganization";
+import { v4 as uuid } from "uuid";
 
 const LevelTwo = ({
   levelData,
@@ -26,6 +27,7 @@ const LevelTwo = ({
     >
       {splitArray.map((botttsSet) => (
         <Slider
+          key={uuid()}
           sliderClass={"level-two__slider"}
           trackClass={"level-two__slide-track"}
           slideClass={"level-two__slide"}
