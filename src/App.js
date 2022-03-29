@@ -18,7 +18,18 @@ function App() {
       <div className="app">
         <Switch>
           <Route
+            exact
             path="/home"
+            render={() => (
+              <Homepage
+                userName={userName}
+                setUserName={setUserName}
+                setLevelsData={setLevelsData}
+              />
+            )}
+          />
+          <Route
+            path="/home-highscores"
             render={() => (
               <Homepage
                 userName={userName}

@@ -16,8 +16,6 @@
     width: 100%;
     box-sizing: border-box;
     padding: 0 2rem;
-    // color: $primary-colour-one;
-    // background-color: $secondary-colour-two;
     overflow: hidden;
     .display-one {
       display: flex;
@@ -81,7 +79,6 @@
     display: flex;
     box-sizing: border-box;
     padding: 0 2rem;
-    // background-color: $secondary-colour-two;
   }
   &__screen {
     width: 75%;
@@ -93,9 +90,7 @@
     &--incorrect {
       animation: dimScreen 3s linear;
     }
-    &--game-over {
-      // background-color: rgb(54, 189, 104);
-    }
+
     &::before {
       content: "";
       top: 10px;

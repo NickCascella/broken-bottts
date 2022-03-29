@@ -9,6 +9,7 @@ import LevelOne from "../../components/LevelOne/LevelOne";
 import LevelTwo from "../../components/LevelTwo/LevelTwo";
 import LevelThree from "../../components/LevelThree/LevelThree";
 import LevelFour from "../../components/LevelFour/LevelFour";
+import EndScreen from "../../components/EndScreen/EndScreen";
 import Timer from "../../components/Timer/Timer";
 
 const Gamepage = ({ userName, levelsData }) => {
@@ -25,6 +26,7 @@ const Gamepage = ({ userName, levelsData }) => {
   const [levelThreeComplete, setLevelThreeComplete] = useState(false);
   const [time, setTime] = useState(null);
   const [gameOver, setGameOver] = useState(false);
+  const [showEndLoadingModal, setShowEndLoadingModal] = useState(true);
 
   let history = useHistory();
 
@@ -80,6 +82,10 @@ const Gamepage = ({ userName, levelsData }) => {
             } else if (levelsCompletedCopy === 4) {
               setTarget(levelsData.levelOne.targetBottt);
               setGameOver(true);
+              setTimeout(() => {
+                setShowEndLoadingModal(false);
+                history.push("/home-highscores");
+              }, 17500);
             }
             setSelectedChoice(null);
             setLevelTransition(false);
@@ -100,6 +106,7 @@ const Gamepage = ({ userName, levelsData }) => {
   useEffect(() => {
     if (gameOver) {
       const playerRecord = {
+        name: userName,
         time: time,
         seed: levelsData.seed,
         newSeed: levelsData.newSeed,
@@ -172,9 +179,13 @@ const Gamepage = ({ userName, levelsData }) => {
         <div className="game-page__game-wrapper">
           <div
             className={`game-page__screen ${
-              wrongSelection && "game-page__screen--incorrect"
-            } ${gameOver && "game-page__screen--game-over"}`}
+              wrongSelection && !gameOver && "game-page__screen--incorrect"
+            } `}
           >
+            {gameOver && showEndLoadingModal && (
+              <Loadingpage page={"end-game"} time={time} />
+            )}
+
             <LevelOne
               completed={levelOneComplete}
               setSelectedChoice={selectChoiceImg}

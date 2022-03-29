@@ -7,7 +7,7 @@
   height: 100vh;
   top: 0;
   left: 0;
-  background: black;
+  background-color: black;
   border: 1px solid $primary-colour-three;
   z-index: 3;
   transform: translateY(-100%);
@@ -17,10 +17,17 @@
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-
+  transition: all 4s;
   &--load-out {
     transform: translateY(0%);
     animation: raiseLoadingPage 11s forwards;
+  }
+
+  &--end-game {
+    height: 100%;
+    width: 100%;
+    transform: translateY(0);
+    animation: changeBackgroundColour 4s forwards;
   }
 
   .modal-wrapper {
@@ -78,6 +85,10 @@
       }
       &--load-out-end {
         animation: endLoad 6s ease-in-out forwards;
+      }
+      &--end-game {
+        animation: standardLoad 8s ease-in-out forwards;
+        background-color: rgb(73, 73, 242);
       }
     }
   }
@@ -151,5 +162,38 @@
 
   100% {
     width: 100%;
+  }
+}
+
+@keyframes standardLoad {
+  0% {
+    width: 0%;
+  }
+
+  20% {
+    width: 0%;
+  }
+
+  70% {
+    width: 40%;
+  }
+
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes changeBackgroundColour {
+  0% {
+    transform: translateY(-100%);
+    background-color: black;
+  }
+
+  75% {
+    transform: translateY(0);
+  }
+
+  100% {
+    background-color: rgb(18, 39, 62);
   }
 }

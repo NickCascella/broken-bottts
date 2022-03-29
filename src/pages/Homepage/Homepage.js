@@ -1,6 +1,6 @@
 import "./Homepage.scss";
-import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 import InputSingleLetter from "../../components/InputSingleLetter/InputSingleLetter";
 import factorioImg from "../../assets/images/factorio.gif";
@@ -18,6 +18,14 @@ const Homepage = ({ setUserName, setLevelsData }) => {
   const [viewHighscores, setViewHighscores] = useState(false);
   const [initalRender, setInitialRender] = useState(true);
   let history = useHistory();
+  let location = useLocation();
+
+  useEffect(() => {
+    console.log(location);
+    if (location.pathname === "/home-highscores") {
+      setViewHighscores(true);
+    }
+  }, []);
 
   const handleInput = (e) => {
     const input = e.target;
