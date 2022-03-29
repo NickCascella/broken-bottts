@@ -1,5 +1,6 @@
 import "./Gamepage.scss";
-import { useEffect, useState, useRef } from "react";
+import goodBinary from "../../assets/images/goodBinary.gif";
+import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { getBrokenBottts } from "../../utils/botCreation";
 import LoadingBars from "../../components/LoadingBars/LoadingBars";
@@ -22,6 +23,8 @@ const Gamepage = ({ userName, levelsData }) => {
   const [levelOneComplete, setLevelOneComplete] = useState(false);
   const [levelTwoComplete, setLevelTwoComplete] = useState(false);
   const [levelThreeComplete, setLevelThreeComplete] = useState(false);
+  const [time, setTime] = useState(null);
+  const [gameOver, setGameOver] = useState(false);
 
   let history = useHistory();
 
@@ -76,6 +79,7 @@ const Gamepage = ({ userName, levelsData }) => {
               setTarget(levelsData.levelFour.targetBottt);
             } else if (levelsCompletedCopy === 4) {
               setTarget(levelsData.levelOne.targetBottt);
+              setGameOver(true);
             }
             setSelectedChoice(null);
             setLevelTransition(false);
@@ -93,6 +97,16 @@ const Gamepage = ({ userName, levelsData }) => {
     }
   }, [selectedChoice]);
 
+  useEffect(() => {
+    if (gameOver) {
+      const playerRecord = {
+        time: time,
+        seed: levelsData.seed,
+        newSeed: levelsData.newSeed,
+      };
+    }
+  }, [gameOver]);
+
   const selectChoiceImg = (src) =>
     !disableClick ? setSelectedChoice(src) : null;
 
@@ -102,7 +116,7 @@ const Gamepage = ({ userName, levelsData }) => {
   return (
     <>
       <Loadingpage page={"game"} />
-      <section className="game-page">
+      <section className={`game-page ${gameOver && "game-page--game-over"}`}>
         <section className="game-page__header">
           <div className="display-one">
             <p className="display-one__name-seed display-one__name-seed--name">
@@ -111,12 +125,16 @@ const Gamepage = ({ userName, levelsData }) => {
             </p>
             <p className="display-one__name-seed">
               <span className="display-one__name-seed--title"> FACTORY:</span>{" "}
-              35dc058c-364f-4064-90b5-d00f76300617
+              {levelsData.seed}
             </p>
           </div>
           <div className="display-two">
             <h1 className="display-two__name">Broken Bottts</h1>
-            <div className="display-two__captured-bottts">
+            <div
+              className={`display-two__captured-bottts ${
+                gameOver && "display-two__captured-bottts--game-over"
+              }`}
+            >
               <img
                 className={`display-two__captured-bottt ${
                   levelsCompleted > 0 && "display-two__captured-bottt--found"
@@ -148,14 +166,14 @@ const Gamepage = ({ userName, levelsData }) => {
             </div>
           </div>
           <div className="display-three">
-            <Timer />
+            <Timer setTime={setTime} levelsCompleted={levelsCompleted} />
           </div>
         </section>
         <div className="game-page__game-wrapper">
           <div
             className={`game-page__screen ${
               wrongSelection && "game-page__screen--incorrect"
-            }`}
+            } ${gameOver && "game-page__screen--game-over"}`}
           >
             <LevelOne
               completed={levelOneComplete}
@@ -184,8 +202,21 @@ const Gamepage = ({ userName, levelsData }) => {
           </div>
           <div className="dash">
             <h2 className="dash__header">Target Robot</h2>
-            <div className="dash__target-robot">
-              {!levelTransition && <img src={target} alt="target robot" />}
+            <div
+              className={`dash__target-robot ${
+                gameOver && "dash__target-robot--game-over"
+              }`}
+            >
+              {!levelTransition && !gameOver && (
+                <img src={target} alt="target robot" />
+              )}
+              {gameOver && (
+                <img
+                  className="dash__target-robot--img"
+                  src={goodBinary}
+                  alt="target robot"
+                />
+              )}
               {levelTransition && <LoadingBars />}
             </div>
 
@@ -201,19 +232,30 @@ const Gamepage = ({ userName, levelsData }) => {
                 correctSelection &&
                 target !== placeholderBottts.botttOne &&
                 "dash__target-robot--correct"
-              } `}
+              } ${gameOver && "dash__target-robot--game-over"}`}
             >
               {!levelTransition && (
                 <>
-                  {selectedChoice && (
+                  {selectedChoice && !gameOver && (
                     <img src={selectedChoice} alt="target robot" />
+                  )}
+                  {gameOver && (
+                    <img
+                      className="dash__target-robot--img"
+                      src={goodBinary}
+                      alt="target robot"
+                    />
                   )}
                 </>
               )}
               {levelTransition && <LoadingBars />}
             </div>
             <h2 className="dash__header">BB Chat</h2>
-            <div className="dash__chat-box">
+            <div
+              className={`dash__chat-box ${
+                gameOver && "dash__chat-box--game-over"
+              }`}
+            >
               <p className="dash__chat-text">
                 {wrongSelection && "Cannot believe we hired you for this...."}
                 {correctSelection &&

@@ -4,14 +4,20 @@
 .game-page {
   background-color: $secondary-colour-two;
   height: 100vh;
+  transition: all 4s;
+  color: $primary-colour-one;
+  &--game-over {
+    background-color: rgb(18, 39, 62);
+    color: rgb(54, 189, 104);
+  }
   &__header {
     display: flex;
     align-items: center;
     width: 100%;
     box-sizing: border-box;
     padding: 0 2rem;
-    color: $primary-colour-one;
-    background-color: $secondary-colour-two;
+    // color: $primary-colour-one;
+    // background-color: $secondary-colour-two;
     overflow: hidden;
     .display-one {
       display: flex;
@@ -44,7 +50,10 @@
         display: flex;
         justify-content: space-evenly;
         border: 2px solid $primary-colour-one;
-        // border-bottom: none;
+        transition: all 4s;
+        &--game-over {
+          border-color: rgb(54, 189, 104);
+        }
       }
       &__captured-bottt {
         padding: 0.3rem;
@@ -72,7 +81,7 @@
     display: flex;
     box-sizing: border-box;
     padding: 0 2rem;
-    background-color: $secondary-colour-two;
+    // background-color: $secondary-colour-two;
   }
   &__screen {
     width: 75%;
@@ -80,8 +89,12 @@
     height: 40rem;
     overflow: hidden;
     position: relative;
+    background-color: $secondary-colour-two;
     &--incorrect {
       animation: dimScreen 3s linear;
+    }
+    &--game-over {
+      // background-color: rgb(54, 189, 104);
     }
     &::before {
       content: "";
@@ -102,10 +115,10 @@
   }
 
   .dash {
-    color: $primary-colour-one;
+    // color: $primary-colour-one;
     width: 25%;
     height: 100%;
-    background-color: black;
+    // background-color: black;
     display: flex;
     flex-direction: column;
     padding: 0 2rem;
@@ -118,11 +131,17 @@
       word-wrap: break-word;
     }
     &__target-robot {
+      background-color: black;
       position: relative;
       width: 6rem;
       height: 6rem;
       border: 3px solid $primary-colour-one;
       margin-top: 2rem;
+      transition: all 4s;
+      &--img {
+        max-width: 6rem;
+        max-height: 6rem;
+      }
       &--empty {
         background-color: $secondary-colour-two;
       }
@@ -132,6 +151,10 @@
       &--correct {
         animation: correctSelection 1s linear infinite;
       }
+      &--game-over {
+        background-color: rgb(18, 39, 62);
+        border-color: rgb(54, 189, 104);
+      }
     }
     &__chat-box {
       width: 100%;
@@ -139,6 +162,10 @@
       border: 3px solid $primary-colour-one;
       margin-top: 2rem;
       color: $primary-colour-three;
+      transition: all 4s;
+      &--game-over {
+        border-color: rgb(54, 189, 104);
+      }
     }
     &__chat-text {
       margin: 0;

@@ -67,7 +67,9 @@
     border: 2px solid $primary-colour-three;
     width: 100%;
     height: 3rem;
+    border-radius: 5px;
     &__track {
+      border-radius: 5px;
       width: 20rem;
       height: 3rem;
       background-color: $primary-colour-one;

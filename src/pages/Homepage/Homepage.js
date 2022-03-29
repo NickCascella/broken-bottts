@@ -1,6 +1,7 @@
 import "./Homepage.scss";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { v4 as uuid } from "uuid";
 import InputSingleLetter from "../../components/InputSingleLetter/InputSingleLetter";
 import factorioImg from "../../assets/images/factorio.gif";
 import circuitsImg from "../../assets/images/circuits.gif";
@@ -41,6 +42,8 @@ const Homepage = ({ setUserName, setLevelsData }) => {
     if (userCharOne && userCharTwo && userCharThree) {
       let bottts = await getBottts();
       let fullName = `${userCharOne}${userCharTwo}${userCharThree}`;
+      bottts.seed = uuid();
+      bottts.newSeed = true;
       setLevelsData(bottts);
       setUserName(fullName);
       setGameStart(true);
