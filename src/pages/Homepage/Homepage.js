@@ -53,9 +53,13 @@ const Homepage = ({ setUserName, setLevelsData }) => {
         setSeed(input.value);
         break;
       case "seed-option":
-        input.value === "true"
+        return input.value === "true"
           ? setShowSeedField(true)
-          : setShowSeedField(false);
+          : (() => {
+              setShowSeedField(false);
+              setSeed("");
+            })();
+
         break;
     }
   };
@@ -76,7 +80,7 @@ const Homepage = ({ setUserName, setLevelsData }) => {
     if (userCharOne && userCharTwo && userCharThree) {
       let bottts = {};
       let fullName = `${userCharOne}${userCharTwo}${userCharThree}`;
-      if (!seed) {
+      if (!seed && !showSeedField) {
         bottts = await getBottts();
         bottts.seed = uuid();
         bottts.newSeed = true;
@@ -84,6 +88,7 @@ const Homepage = ({ setUserName, setLevelsData }) => {
         let postSeedData = await requests.postSeedData(bottts);
       } else {
         const seedData = await requests.getSeedData(seed);
+
         if (!seedData) {
           setInvalidSeed(true);
           return;
@@ -93,7 +98,7 @@ const Homepage = ({ setUserName, setLevelsData }) => {
         bottts.seed = seedData.seed;
         bottts.newSeed = false;
       }
-
+      setInvalidSeed(false);
       setLevelsData(bottts);
       setUserName(fullName);
       setGameStart(true);
@@ -165,9 +170,7 @@ const Homepage = ({ setUserName, setLevelsData }) => {
                 SEED?
               </label>
               <div className="home-screen__enable-seed-wrapper">
-                <label className="" htmlFor="yes-seed">
-                  Yes
-                </label>
+                <label htmlFor="yes-seed">Yes</label>
                 <input
                   type="radio"
                   name="seed-option"
@@ -176,9 +179,7 @@ const Homepage = ({ setUserName, setLevelsData }) => {
                   onChange={handleInput}
                   className="home-screen__enable-seed-btn"
                 />
-                <label className="" htmlFor="no-seed">
-                  No
-                </label>
+                <label htmlFor="no-seed">No</label>
                 <input
                   defaultChecked
                   id="no-seed"
@@ -191,25 +192,29 @@ const Homepage = ({ setUserName, setLevelsData }) => {
               </div>
 
               <input
-                className={`home-screen__seed-input ${
-                  invalidSeed &&
-                  showSeedField &&
-                  "home-screen__seed-input--error"
-                } ${
+                className={`home-screen__seed-input  ${
                   gameStart &&
                   showSeedField &&
                   "home-screen__seed-input--checked"
-                } ${showSeedField && "home-screen__seed-input--show-field"}`}
+                } ${showSeedField && "home-screen__seed-input--show-field"} ${
+                  invalidSeed &&
+                  showSeedField &&
+                  "home-screen__seed-input--error"
+                }`}
                 onChange={handleInput}
                 name="seed"
                 disabled={showSeedField ? "" : "disabled"}
               />
-              {invalidSeed && (
-                <p className="home-screen__seed-input--error">
-                  Invalid seed. Please enter a valid seed or continue with a
-                  randomized seed.
-                </p>
-              )}
+
+              <p
+                className={`home-screen__seed-input--error-message ${
+                  invalidSeed && "home-screen__seed-input--error-message-show"
+                }`}
+              >
+                Invalid seed. Please enter a valid seed or continue with a
+                randomized seed.
+              </p>
+
               <button className="home-screen__proceed-btn" onClick={startGame}>
                 Proceed
               </button>

@@ -89,17 +89,30 @@
     &:focus {
       outline: none;
     }
-    &--error {
-      color: $secondary-colour-four;
-      border-color: $secondary-colour-four;
+
+    &--show-field {
+      height: 25px;
+      border-color: white;
     }
     &--checked {
       color: $primary-colour-three;
       border-color: $primary-colour-three;
     }
-    &--show-field {
-      height: 25px;
-      border-color: white;
+    &--error {
+      color: $secondary-colour-four;
+      border-color: $secondary-colour-four;
+    }
+    &--error-message {
+      transition: all 0.5s;
+      color: $secondary-colour-four;
+      height: 0px;
+      margin: 0;
+      overflow: hidden;
+    }
+    &--error-message-show {
+      color: $secondary-colour-four;
+      height: 33px;
+      margin: 1rem;
     }
   }
   &__enable-seed-wrapper {
@@ -113,6 +126,7 @@
     appearance: none;
     outline: 1px solid $primary-colour-one;
     border-radius: 50%;
+
     &::before {
       background-color: transparent;
       top: 20%;

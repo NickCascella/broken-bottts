@@ -66,7 +66,9 @@ const requests = {
   getSeedData: async (seedId) => {
     try {
       const seedData = await axios.get(
-        `${process.env.REACT_APP_URL}/bottts/seeds/${seedId}`
+        `${process.env.REACT_APP_URL}/bottts/seeds/${
+          seedId ? seedId : "invalid-seed"
+        }`
       );
       return seedData.data.results[0];
     } catch (err) {
