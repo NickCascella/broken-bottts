@@ -5,7 +5,7 @@
     width: 100%;
     border: 1px solid $primary-colour-one;
     box-sizing: border-box;
-    padding: 2rem;
+    padding: 1rem;
   }
   &__table-items {
     padding: 0;
@@ -29,8 +29,11 @@
     &--small-spacing {
       width: 10%;
     }
-    &--colour {
+    &--colour-random {
       color: $primary-colour-three;
+    }
+    &--colour-seeded {
+      color: $secondary-colour-five;
     }
   }
 }

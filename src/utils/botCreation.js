@@ -7,32 +7,36 @@ import requests from "./requests";
 const levelOneBottts = () => {
   let levelOne = {};
   let levelOneBottts = [];
-  const targetBottt = createAvatar(style, {
+  let levelOneBotttsObjInfo = [];
+  let targetBotttObjInfo = {
     dataUri: true,
     seed: uuid(),
-  });
+  };
+
+  const targetBottt = createAvatar(style, targetBotttObjInfo);
   for (let i = 0; i < 14; i++) {
-    levelOneBottts.push(
-      createAvatar(style, {
-        dataUri: true,
-        seed: uuid(),
-      })
-    );
+    let randomBottt = {
+      dataUri: true,
+      seed: uuid(),
+    };
+    levelOneBotttsObjInfo.push(randomBottt);
+    levelOneBottts.push(createAvatar(style, randomBottt));
   }
-  levelOneBottts.splice(
-    Math.floor(levelOneBottts.length * Math.random()),
-    0,
-    targetBottt
-  );
+  let randomlySelectedIndex = Math.floor(levelOneBottts.length * Math.random());
+  levelOneBottts.splice(randomlySelectedIndex, 0, targetBottt);
+  levelOneBotttsObjInfo.splice(randomlySelectedIndex, 0, targetBotttObjInfo);
 
   levelOne.targetBottt = targetBottt;
   levelOne.allBottts = levelOneBottts;
+  levelOne.targetBotttObjInfo = targetBotttObjInfo;
+  levelOne.allBotttsObjInfo = levelOneBotttsObjInfo;
   return levelOne;
 };
 
 const levelTwoBottts = (botttStyles) => {
   let levelTwo = {};
   let levelTwoBottts = [];
+  let levelTwoBotttsObjInfo = [];
   let primaryColourLevel =
     botttStyles.primary_colour_levels[
       Math.floor(botttStyles.primary_colour_levels.length * Math.random())
@@ -52,22 +56,24 @@ const levelTwoBottts = (botttStyles) => {
 
   const targetBottt = createAvatar(style, customDesign);
   for (let i = 0; i < 24; i++) {
-    levelTwoBottts.push(createAvatar(style, { ...customDesign, seed: uuid() }));
+    let customDesignCopy = { ...customDesign, seed: uuid() };
+    levelTwoBotttsObjInfo.push(customDesignCopy);
+    levelTwoBottts.push(createAvatar(style, customDesignCopy));
   }
-  levelTwoBottts.splice(
-    Math.floor(levelTwoBottts.length * Math.random()),
-    0,
-    targetBottt
-  );
+  let randomlySelectedIndex = Math.floor(levelTwoBottts.length * Math.random());
+  levelTwoBottts.splice(randomlySelectedIndex, 0, targetBottt);
+  levelTwoBotttsObjInfo.splice(randomlySelectedIndex, 0, customDesign);
   levelTwo.targetBottt = targetBottt;
   levelTwo.allBottts = levelTwoBottts;
+  levelTwo.targetBotttObjInfo = customDesign;
+  levelTwo.allBotttsObjInfo = levelTwoBotttsObjInfo;
   return levelTwo;
 };
 
 const levelThreeBottts = (botttStyles) => {
   let levelThree = {};
   let levelThreeBottts = [];
-
+  let levelThreeBotttsObjInfo = [];
   let colourOne =
     botttStyles.colours[Math.floor(botttStyles.colours.length * Math.random())];
   let colourTwo =
@@ -82,24 +88,26 @@ const levelThreeBottts = (botttStyles) => {
 
   const targetBottt = createAvatar(style, customDesign);
   for (let i = 0; i < 41; i++) {
-    levelThreeBottts.push(
-      createAvatar(style, { ...customDesign, seed: uuid() })
-    );
+    let customDesignCopy = { ...customDesign, seed: uuid() };
+    levelThreeBotttsObjInfo.push(customDesignCopy);
+    levelThreeBottts.push(createAvatar(style, customDesignCopy));
   }
-  levelThreeBottts.splice(
-    Math.floor(levelThreeBottts.length * Math.random()),
-    0,
-    targetBottt
+  let randomlySelectedIndex = Math.floor(
+    levelThreeBottts.length * Math.random()
   );
+  levelThreeBotttsObjInfo.splice(randomlySelectedIndex, 0, customDesign);
+  levelThreeBottts.splice(randomlySelectedIndex, 0, targetBottt);
   levelThree.targetBottt = targetBottt;
   levelThree.allBottts = levelThreeBottts;
+  levelThree.targetBotttObjInfo = customDesign;
+  levelThree.allBotttsObjInfo = levelThreeBotttsObjInfo;
   return levelThree;
 };
 
 const levelFourBottts = () => {
   let levelFour = {};
   let levelFourBottts = [];
-
+  let levelFourBotttsObjInfo = [];
   let customDesign = {
     dataUri: true,
     seed: uuid(),
@@ -107,15 +115,20 @@ const levelFourBottts = () => {
 
   const targetBottt = createAvatar(style, customDesign);
   for (let i = 0; i < 39; i++) {
-    levelFourBottts.push(createAvatar(style, { ...customDesign, flip: true }));
+    let customDesignCopy = { ...customDesign, flip: true };
+    levelFourBotttsObjInfo.push(customDesignCopy);
+    levelFourBottts.push(createAvatar(style, customDesignCopy));
   }
-  levelFourBottts.splice(
-    Math.floor(levelFourBottts.length * Math.random()),
-    0,
-    targetBottt
+  let randomlySelectedIndex = Math.floor(
+    levelThreeBottts.length * Math.random()
   );
+  levelFourBotttsObjInfo.splice(randomlySelectedIndex, 0, customDesign);
+  levelFourBottts.splice(randomlySelectedIndex, 0, targetBottt);
+
   levelFour.targetBottt = targetBottt;
   levelFour.allBottts = levelFourBottts;
+  levelFour.targetBotttObjInfo = customDesign;
+  levelFour.allBotttsObjInfo = levelFourBotttsObjInfo;
   return levelFour;
 };
 
@@ -144,5 +157,25 @@ const getBrokenBottts = () => {
   return placeholderBottts;
 };
 
+const convertSeedData = (seedData) => {
+  let convertObjData = (obj) => {
+    let svgArray = obj.allBotttsObjInfo.map((data) => {
+      return createAvatar(style, data);
+    });
+    return {
+      targetBottt: createAvatar(style, obj.targetBotttObjInfo),
+      allBottts: svgArray,
+    };
+  };
+  let bottts = {
+    levelOne: convertObjData(seedData.levelOne),
+    levelTwo: convertObjData(seedData.levelTwo),
+    levelThree: convertObjData(seedData.levelThree),
+    levelFour: convertObjData(seedData.levelFour),
+  };
+
+  return bottts;
+};
+
 export default getBottts;
-export { getBrokenBottts };
+export { getBrokenBottts, convertSeedData };

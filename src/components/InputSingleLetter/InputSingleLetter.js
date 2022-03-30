@@ -1,6 +1,6 @@
 import "./InputSingleLetter.scss";
 
-const InputSingleLetter = ({ onChange, name, value, error }) => (
+const InputSingleLetter = ({ onChange, name, value, error, gameStart }) => (
   <input
     type="text"
     name={name}
@@ -8,7 +8,7 @@ const InputSingleLetter = ({ onChange, name, value, error }) => (
     onChange={onChange}
     className={`input-field ${
       error && value === "" ? "input-field--error" : ""
-    }`}
+    } ${gameStart ? "input-field--checked" : ""}`}
   />
 );
 

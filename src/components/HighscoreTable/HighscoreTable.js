@@ -35,7 +35,11 @@ const HighscoreTable = ({ list }) => {
             </li>
             <li
               className={`highscore-screen__table-item ${
-                highscore.newSeed && "highscore-screen__table-item--colour"
+                highscore.newSeed &&
+                "highscore-screen__table-item--colour-random"
+              } ${
+                !highscore.newSeed &&
+                "highscore-screen__table-item--colour-seeded"
               }`}
             >
               {highscore.newSeed ? "YES" : "NO"}
