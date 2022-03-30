@@ -1,12 +1,15 @@
 import "./Homepage.scss";
 import { useEffect, useState } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import { v4 as uuid } from "uuid";
+import requests from "../../utils/requests";
+import formatTime from "../../utils/formatTime";
 import InputSingleLetter from "../../components/InputSingleLetter/InputSingleLetter";
 import factorioImg from "../../assets/images/factorio.gif";
 import circuitsImg from "../../assets/images/circuits.gif";
 import getBottts from "../../utils/botCreation";
 import Loadingpage from "../Loadingpage/Loadingpage";
+import HighscoreTable from "../../components/HighscoreTable/HighscoreTable";
 
 const Homepage = ({ setUserName, setLevelsData }) => {
   const [userCharOne, setUserCharOne] = useState("");
@@ -16,15 +19,18 @@ const Homepage = ({ setUserName, setLevelsData }) => {
   const [gameStart, setGameStart] = useState(false);
   const [error, setError] = useState(false);
   const [viewHighscores, setViewHighscores] = useState(false);
+  const [highscores, setHighscores] = useState(null);
   const [initalRender, setInitialRender] = useState(true);
-  let history = useHistory();
-  let location = useLocation();
 
-  useEffect(() => {
-    console.log(location);
+  const history = useHistory();
+  const location = useLocation();
+
+  useEffect(async () => {
     if (location.pathname === "/home-highscores") {
       setViewHighscores(true);
     }
+    const highscores = await requests.getHighscores();
+    setHighscores(highscores);
   }, []);
 
   const handleInput = (e) => {
@@ -147,14 +153,9 @@ const Homepage = ({ setUserName, setLevelsData }) => {
           <div className="background-img-container">
             <section className="highscore-screen">
               <h2>Highscores</h2>
-              <div className="highscore-screen__table">
-                <div className="highscore-screen__table-headers">
-                  <div>User</div>
-                  <div>Time</div>
-                  <div>Seed</div>
-                  <div>Seeded Run?</div>
-                </div>
-              </div>
+              {highscores && <HighscoreTable list={highscores.seededRuns} />}
+              <h2>Any % highscores</h2>
+              {highscores && <HighscoreTable list={highscores.randomRuns} />}
               <button
                 className="home-screen__proceed-btn"
                 onClick={() => {

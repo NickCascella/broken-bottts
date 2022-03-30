@@ -118,24 +118,13 @@
   }
   .highscore-screen {
     position: relative;
-    width: 60rem;
+    width: 70rem;
     padding: 2rem;
     z-index: 2;
     display: flex;
     justify-content: center;
     flex-direction: column;
     box-sizing: border-box;
-
-    &__table {
-      width: 100%;
-      border: 1px solid $primary-colour-one;
-      box-sizing: border-box;
-      padding: 2rem;
-    }
-    &__table-headers {
-      display: flex;
-      justify-content: space-between;
-    }
   }
 }
 

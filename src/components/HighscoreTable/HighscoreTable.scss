@@ -1,0 +1,30 @@
+@use "../../styles/partials/colours" as *;
+
+.highscore-screen {
+  &__table {
+    width: 100%;
+    border: 1px solid $primary-colour-one;
+    box-sizing: border-box;
+    padding: 2rem;
+  }
+  &__table-items {
+    display: flex;
+    justify-content: space-between;
+    list-style-type: none;
+    text-align: left;
+    &--header {
+      font-weight: 600;
+    }
+  }
+  &__table-item {
+    text-align: left;
+    padding: 0;
+    width: 16.5%;
+    &--seed {
+      width: 50%;
+    }
+    &--colour {
+      color: $primary-colour-three;
+    }
+  }
+}

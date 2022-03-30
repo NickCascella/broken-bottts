@@ -2,6 +2,7 @@ import axios from "axios";
 import { createAvatar } from "@dicebear/avatars";
 import * as style from "@dicebear/avatars-bottts-sprites";
 import { v4 as uuid } from "uuid";
+import requests from "./requests";
 
 const levelOneBottts = () => {
   let levelOne = {};
@@ -119,21 +120,13 @@ const levelFourBottts = () => {
 };
 
 const getBottts = async () => {
-  try {
-    const botttStylesData = await axios.get(
-      `${process.env.REACT_APP_URL}/bottts/styles`
-    );
-    const botttStyles = botttStylesData.data.results[0];
-    let bottts = {};
-    bottts.levelOne = levelOneBottts();
-    bottts.levelTwo = levelTwoBottts(botttStyles);
-    bottts.levelThree = levelThreeBottts(botttStyles);
-    bottts.levelFour = levelFourBottts();
-    return bottts;
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
+  const botttStyles = await requests.botttStyles();
+  let bottts = {};
+  bottts.levelOne = levelOneBottts();
+  bottts.levelTwo = levelTwoBottts(botttStyles);
+  bottts.levelThree = levelThreeBottts(botttStyles);
+  bottts.levelFour = levelFourBottts();
+  return bottts;
 };
 
 const getBrokenBottts = () => {

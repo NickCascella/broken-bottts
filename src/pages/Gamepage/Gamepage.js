@@ -2,6 +2,7 @@ import "./Gamepage.scss";
 import goodBinary from "../../assets/images/goodBinary.gif";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import requests from "../../utils/requests";
 import { getBrokenBottts } from "../../utils/botCreation";
 import LoadingBars from "../../components/LoadingBars/LoadingBars";
 import Loadingpage from "../Loadingpage/Loadingpage";
@@ -103,7 +104,7 @@ const Gamepage = ({ userName, levelsData }) => {
     }
   }, [selectedChoice]);
 
-  useEffect(() => {
+  useEffect(async () => {
     if (gameOver) {
       const playerRecord = {
         name: userName,
@@ -111,6 +112,8 @@ const Gamepage = ({ userName, levelsData }) => {
         seed: levelsData.seed,
         newSeed: levelsData.newSeed,
       };
+      const postHighscore = await requests.postHighscore(playerRecord);
+      console.log(postHighscore);
     }
   }, [gameOver]);
 
