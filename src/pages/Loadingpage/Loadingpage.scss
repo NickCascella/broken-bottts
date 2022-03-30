@@ -36,6 +36,9 @@
     border: 2px solid $primary-colour-three;
     padding: 3rem 8rem;
     border-radius: 4px;
+    &--end-game {
+      width: 70%;
+    }
   }
 
   .modal-background {
@@ -68,6 +71,9 @@
     &--line-two {
       animation: renderTextNoDelay 2s linear forwards;
     }
+    &--end-text {
+      font-size: 1.3rem;
+    }
   }
 
   .loading-bar {
@@ -75,6 +81,7 @@
     width: 100%;
     height: 3rem;
     border-radius: 5px;
+
     &__track {
       border-radius: 5px;
       width: 20rem;

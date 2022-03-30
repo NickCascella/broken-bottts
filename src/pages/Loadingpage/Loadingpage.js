@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import "./Loadingpage.scss";
 import formatTime from "../../utils/formatTime";
 
-const Loadingpage = ({ page, time }) => {
+const Loadingpage = ({ page, playerRecord, highscores }) => {
   const [completeLoading, setCompleteLoading] = useState(0);
+  const [inTopFive, setInTop5] = useState(null);
 
   useEffect(() => {
     setTimeout(() => {
@@ -15,6 +16,24 @@ const Loadingpage = ({ page, time }) => {
     setTimeout(() => {
       setCompleteLoading(3);
     }, 13500);
+    if (highscores) {
+      if (playerRecord.newSeed) {
+        let checkInTopFive = highscores.randomRuns.some((run) => {
+          return playerRecord.time < run.time;
+        });
+
+        return checkInTopFive
+          ? setInTop5({ record: true, randomRun: true })
+          : setInTop5({ record: false, randomRun: true });
+      } else {
+        let checkInTopFive = highscores.seededRuns.some(
+          (run) => playerRecord.time < run.time
+        );
+        return checkInTopFive
+          ? setInTop5({ record: true, randomRun: false })
+          : setInTop5({ record: false, randomRun: false });
+      }
+    }
   }, []);
 
   return (
@@ -47,18 +66,30 @@ const Loadingpage = ({ page, time }) => {
             </h1>
           )}
           {page === "end-game" && completeLoading === 1 && (
-            <h1 className="loading-page__title loading-page__title--no-delay">
+            <h1 className="loading-page__title loading-page__title--no-delay loading-page__title--end-text">
               Lets see how you did...
             </h1>
           )}
           {page === "end-game" && completeLoading === 2 && (
-            <h1 className="loading-page__title loading-page__title--no-delay">
-              Wow look at you: {formatTime(time)}
+            <h1 className="loading-page__title loading-page__title--no-delay loading-page__title--end-text">
+              {inTopFive.record &&
+                inTopFive.randomRun &&
+                "You're in the top 5... :o"}
+              {inTopFive.record &&
+                !inTopFive.randomRun &&
+                "You're in the top 5... :o"}
+              {!inTopFive.record && "...I mean it could've been worse..."}
             </h1>
           )}
           {page === "end-game" && completeLoading === 3 && (
-            <h1 className="loading-page__title loading-page__title--no-delay">
-              Let's compare you to everyone. :)
+            <h1 className="loading-page__title loading-page__title--no-delay loading-page__title--end-text">
+              {inTopFive.record &&
+                inTopFive.randomRun &&
+                "Not bad for a random run. See you around."}
+              {inTopFive.record &&
+                !inTopFive.randomRun &&
+                "Not bad for a seeded run. See you around."}
+              {!inTopFive.record && "Alright, I'm bored with you. See ya!"}
             </h1>
           )}
           <div className="loading-bar">

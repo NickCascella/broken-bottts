@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 import requests from "../../utils/requests";
-import formatTime from "../../utils/formatTime";
 import InputSingleLetter from "../../components/InputSingleLetter/InputSingleLetter";
 import factorioImg from "../../assets/images/factorio.gif";
 import circuitsImg from "../../assets/images/circuits.gif";
@@ -30,6 +29,7 @@ const Homepage = ({ setUserName, setLevelsData }) => {
       setViewHighscores(true);
     }
     const highscores = await requests.getHighscores();
+
     setHighscores(highscores);
   }, []);
 
@@ -152,10 +152,12 @@ const Homepage = ({ setUserName, setLevelsData }) => {
         <div className="highscores-tab__wrap">
           <div className="background-img-container">
             <section className="highscore-screen">
-              <h2>Highscores</h2>
-              {highscores && <HighscoreTable list={highscores.seededRuns} />}
-              <h2>Any % highscores</h2>
+              <h2 className="highscore-screen__title">TOP 5 HIGHSCORES</h2>
               {highscores && <HighscoreTable list={highscores.randomRuns} />}
+              <h2 className="highscore-screen__title--not-first">
+                TOP 5 ANY % HIGHSCORES
+              </h2>
+              {highscores && <HighscoreTable list={highscores.seededRuns} />}
               <button
                 className="home-screen__proceed-btn"
                 onClick={() => {

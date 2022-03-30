@@ -10,7 +10,6 @@ import LevelOne from "../../components/LevelOne/LevelOne";
 import LevelTwo from "../../components/LevelTwo/LevelTwo";
 import LevelThree from "../../components/LevelThree/LevelThree";
 import LevelFour from "../../components/LevelFour/LevelFour";
-import EndScreen from "../../components/EndScreen/EndScreen";
 import Timer from "../../components/Timer/Timer";
 
 const Gamepage = ({ userName, levelsData }) => {
@@ -27,14 +26,17 @@ const Gamepage = ({ userName, levelsData }) => {
   const [levelThreeComplete, setLevelThreeComplete] = useState(false);
   const [time, setTime] = useState(null);
   const [gameOver, setGameOver] = useState(false);
-  const [showEndLoadingModal, setShowEndLoadingModal] = useState(true);
+  const [highscores, setHighscores] = useState([]);
+  const [playerRecord, setPlayerRecord] = useState(null);
 
   let history = useHistory();
 
-  useEffect(() => {
-    if (!levelsData) return history.push("/");
+  useEffect(async () => {
+    if (!levelsData || !userName) return history.push("/");
     setTarget(levelsData.levelOne.targetBottt);
     setPlaceholderBottts(getBrokenBottts());
+    const getHighscores = await requests.getHighscores();
+    setHighscores(getHighscores);
   }, []);
 
   useEffect(() => {
@@ -84,7 +86,6 @@ const Gamepage = ({ userName, levelsData }) => {
               setTarget(levelsData.levelOne.targetBottt);
               setGameOver(true);
               setTimeout(() => {
-                setShowEndLoadingModal(false);
                 history.push("/home-highscores");
               }, 17500);
             }
@@ -112,8 +113,22 @@ const Gamepage = ({ userName, levelsData }) => {
         seed: levelsData.seed,
         newSeed: levelsData.newSeed,
       };
-      const postHighscore = await requests.postHighscore(playerRecord);
-      console.log(postHighscore);
+      setPlayerRecord(playerRecord);
+      if (playerRecord.newSeed) {
+        let checkInTopFive = highscores.randomRuns.some((run) => {
+          return playerRecord.time < run.time;
+        });
+        if (checkInTopFive) {
+          const postHighscore = await requests.postHighscore(playerRecord);
+        }
+      } else {
+        let checkInTopFive = highscores.seededRuns.some(
+          (run) => playerRecord.time < run.time
+        );
+        if (checkInTopFive) {
+          const postHighscore = await requests.postHighscore(playerRecord);
+        }
+      }
     }
   }, [gameOver]);
 
@@ -134,7 +149,10 @@ const Gamepage = ({ userName, levelsData }) => {
               {userName || "Unknown Entity"}
             </p>
             <p className="display-one__name-seed">
-              <span className="display-one__name-seed--title"> FACTORY:</span>{" "}
+              <span className="display-one__name-seed--title">
+                {" "}
+                FACTORY ID:
+              </span>{" "}
               {levelsData.seed}
             </p>
           </div>
@@ -185,8 +203,12 @@ const Gamepage = ({ userName, levelsData }) => {
               wrongSelection && !gameOver && "game-page__screen--incorrect"
             } `}
           >
-            {gameOver && showEndLoadingModal && (
-              <Loadingpage page={"end-game"} time={time} />
+            {gameOver && playerRecord && (
+              <Loadingpage
+                page={"end-game"}
+                playerRecord={playerRecord}
+                highscores={highscores}
+              />
             )}
 
             <LevelOne
@@ -264,7 +286,7 @@ const Gamepage = ({ userName, levelsData }) => {
               )}
               {levelTransition && <LoadingBars />}
             </div>
-            <h2 className="dash__header">BB Chat</h2>
+            <h2 className="dash__header">Alerts</h2>
             <div
               className={`dash__chat-box ${
                 gameOver && "dash__chat-box--game-over"
