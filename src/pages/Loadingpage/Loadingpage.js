@@ -61,7 +61,7 @@ const Loadingpage = ({ page, playerRecord, highscores }) => {
             </h1>
           )}
           {page === "end-game" && !completeLoading && (
-            <h1 className="loading-page__title loading-page__title--no-delay">
+            <h1 className="loading-page__title loading-page__title--no-delay loading-page__title--end-text">
               You're finally done. About time...
             </h1>
           )}
@@ -74,22 +74,17 @@ const Loadingpage = ({ page, playerRecord, highscores }) => {
             <h1 className="loading-page__title loading-page__title--no-delay loading-page__title--end-text">
               {inTopFive.record &&
                 inTopFive.randomRun &&
-                "You're in the top 5... :o"}
+                "Ooooh top 5 for a randomized run :o"}
               {inTopFive.record &&
                 !inTopFive.randomRun &&
-                "You're in the top 5... :o"}
+                "Ooooh top 5 for a seeded run :o"}
               {!inTopFive.record && "...I mean it could've been worse..."}
             </h1>
           )}
           {page === "end-game" && completeLoading === 3 && (
             <h1 className="loading-page__title loading-page__title--no-delay loading-page__title--end-text">
-              {inTopFive.record &&
-                inTopFive.randomRun &&
-                "Not bad for a random run. See you around."}
-              {inTopFive.record &&
-                !inTopFive.randomRun &&
-                "Not bad for a seeded run. See you around."}
-              {!inTopFive.record && "Alright, I'm bored with you. See ya!"}
+              {inTopFive.record && "Nice job...for a human. See ya!"}
+              {!inTopFive.record && "Alright, we're done here. See ya!"}
             </h1>
           )}
           <div className="loading-bar">

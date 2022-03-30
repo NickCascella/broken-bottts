@@ -14,12 +14,30 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
+  position: relative;
 
   &--shift-left {
     animation: shiftLeft 1s ease-out forwards;
   }
   &--shift-right {
     animation: shiftRight 1s ease-out forwards;
+  }
+}
+
+.chevron {
+  position: absolute;
+  width: 8rem;
+  right: 1.5rem;
+  top: calc(50% - 4rem);
+  opacity: 0.2;
+  animation: highlightChevronReverse 0.3s linear forwards;
+  &:hover {
+    animation: highlightChevron 0.3s linear forwards;
+    cursor: pointer;
+  }
+  &--flipped {
+    transform: scaleX(-1);
+    left: 1.5rem;
   }
 }
 
@@ -117,8 +135,9 @@
     animation: shiftRight 1s ease-out forwards;
   }
   .highscore-screen {
+    border-radius: 1rem;
     position: relative;
-    width: 70rem;
+    width: 75rem;
     padding: 2rem;
     z-index: 2;
     display: flex;
@@ -151,5 +170,23 @@
 
   100% {
     transform: translateX(0);
+  }
+}
+
+@keyframes highlightChevron {
+  0% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes highlightChevronReverse {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
   }
 }

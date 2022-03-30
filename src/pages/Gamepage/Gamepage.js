@@ -87,7 +87,7 @@ const Gamepage = ({ userName, levelsData }) => {
               setGameOver(true);
               setTimeout(() => {
                 history.push("/home-highscores");
-              }, 17500);
+              }, 19000);
             }
             setSelectedChoice(null);
             setLevelTransition(false);

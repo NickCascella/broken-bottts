@@ -6,6 +6,7 @@ import requests from "../../utils/requests";
 import InputSingleLetter from "../../components/InputSingleLetter/InputSingleLetter";
 import factorioImg from "../../assets/images/factorio.gif";
 import circuitsImg from "../../assets/images/circuits.gif";
+import chevronImg from "../../assets/images/chevron.svg";
 import getBottts from "../../utils/botCreation";
 import Loadingpage from "../Loadingpage/Loadingpage";
 import HighscoreTable from "../../components/HighscoreTable/HighscoreTable";
@@ -20,6 +21,7 @@ const Homepage = ({ setUserName, setLevelsData }) => {
   const [viewHighscores, setViewHighscores] = useState(false);
   const [highscores, setHighscores] = useState(null);
   const [initalRender, setInitialRender] = useState(true);
+  const [transitiongTabs, setTransitioningTabs] = useState(false);
 
   const history = useHistory();
   const location = useLocation();
@@ -51,6 +53,17 @@ const Homepage = ({ setUserName, setLevelsData }) => {
     }
   };
 
+  const transitionPage = () => {
+    if (!transitiongTabs) {
+      setInitialRender(false);
+      setViewHighscores(!viewHighscores);
+      setTransitioningTabs(true);
+      setTimeout(() => {
+        setTransitioningTabs(false);
+      }, 1000);
+    }
+  };
+
   const startGame = async (e) => {
     e.preventDefault();
     if (userCharOne && userCharTwo && userCharThree) {
@@ -78,6 +91,16 @@ const Homepage = ({ setUserName, setLevelsData }) => {
           !viewHighscores && !initalRender && "home-screen-wrapper--shift-right"
         } ${viewHighscores && "home-screen-wrapper--shift-left"}`}
       >
+        <img
+          alt="chevron"
+          src={chevronImg}
+          className="chevron chevron--mouse-leave"
+          onMouseOver={() => {
+            setTimeout(() => {
+              transitionPage();
+            }, 200);
+          }}
+        />
         <div className="background-img-container">
           <section className="home-screen">
             <h1 className="home-screen__title">Broken Bottts</h1>
@@ -127,8 +150,7 @@ const Homepage = ({ setUserName, setLevelsData }) => {
                 className="home-screen__proceed-btn"
                 onClick={(e) => {
                   e.preventDefault();
-                  setInitialRender(false);
-                  setViewHighscores(!viewHighscores);
+                  transitionPage();
                 }}
               >
                 Highscores
@@ -149,6 +171,16 @@ const Homepage = ({ setUserName, setLevelsData }) => {
           "highscores-tab-wrapper--shift-right"
         } ${viewHighscores && "highscores-tab-wrapper--shift-left"}`}
       >
+        <img
+          alt="chevron"
+          src={chevronImg}
+          className="chevron chevron--flipped"
+          onMouseOver={() => {
+            setTimeout(() => {
+              transitionPage();
+            }, 200);
+          }}
+        />
         <div className="highscores-tab__wrap">
           <div className="background-img-container">
             <section className="highscore-screen">
