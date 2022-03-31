@@ -7,7 +7,7 @@
   height: 100vh;
   top: 0;
   left: 0;
-  background-color: black;
+  background-color: $secondary-colour-two;
   border: 1px solid $primary-colour-three;
   z-index: 3;
   transform: translateY(-100%);
@@ -95,7 +95,7 @@
       }
       &--end-game {
         animation: standardLoad 8s ease-in-out forwards;
-        background-color: rgb(73, 73, 242);
+        background-color: $secondary-colour-six;
       }
     }
   }
@@ -193,7 +193,7 @@
 @keyframes changeBackgroundColour {
   0% {
     transform: translateY(-100%);
-    background-color: black;
+    background-color: $secondary-colour-two;
   }
 
   75% {
@@ -201,6 +201,6 @@
   }
 
   100% {
-    background-color: rgb(18, 39, 62);
+    background-color: $primary-colour-four;
   }
 }

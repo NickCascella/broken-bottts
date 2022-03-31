@@ -9,11 +9,9 @@
 .bar {
   width: 12px;
   height: 96px;
-  background: #fff;
+  background: $secondary-colour-one;
   display: inline-block;
   transform-origin: bottom center;
-  // border-top-right-radius: 20px;
-  // border-top-left-radius: 20px;
   box-shadow: 5px 10px 20px inset $primary-colour-three;
   animation: loader 1.2s linear infinite;
 }

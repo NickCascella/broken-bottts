@@ -1,0 +1,35 @@
+@use "../../styles/partials/colours" as *;
+@use "../../styles/partials/keyframes" as *;
+
+.highscores-tab-wrapper {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  color: $primary-colour-one;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // &--shift-left {
+  //   animation: shiftLeft 1s ease-out forwards;
+  // }
+  // &--shift-right {
+  //   animation: shiftRight 1s ease-out forwards;
+  // }
+  .highscore-screen {
+    border-radius: 1rem;
+    position: relative;
+    width: 75rem;
+    padding: 2rem;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    box-sizing: border-box;
+    &__title {
+      margin: 1rem;
+      &--not-first {
+        margin-top: 3rem;
+      }
+    }
+  }
+}

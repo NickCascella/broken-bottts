@@ -2,10 +2,25 @@
 @use "../../styles/partials/keyframes" as *;
 
 .screen-wrapper {
+  transform: translateX(-33.3%);
   display: flex;
-  width: 200%;
-  background: black;
+  width: 300%;
+  background: $secondary-colour-two;
   overflow: hidden;
+  color: $primary-colour-one;
+
+  &--shift-left-to-main {
+    animation: shiftLeftToMain 1s forwards;
+  }
+  &--shift-right {
+    animation: shiftRight 1s forwards;
+  }
+  &--shift-left {
+    animation: shiftLeft 1s forwards;
+  }
+  &--shift-right-to-main {
+    animation: shiftRightToMain 1s forwards;
+  }
 }
 
 .home-screen-wrapper {
@@ -15,13 +30,6 @@
   align-items: center;
   height: 100vh;
   position: relative;
-
-  &--shift-left {
-    animation: shiftLeft 1s ease-out forwards;
-  }
-  &--shift-right {
-    animation: shiftRight 1s ease-out forwards;
-  }
 }
 
 .chevron {
@@ -48,7 +56,6 @@
   padding: 2rem;
   z-index: 2;
   &__title {
-    color: $primary-colour-one;
     &::after {
       content: "__";
       position: relative;
@@ -57,11 +64,9 @@
     }
   }
   &__welcome-message {
-    color: $primary-colour-one;
     line-height: 1.5rem;
   }
   &__form {
-    color: $primary-colour-one;
     display: flex;
     flex-direction: column;
   }
@@ -85,14 +90,14 @@
     border-bottom: 1px solid transparent;
     transition: all 0.5s;
     height: 0px;
-
+    padding: 0;
     &:focus {
       outline: none;
     }
 
     &--show-field {
       height: 25px;
-      border-color: white;
+      border-color: $secondary-colour-one;
     }
     &--checked {
       color: $primary-colour-three;
@@ -172,63 +177,54 @@
     width: 100%;
     height: 100%;
     filter: brightness(0.2);
-    box-shadow: 0 0 10px 10px white;
+    box-shadow: 0 0 10px 10px $secondary-colour-one;
     &--colour-one {
       box-shadow: 0 0 10px 10px rgb(38, 85, 186);
     }
-  }
-}
-
-.highscores-tab-wrapper {
-  position: relative;
-  height: 100vh;
-  width: 100%;
-  color: $primary-colour-one;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  &--shift-left {
-    animation: shiftLeft 1s ease-out forwards;
-  }
-  &--shift-right {
-    animation: shiftRight 1s ease-out forwards;
-  }
-  .highscore-screen {
-    border-radius: 1rem;
-    position: relative;
-    width: 75rem;
-    padding: 2rem;
-    z-index: 2;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    box-sizing: border-box;
-    &__title {
-      margin: 1rem;
-      &--not-first {
-        margin-top: 3rem;
-      }
+    &--colour-two {
+      filter: brightness(0.4);
+      box-shadow: 0 0 10px 10px rgb(221, 255, 0);
     }
   }
 }
 
-@keyframes shiftLeft {
+@keyframes shiftLeftToMain {
   0% {
-    transform: translate(0);
+    transform: translateX(0%);
   }
 
   100% {
-    transform: translateX(-100%);
+    transform: translateX(-33.33%);
   }
 }
 
 @keyframes shiftRight {
   0% {
-    transform: translate(-100%);
+    transform: translateX(-33.33%);
   }
 
   100% {
-    transform: translateX(0);
+    transform: translateX(0%);
+  }
+}
+
+@keyframes shiftLeft {
+  0% {
+    transform: translateX(-33.33%);
+  }
+
+  100% {
+    transform: translateX(-66.66%);
+  }
+}
+
+@keyframes shiftRightToMain {
+  0% {
+    transform: translateX(-66.66%);
+  }
+
+  100% {
+    transform: translateX(-33.33%);
   }
 }
 

@@ -6,34 +6,29 @@
   z-index: 2;
   height: 100%;
   box-sizing: border-box;
-  border: 10px solid pink;
+  border: 10px solid $tertiary-colour-one;
+
   border-image: repeating-linear-gradient(
       -55deg,
-      #000,
-      #000 20px,
-      #ffb101 20px,
-      #ffb101 40px
+      $secondary-colour-two,
+      $secondary-colour-two 20px,
+      $secondary-colour-five 20px,
+      $secondary-colour-five 40px
     )
     10;
+
   &--completed {
     animation: slideUpCompleted 5s linear forwards;
   }
-  &--fix {
-    transform: translateY(-100%);
-  }
 
   &__slider {
-    // width: 90%;
     width: 100%;
     height: 33%;
     margin: auto;
     position: relative;
     display: grid;
-    // display: flex;
     place-items: center;
     overflow: hidden;
-
-    // background-color: yellow;
     &::before {
       content: "";
       background: url("../../assets/images/warpPipe.png");
@@ -66,16 +61,13 @@
     animation: scrollRight 8s linear infinite;
     position: relative;
     right: 1000px;
-    //right needs to be slightly higher then the sum of all widths of first set of images
   }
 
   &__slide {
     box-sizing: border-box;
-    // height: 80px;
     width: 200px;
     display: flex;
     align-items: center;
-    // padding: 15px;
   }
 
   &__img {

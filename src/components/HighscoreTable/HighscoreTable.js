@@ -1,8 +1,9 @@
 import "./HighscoreTable.scss";
 import { v4 as uuid } from "uuid";
 import formatTime from "../../utils/formatTime";
+import lodash from "lodash";
 
-const HighscoreTable = ({ list }) => {
+const HighscoreTable = ({ list, newRecord }) => {
   return (
     <div className="highscore-screen__table">
       <ul className="highscore-screen__table-items highscore-screen__table-items--header">
@@ -19,8 +20,16 @@ const HighscoreTable = ({ list }) => {
         <li className="highscore-screen__table-item">Randomized?</li>
       </ul>
       {list.map((highscore, i) => {
+        delete highscore._id;
+        delete highscore.__v;
         return (
-          <ul key={uuid()} className="highscore-screen__table-items">
+          <ul
+            key={uuid()}
+            className={`highscore-screen__table-items ${
+              lodash.isEqual(newRecord, highscore) &&
+              "highscore-screen__table-items--new-record"
+            }`}
+          >
             <li className="highscore-screen__table-item highscore-screen__table-item--small-spacing">
               {i + 1}
             </li>

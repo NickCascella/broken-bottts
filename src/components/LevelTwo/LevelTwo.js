@@ -22,7 +22,10 @@ const LevelTwo = ({
     <section
       className={`level-two ${levelsCompleted === 1 && "level-two--starting"} ${
         levelsCompleted >= 2 && "level-two--completed"
-      } ${previousComplete && "level-two--prev-completed"}`}
+      } 
+      
+      `}
+      // ${previousComplete && "level-two--prev-completed"}
     >
       {splitArray.map((botttsSet, i) => (
         <Slider

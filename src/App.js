@@ -12,6 +12,7 @@ import Gamepage from "./pages/Gamepage/Gamepage";
 function App() {
   const [userName, setUserName] = useState("");
   const [levelsData, setLevelsData] = useState(null);
+  const [newRecord, setNewRecord] = useState(null);
 
   return (
     <Router>
@@ -25,6 +26,7 @@ function App() {
                 userName={userName}
                 setUserName={setUserName}
                 setLevelsData={setLevelsData}
+                newRecord={newRecord}
               />
             )}
           />
@@ -35,13 +37,18 @@ function App() {
                 userName={userName}
                 setUserName={setUserName}
                 setLevelsData={setLevelsData}
+                newRecord={newRecord}
               />
             )}
           />
           <Route
             path="/broken-bottts"
             render={() => (
-              <Gamepage userName={userName} levelsData={levelsData} />
+              <Gamepage
+                userName={userName}
+                levelsData={levelsData}
+                setNewRecord={setNewRecord}
+              />
             )}
           />
           <Redirect path="*" to="/home" />

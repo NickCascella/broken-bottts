@@ -12,7 +12,7 @@ import LevelThree from "../../components/LevelThree/LevelThree";
 import LevelFour from "../../components/LevelFour/LevelFour";
 import Timer from "../../components/Timer/Timer";
 
-const Gamepage = ({ userName, levelsData }) => {
+const Gamepage = ({ userName, levelsData, setNewRecord }) => {
   const [placeholderBottts, setPlaceholderBottts] = useState({});
   const [target, setTarget] = useState("");
   const [wrongSelection, setWrongSelection] = useState(false);
@@ -23,20 +23,26 @@ const Gamepage = ({ userName, levelsData }) => {
   const [levelTransition, setLevelTransition] = useState(false);
   const [levelOneComplete, setLevelOneComplete] = useState(false);
   const [levelTwoComplete, setLevelTwoComplete] = useState(false);
-  const [levelThreeComplete, setLevelThreeComplete] = useState(false);
+
   const [time, setTime] = useState(null);
   const [gameOver, setGameOver] = useState(false);
-  const [highscores, setHighscores] = useState([]);
+  const [highscores, setHighscores] = useState(null);
   const [playerRecord, setPlayerRecord] = useState(null);
 
   let history = useHistory();
 
-  useEffect(async () => {
+  useEffect(() => {
+    const audio = new Audio(
+      "https://badboygaming.github.io/html5game/snd_gamesong.ogg"
+    );
+    // audio.volume = 0.008;
+    // audio.play();
+    // audio.loop = true;
+
     if (!levelsData || !userName) return history.push("/");
     setTarget(levelsData.levelOne.targetBottt);
     setPlaceholderBottts(getBrokenBottts());
-    const getHighscores = await requests.getHighscores();
-    setHighscores(getHighscores);
+    setNewRecord(null);
   }, []);
 
   useEffect(() => {
@@ -113,12 +119,15 @@ const Gamepage = ({ userName, levelsData }) => {
         seed: levelsData.seed,
         newSeed: levelsData.newSeed,
       };
+      const highscores = await requests.getHighscores();
+      setHighscores(highscores);
       setPlayerRecord(playerRecord);
       if (playerRecord.newSeed) {
         let checkInTopFive = highscores.randomRuns.some((run) => {
           return playerRecord.time < run.time;
         });
         if (checkInTopFive) {
+          setNewRecord(playerRecord);
           const postHighscore = await requests.postHighscore(playerRecord);
         }
       } else {
@@ -126,6 +135,7 @@ const Gamepage = ({ userName, levelsData }) => {
           (run) => playerRecord.time < run.time
         );
         if (checkInTopFive) {
+          setNewRecord(playerRecord);
           const postHighscore = await requests.postHighscore(playerRecord);
         }
       }
@@ -203,7 +213,7 @@ const Gamepage = ({ userName, levelsData }) => {
               wrongSelection && !gameOver && "game-page__screen--incorrect"
             } `}
           >
-            {gameOver && playerRecord && (
+            {highscores && playerRecord && (
               <Loadingpage
                 page={"end-game"}
                 playerRecord={playerRecord}
@@ -230,7 +240,6 @@ const Gamepage = ({ userName, levelsData }) => {
               levelsCompleted={levelsCompleted}
             />
             <LevelFour
-              previousComplete={levelThreeComplete}
               setSelectedChoice={selectChoiceImg}
               levelData={levelsData.levelFour.allBottts}
               levelsCompleted={levelsCompleted}

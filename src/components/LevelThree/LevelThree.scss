@@ -6,13 +6,14 @@
   z-index: 2;
   height: 100%;
   box-sizing: border-box;
-  border: 10px solid pink;
+  border: 10px solid $tertiary-colour-one;
+
   border-image: repeating-linear-gradient(
       -55deg,
-      #000,
-      #000 20px,
-      #ffb101 20px,
-      #ffb101 40px
+      $secondary-colour-two,
+      $secondary-colour-two 20px,
+      $secondary-colour-five 20px,
+      $secondary-colour-five 40px
     )
     10;
   transform: translateY(-100%);
@@ -77,11 +78,9 @@
 
   &__slide {
     box-sizing: border-box;
-    // height: 80px;
     width: 166px;
     display: flex;
     align-items: center;
-    // padding: 15px;
   }
 
   &__img {

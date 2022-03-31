@@ -1,4 +1,3 @@
-import "./Slider.scss";
 import { v4 as uuid } from "uuid";
 
 const Slider = ({
@@ -20,6 +19,7 @@ const Slider = ({
                 setSelectedChoice(e.target.src);
               }}
               className={imgClass}
+              alt="Robot"
             ></img>
           </div>
         ))}

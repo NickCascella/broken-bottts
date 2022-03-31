@@ -5,13 +5,13 @@ import { v4 as uuid } from "uuid";
 import requests from "../../utils/requests";
 import InputSingleLetter from "../../components/InputSingleLetter/InputSingleLetter";
 import factorioImg from "../../assets/images/factorio.gif";
-import circuitsImg from "../../assets/images/circuits.gif";
 import chevronImg from "../../assets/images/chevron.svg";
 import getBottts, { convertSeedData } from "../../utils/botCreation";
 import Loadingpage from "../Loadingpage/Loadingpage";
-import HighscoreTable from "../../components/HighscoreTable/HighscoreTable";
+import HighscoreTab from "../../components/HighscoreTab/HighscoreTab";
+import BotttCreator from "../../components/BotttCreatorTab/BotttCreatorTab";
 
-const Homepage = ({ setUserName, setLevelsData }) => {
+const Homepage = ({ setUserName, setLevelsData, newRecord }) => {
   const [userCharOne, setUserCharOne] = useState("");
   const [userCharTwo, setUserCharTwo] = useState("");
   const [userCharThree, setUserCharThree] = useState("");
@@ -19,18 +19,18 @@ const Homepage = ({ setUserName, setLevelsData }) => {
   const [gameStart, setGameStart] = useState(false);
   const [error, setError] = useState(false);
   const [invalidSeed, setInvalidSeed] = useState(null);
-  const [viewHighscores, setViewHighscores] = useState(false);
+
   const [highscores, setHighscores] = useState(null);
   const [initalRender, setInitialRender] = useState(true);
   const [transitiongTabs, setTransitioningTabs] = useState(false);
   const [showSeedField, setShowSeedField] = useState(false);
-
+  const [currentView, setCurrentView] = useState("main");
   const history = useHistory();
   const location = useLocation();
 
   useEffect(async () => {
     if (location.pathname === "/home-highscores") {
-      setViewHighscores(true);
+      setCurrentView("highscores");
     }
     const highscores = await requests.getHighscores();
 
@@ -59,16 +59,22 @@ const Homepage = ({ setUserName, setLevelsData }) => {
               setShowSeedField(false);
               setSeed("");
             })();
-
-        break;
     }
   };
 
-  const transitionPage = () => {
+  const transitionPage = (location) => {
     if (!transitiongTabs) {
-      setInitialRender(false);
-      setViewHighscores(!viewHighscores);
+      if (location === "forge") {
+        setCurrentView("forge");
+      } else if (location === "forge-to-main") {
+        setCurrentView("forge-to-main");
+      } else if (location === "highscores") {
+        setCurrentView("highscores");
+      } else if (location === "highscores-to-main") {
+        setCurrentView("highscores-to-main");
+      }
       setTransitioningTabs(true);
+      setInitialRender(false);
       setTimeout(() => {
         setTransitioningTabs(false);
       }, 1000);
@@ -112,20 +118,36 @@ const Homepage = ({ setUserName, setLevelsData }) => {
   };
 
   return (
-    <div className="screen-wrapper">
+    <div
+      className={`screen-wrapper ${
+        currentView === "forge" && "screen-wrapper--shift-right"
+      } ${
+        currentView === "forge-to-main" && "screen-wrapper--shift-left-to-main"
+      } ${currentView === "highscores" && "screen-wrapper--shift-left"} ${
+        currentView === "highscores-to-main" &&
+        "screen-wrapper--shift-right-to-main"
+      }`}
+    >
       {gameStart && <Loadingpage page={"home"} />}
-      <div
-        className={`home-screen-wrapper  ${
-          !viewHighscores && !initalRender && "home-screen-wrapper--shift-right"
-        } ${viewHighscores && "home-screen-wrapper--shift-left"}`}
-      >
+      <BotttCreator transitionPage={transitionPage} chevronImg={chevronImg} />
+      <div className="home-screen-wrapper">
         <img
           alt="chevron"
           src={chevronImg}
           className="chevron chevron--mouse-leave"
           onMouseOver={() => {
             setTimeout(() => {
-              transitionPage();
+              transitionPage("highscores");
+            }, 200);
+          }}
+        />
+        <img
+          alt="chevron"
+          src={chevronImg}
+          className="chevron chevron--flipped chevron--mouse-leave"
+          onMouseOver={() => {
+            setTimeout(() => {
+              transitionPage("forge");
             }, 200);
           }}
         />
@@ -222,10 +244,19 @@ const Homepage = ({ setUserName, setLevelsData }) => {
                 className="home-screen__proceed-btn"
                 onClick={(e) => {
                   e.preventDefault();
-                  transitionPage();
+                  transitionPage("highscores");
                 }}
               >
                 Highscores
+              </button>
+              <button
+                className="home-screen__proceed-btn"
+                onClick={(e) => {
+                  e.preventDefault();
+                  transitionPage("forge");
+                }}
+              >
+                The Forge
               </button>
             </form>
           </section>
@@ -236,50 +267,14 @@ const Homepage = ({ setUserName, setLevelsData }) => {
           />
         </div>
       </div>
-      <div
-        className={`highscores-tab-wrapper  ${
-          !viewHighscores &&
-          !initalRender &&
-          "highscores-tab-wrapper--shift-right"
-        } ${viewHighscores && "highscores-tab-wrapper--shift-left"}`}
-      >
-        <img
-          alt="chevron"
-          src={chevronImg}
-          className="chevron chevron--flipped"
-          onMouseOver={() => {
-            setTimeout(() => {
-              transitionPage();
-            }, 200);
-          }}
-        />
-        <div className="highscores-tab__wrap">
-          <div className="background-img-container">
-            <section className="highscore-screen">
-              <h2 className="highscore-screen__title">TOP 5 HIGHSCORES</h2>
-              {highscores && <HighscoreTable list={highscores.randomRuns} />}
-              <h2 className="highscore-screen__title--not-first">
-                TOP 5 ANY % HIGHSCORES
-              </h2>
-              {highscores && <HighscoreTable list={highscores.seededRuns} />}
-              <button
-                className="home-screen__proceed-btn"
-                onClick={() => {
-                  setInitialRender(false);
-                  setViewHighscores(!viewHighscores);
-                }}
-              >
-                Home
-              </button>
-            </section>
-            <img
-              className="menu-background menu-background--colour-one"
-              src={circuitsImg}
-              alt="circuits gif"
-            />
-          </div>
-        </div>
-      </div>
+      <HighscoreTab
+        setCurrentView={setCurrentView}
+        initalRender={initalRender}
+        chevronImg={chevronImg}
+        transitionPage={transitionPage}
+        highscores={highscores}
+        newRecord={newRecord}
+      />
     </div>
   );
 };

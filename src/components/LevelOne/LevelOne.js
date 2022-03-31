@@ -3,12 +3,7 @@ import Slider from "../Slider/Slider";
 import { useEffect, useState } from "react";
 import organizeBots from "../../utils/botSetOrganization";
 
-const LevelOne = ({
-  levelData,
-  setSelectedChoice,
-  levelsCompleted,
-  completed,
-}) => {
+const LevelOne = ({ levelData, setSelectedChoice, levelsCompleted }) => {
   const [splitArray, setSplitArray] = useState([]);
 
   useEffect(() => {
@@ -20,9 +15,7 @@ const LevelOne = ({
 
   return (
     <section
-      className={`level-one ${
-        levelsCompleted === 1 && "level-one--completed"
-      } ${completed && "level-one--fix"}`}
+      className={`level-one ${levelsCompleted >= 1 && "level-one--completed"}`}
     >
       {splitArray.map((botttsSet, i) => (
         <Slider

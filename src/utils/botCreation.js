@@ -1,4 +1,3 @@
-import axios from "axios";
 import { createAvatar } from "@dicebear/avatars";
 import * as style from "@dicebear/avatars-bottts-sprites";
 import { v4 as uuid } from "uuid";
@@ -76,8 +75,6 @@ const levelThreeBottts = (botttStyles) => {
   let levelThreeBotttsObjInfo = [];
   let colourOne =
     botttStyles.colours[Math.floor(botttStyles.colours.length * Math.random())];
-  let colourTwo =
-    botttStyles.colours[Math.floor(botttStyles.colours.length * Math.random())];
 
   let customDesign = {
     dataUri: true,
@@ -113,14 +110,14 @@ const levelFourBottts = () => {
     seed: uuid(),
   };
 
-  const targetBottt = createAvatar(style, customDesign);
+  const targetBottt = createAvatar(style, { ...customDesign, rotate: 3 });
   for (let i = 0; i < 39; i++) {
     let customDesignCopy = { ...customDesign, flip: true };
     levelFourBotttsObjInfo.push(customDesignCopy);
     levelFourBottts.push(createAvatar(style, customDesignCopy));
   }
   let randomlySelectedIndex = Math.floor(
-    levelThreeBottts.length * Math.random()
+    levelFourBottts.length * Math.random()
   );
   levelFourBotttsObjInfo.splice(randomlySelectedIndex, 0, customDesign);
   levelFourBottts.splice(randomlySelectedIndex, 0, targetBottt);
@@ -176,6 +173,8 @@ const convertSeedData = (seedData) => {
 
   return bottts;
 };
+
+const getCustomBottts = () => {};
 
 export default getBottts;
 export { getBrokenBottts, convertSeedData };

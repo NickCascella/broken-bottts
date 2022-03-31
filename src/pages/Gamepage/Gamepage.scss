@@ -7,8 +7,8 @@
   transition: all 4s;
   color: $primary-colour-one;
   &--game-over {
-    background-color: rgb(18, 39, 62);
-    color: rgb(54, 189, 104);
+    background-color: $primary-colour-four;
+    color: $primary-colour-three;
   }
   &__header {
     display: flex;
@@ -50,7 +50,7 @@
         border: 2px solid $primary-colour-one;
         transition: all 4s;
         &--game-over {
-          border-color: rgb(54, 189, 104);
+          border-color: $primary-colour-four;
         }
       }
       &__captured-bottt {
@@ -110,10 +110,8 @@
   }
 
   .dash {
-    // color: $primary-colour-one;
     width: 25%;
     height: 100%;
-    // background-color: black;
     display: flex;
     flex-direction: column;
     padding: 0 2rem;
@@ -126,7 +124,7 @@
       word-wrap: break-word;
     }
     &__target-robot {
-      background-color: black;
+      background-color: $secondary-colour-two;
       position: relative;
       width: 6rem;
       height: 6rem;
@@ -147,8 +145,8 @@
         animation: correctSelection 1s linear infinite;
       }
       &--game-over {
-        background-color: rgb(18, 39, 62);
-        border-color: rgb(54, 189, 104);
+        background-color: $primary-colour-four;
+        border-color: $primary-colour-three;
       }
     }
     &__chat-box {
@@ -159,7 +157,7 @@
       color: $primary-colour-three;
       transition: all 4s;
       &--game-over {
-        border-color: rgb(54, 189, 104);
+        border-color: $primary-colour-three;
       }
     }
     &__chat-text {

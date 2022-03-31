@@ -2,7 +2,6 @@ import "./LevelFour.scss";
 import Slider from "../Slider/Slider";
 import { useEffect, useState } from "react";
 import organizeBots from "../../utils/botSetOrganization";
-import Timer from "../Timer/Timer";
 
 const LevelFour = ({ levelData, setSelectedChoice, levelsCompleted }) => {
   const [splitArray, setSplitArray] = useState([]);

@@ -82,6 +82,9 @@
 }
 
 @keyframes slideUpCompletedLevelTwo {
+  0% {
+    transform: translateY(-100%);
+  }
   30% {
     filter: brightness(0.05);
   }
