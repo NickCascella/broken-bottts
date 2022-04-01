@@ -130,7 +130,7 @@ const levelFourBottts = () => {
 };
 
 const getBottts = async () => {
-  const botttStyles = await requests.botttStyles();
+  const botttStyles = await getBotttStyles();
   let bottts = {};
   bottts.levelOne = levelOneBottts();
   bottts.levelTwo = levelTwoBottts(botttStyles);
@@ -174,7 +174,14 @@ const convertSeedData = (seedData) => {
   return bottts;
 };
 
-const getCustomBottts = () => {};
+const renderBotImg = (details) => {
+  return createAvatar(style, details);
+};
+
+const getBotttStyles = async () => {
+  const botttStyles = await requests.botttStyles();
+  return botttStyles;
+};
 
 export default getBottts;
-export { getBrokenBottts, convertSeedData };
+export { getBrokenBottts, convertSeedData, renderBotImg, getBotttStyles };

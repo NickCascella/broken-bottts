@@ -92,7 +92,7 @@ const Gamepage = ({ userName, levelsData, setNewRecord }) => {
               setTarget(levelsData.levelOne.targetBottt);
               setGameOver(true);
               setTimeout(() => {
-                history.push("/home-highscores");
+                history.push("/home/view-highscores");
               }, 19000);
             }
             setSelectedChoice(null);

@@ -1,6 +1,7 @@
 import "./BotttCreatorTab.scss";
 import forgeGif from "../../assets/images/forge.gif";
 import { useState } from "react";
+import LevelStyler from "../LevelStyler/LevelStyler";
 
 const BotttCreator = ({ chevronImg, transitionPage }) => {
   const [creationPage, setCreationPage] = useState("levelOne");
@@ -47,13 +48,15 @@ const BotttCreator = ({ chevronImg, transitionPage }) => {
                 Level 4
               </li>
               <li
-                className="nav__item"
+                className="nav__item nav__item--seed-tab"
                 onClick={() => setCreationPage("displaySeed")}
               >
                 Generate Seed
               </li>
             </ul>
-            <div className="interactive-menu__current-page">Test</div>
+            <div className="interactive-menu__current-page">
+              <LevelStyler />
+            </div>
           </div>
         </section>
         <img

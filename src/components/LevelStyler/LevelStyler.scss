@@ -1,0 +1,12 @@
+.level-styler {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  .bottt-styling {
+    flex-grow: 1;
+
+    &__img-preview {
+      width: 5rem;
+    }
+  }
+}

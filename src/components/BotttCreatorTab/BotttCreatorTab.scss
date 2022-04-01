@@ -30,16 +30,27 @@
       padding: 0;
       list-style-type: none;
       width: 15%;
-
       margin: 0;
+      border-right: 1px solid $primary-colour-one;
       &__item {
+        margin-top: 2rem;
         height: 10%;
+        border-bottom: 1px solid $primary-colour-one;
+        &:hover {
+          cursor: pointer;
+        }
+        &--seed-tab {
+          margin-top: 50%;
+          flex-grow: 1;
+          border-bottom: none;
+        }
       }
     }
     .interactive-menu {
       height: 100%;
       flex-grow: 1;
       display: flex;
+      border-top: 1px solid $primary-colour-one;
       &__current-page {
         flex-grow: 1;
         border-radius: 0 0 1rem;

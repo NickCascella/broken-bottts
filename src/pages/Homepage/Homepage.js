@@ -29,7 +29,7 @@ const Homepage = ({ setUserName, setLevelsData, newRecord }) => {
   const location = useLocation();
 
   useEffect(async () => {
-    if (location.pathname === "/home-highscores") {
+    if (location.pathname.includes("view-highscores")) {
       setCurrentView("highscores");
     }
     const highscores = await requests.getHighscores();
@@ -64,14 +64,19 @@ const Homepage = ({ setUserName, setLevelsData, newRecord }) => {
 
   const transitionPage = (location) => {
     if (!transitiongTabs) {
-      if (location === "forge") {
-        setCurrentView("forge");
-      } else if (location === "forge-to-main") {
-        setCurrentView("forge-to-main");
-      } else if (location === "highscores") {
-        setCurrentView("highscores");
-      } else if (location === "highscores-to-main") {
-        setCurrentView("highscores-to-main");
+      switch (location) {
+        case "forge":
+          setCurrentView("forge");
+          break;
+        case "forge-to-main":
+          setCurrentView("forge-to-main");
+          break;
+        case "highscores":
+          setCurrentView("highscores");
+          break;
+        case "highscores-to-main":
+          setCurrentView("highscores-to-main");
+          break;
       }
       setTransitioningTabs(true);
       setInitialRender(false);
@@ -128,9 +133,9 @@ const Homepage = ({ setUserName, setLevelsData, newRecord }) => {
         "screen-wrapper--shift-right-to-main"
       }`}
     >
-      {gameStart && <Loadingpage page={"home"} />}
       <BotttCreator transitionPage={transitionPage} chevronImg={chevronImg} />
       <div className="home-screen-wrapper">
+        {gameStart && <Loadingpage page={"home"} />}
         <img
           alt="chevron"
           src={chevronImg}
