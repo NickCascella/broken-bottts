@@ -10,6 +10,8 @@ import getBottts, { convertSeedData } from "../../utils/botCreation";
 import Loadingpage from "../Loadingpage/Loadingpage";
 import HighscoreTab from "../../components/HighscoreTab/HighscoreTab";
 import BotttCreator from "../../components/BotttCreatorTab/BotttCreatorTab";
+import RadioInput from "../../components/Radio/Radio";
+import Button from "../../components/Button/Button";
 
 const Homepage = ({ setUserName, setLevelsData, newRecord }) => {
   const [userCharOne, setUserCharOne] = useState("");
@@ -198,23 +200,20 @@ const Homepage = ({ setUserName, setLevelsData, newRecord }) => {
               </label>
               <div className="home-screen__enable-seed-wrapper">
                 <label htmlFor="yes-seed">Yes</label>
-                <input
-                  type="radio"
-                  name="seed-option"
-                  id="yes-seed"
+                <RadioInput
+                  name={"seed-option"}
+                  id={"yes-seed"}
                   value={true}
-                  onChange={handleInput}
-                  className="home-screen__enable-seed-btn"
+                  handleInput={handleInput}
                 />
+
                 <label htmlFor="no-seed">No</label>
-                <input
-                  defaultChecked
-                  id="no-seed"
-                  type="radio"
-                  name="seed-option"
+                <RadioInput
+                  name={"seed-option"}
+                  id={"yes-seed"}
                   value={false}
-                  onChange={handleInput}
-                  className="home-screen__enable-seed-btn"
+                  handleInput={handleInput}
+                  defaultChecked={true}
                 />
               </div>
 
@@ -241,28 +240,21 @@ const Homepage = ({ setUserName, setLevelsData, newRecord }) => {
                 Invalid seed. Please enter a valid seed or continue with a
                 randomized seed.
               </p>
-
-              <button className="home-screen__proceed-btn" onClick={startGame}>
-                Proceed
-              </button>
-              <button
-                className="home-screen__proceed-btn"
-                onClick={(e) => {
+              <Button handleInput={startGame} text="Proceed" />
+              <Button
+                handleInput={(e) => {
                   e.preventDefault();
                   transitionPage("highscores");
                 }}
-              >
-                Highscores
-              </button>
-              <button
-                className="home-screen__proceed-btn"
-                onClick={(e) => {
+                text="Highscores"
+              />
+              <Button
+                handleInput={(e) => {
                   e.preventDefault();
                   transitionPage("forge");
                 }}
-              >
-                The Forge
-              </button>
+                text="Assembly Line"
+              />
             </form>
           </section>
           <img

@@ -1,0 +1,17 @@
+@use "../../styles/partials/colours" as *;
+
+.btn {
+  padding: 0.5rem;
+  width: max-content;
+  color: $primary-colour-one;
+  align-self: center;
+  margin: 1rem 0;
+  border: none;
+  outline: 1px solid $primary-colour-one;
+  background-color: transparent;
+  border-radius: 0.2rem;
+  transition: background 0.3s ease-in-out;
+  &:hover {
+    background: $primary-colour-two;
+  }
+}

@@ -1,12 +1,52 @@
+@use "../../styles/partials/colours" as *;
+
 .level-styler {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 50%;
+  box-sizing: border-box;
+  padding: 1rem;
+
   .bottt-styling {
     flex-grow: 1;
+    display: flex;
+    justify-content: space-between;
+    &__grouped-inputs {
+      width: 32%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
 
+      &--drop-downs {
+        width: 30%;
+      }
+      &--sliders-radios {
+        width: 30%;
+      }
+    }
+    &__bottt-title {
+      width: max-content;
+      color: $secondary-colour-five;
+      font-size: 1.25rem;
+      margin: 0.75rem 0;
+    }
+    &__input-label-pairing {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    &__label {
+      width: max-content;
+      font-weight: 600;
+      font-size: 1rem;
+      margin: 1rem 0;
+      color: $secondary-colour-five;
+    }
     &__img-preview {
-      width: 5rem;
+      width: 6rem;
+      margin-bottom: 1rem;
     }
   }
 }

@@ -2,6 +2,11 @@ import { useEffect, useState } from "react";
 import "./LevelStyler.scss";
 import { v4 as uuid } from "uuid";
 import { renderBotImg, getBotttStyles } from "../../utils/botCreation";
+import CustomSelect from "../Select/Select";
+import RangeSlider from "../RangeSlider/RangeSlider";
+import RadioInput from "../Radio/Radio";
+import Button from "../Button/Button";
+import TextArea from "../TextInput/TextArea";
 
 const LevelStyler = () => {
   const [placeholder, setPlaceHolder] = useState(null);
@@ -44,7 +49,7 @@ const LevelStyler = () => {
 
   useEffect(() => {
     setBotttSvgs([renderBotImg(targetBottt), renderBotImg(generalBottt)]);
-  }, [targetBottt]);
+  }, [targetBottt, generalBottt]);
 
   const handleInput = (e, field, bottt, index) => {
     let targetValue = e.target.value;
@@ -161,147 +166,232 @@ const LevelStyler = () => {
   return (
     <div className="level-styler">
       <section className="bottt-styling">
-        <img
-          className="bottt-styling__img-preview"
-          alt="Robot"
-          src={botttSvgs[0]}
-        />
-        <div>
-          <label>Seed</label>
-          <input
-            type="text"
-            onChange={(e) => handleInput(e, "seed", "target")}
-            value={targetBottt.seed}
-          />
-          <button
-            onClick={(e) => {
-              handleInput(e, "random", "target");
-            }}
-          >
-            Randomzie?
-          </button>
+        <div className="bottt-styling__grouped-inputs">
+          <div className="bottt-styling__img-random-btn">
+            <img
+              className="bottt-styling__img-preview"
+              alt="Robot"
+              src={botttSvgs[0]}
+            />
+
+            <Button
+              handleInput={(e) => {
+                handleInput(e, "random", "target");
+              }}
+              text={"Randomize"}
+            />
+          </div>
+          <h2 className="bottt-styling__bottt-title">Target Bottt</h2>
+          <div className="bottt-styling__input-label-pairing">
+            <label className="bottt-styling__label">Seed</label>
+            <TextArea
+              handleInput={(e) => handleInput(e, "seed", "target")}
+              value={targetBottt.seed}
+            />
+          </div>
         </div>
-        <div>
-          <h3>Colours?</h3>
-          <label>Primary Colour</label>
-          <select
-            onChange={(e) => handleInput(e, "colors", "target", 0)}
-            value={targetBottt.colors[0]}
-          >
-            {styleOptions &&
-              styleOptions.colours.map((colour) => (
-                <option key={uuid()} value={colour}>
-                  {colour}
-                </option>
-              ))}
-          </select>
-          <label>Secondary Colour</label>
-          <select
-            onChange={(e) => handleInput(e, "colors", "target", 1)}
-            value={targetBottt.colors[1]}
-          >
-            {styleOptions &&
-              styleOptions.colours.map((colour) => (
-                <option key={uuid()} value={colour}>
-                  {colour}
-                </option>
-              ))}
-          </select>
+        <div className="bottt-styling__grouped-inputs bottt-styling__grouped-inputs--drop-downs">
+          {styleOptions && (
+            <CustomSelect
+              label={"Primary Colour"}
+              handleChange={(e) => handleInput(e, "colors", "target", 0)}
+              options={styleOptions.colours}
+            />
+          )}
+          {styleOptions && (
+            <CustomSelect
+              label={"Primary Colour Level"}
+              handleChange={(e) =>
+                handleInput(e, "primaryColorLevel", "target")
+              }
+              options={styleOptions.primary_colour_levels}
+            />
+          )}
+          {styleOptions && (
+            <CustomSelect
+              label={"Secondary Colour"}
+              handleChange={(e) => handleInput(e, "colors", "target", 1)}
+              options={styleOptions.colours}
+            />
+          )}
+          {styleOptions && (
+            <CustomSelect
+              label={"Secondary Colour Level"}
+              handleChange={(e) =>
+                handleInput(e, "secondaryColorLevel", "target")
+              }
+              options={styleOptions.secondary_colour_levels}
+            />
+          )}
         </div>
-        <div>
-          <h3>Colour Levels</h3>
-          <label>Primary</label>
-          <select
-            onChange={(e) => handleInput(e, "primaryColorLevel", "target")}
-            value={targetBottt.primaryColorLevel}
-          >
-            {styleOptions &&
-              styleOptions.primary_colour_levels.map((colour) => (
-                <option key={uuid()} value={colour}>
-                  {colour}
-                </option>
-              ))}
-          </select>
-          <label>Secondary</label>
-          <select
-            onChange={(e) => handleInput(e, "secondaryColorLevel", "target")}
-            value={targetBottt.secondaryColorLevel}
-          >
-            {styleOptions &&
-              styleOptions.secondary_colour_levels.map((colour) => (
-                <option key={uuid()} value={colour}>
-                  {colour}
-                </option>
-              ))}
-          </select>
-        </div>
-        <div>
-          <h3>Multi coloured?</h3>
-          <label>Yes</label>
-          <input
-            defaultChecked={true}
-            id="colorfulOne"
-            type="radio"
-            name="colorful"
-            value={"true"}
-            onChange={(e) => handleInput(e, "colorful", "target")}
-          />
-          <label>No</label>
-          <input
-            id="colorfulTwo"
-            type="radio"
-            name="colorful"
-            value={"false"}
-            onChange={(e) => handleInput(e, "colorful", "target")}
-          />
-        </div>
-        <div>
-          <label>Texture Chance</label>
-          <input
-            type={"range"}
-            defaultValue={50}
-            min={0}
-            max={100}
-            onChange={(e) => handleInput(e, "textureChance", "target")}
-          />
-        </div>
-        <div>
-          <label>Rotate</label>
-          <input
-            type={"range"}
-            min={0}
-            max={360}
-            defaultValue={0}
-            onChange={(e) => handleInput(e, "rotate", "target")}
-          />
-        </div>
-        <div>
-          <h3>Flip?</h3>
-          <label>Yes</label>
-          <input
-            id="flipOne"
-            type="radio"
-            name="flip"
-            value={"true"}
-            onChange={(e) => handleInput(e, "flip", "target")}
-          />
-          <label>No</label>
-          <input
-            defaultChecked={true}
-            id="flipTwo"
-            type="radio"
-            name="flip"
-            value={"false"}
-            onChange={(e) => handleInput(e, "flip", "target")}
-          />
+        <div className="bottt-styling__grouped-inputs bottt-styling__grouped-inputs--sliders-radio">
+          <div>
+            <h3 className="bottt-styling__label">Dual colours?</h3>
+            <label htmlFor={"colorfulOne"}>Yes</label>
+            <RadioInput
+              defaultChecked={true}
+              id={"colorfulOne"}
+              name={"colorful"}
+              value={true}
+              handleInput={(e) => handleInput(e, "colorful", "target")}
+            />
+
+            <label htmlFor={"colorfulTwo"}>No</label>
+            <RadioInput
+              id={"colorfulTwo"}
+              name={"colorful"}
+              value={false}
+              handleInput={(e) => handleInput(e, "colorful", "target")}
+            />
+            <h3 className="bottt-styling__label">Flip?</h3>
+            <label htmlFor="flipOne">Yes</label>
+            <RadioInput
+              id="flipOne"
+              name="flip"
+              value={true}
+              handleInput={(e) => handleInput(e, "flip", "target")}
+            />
+
+            <label htmlFor="flipTwo">No</label>
+            <RadioInput
+              id="flipTwo"
+              name="flip"
+              value={false}
+              handleInput={(e) => handleInput(e, "flip", "target")}
+              defaultChecked={true}
+            />
+            <h3 className="bottt-styling__label">Texture Chance</h3>
+            <RangeSlider
+              value={targetBottt.textureChance}
+              min={0}
+              max={100}
+              handleChange={(e) => handleInput(e, "textureChance", "target")}
+              defaultValue={50}
+            />
+            <h3 className="bottt-styling__label">Rotation</h3>
+            <RangeSlider
+              label={"Rotation"}
+              value={targetBottt.rotate}
+              min={0}
+              max={360}
+              handleChange={(e) => handleInput(e, "rotate", "target")}
+            />
+          </div>
         </div>
       </section>
       <section className="bottt-styling">
-        <img
-          className="bottt-styling__img-preview"
-          alt="Robot"
-          src={botttSvgs[1]}
-        />
+        <div className="bottt-styling__grouped-inputs">
+          <div className="bottt-styling__img-random-btn">
+            <img
+              className="bottt-styling__img-preview"
+              alt="Robot"
+              src={botttSvgs[1]}
+            />
+
+            <Button
+              handleInput={(e) => {
+                handleInput(e, "random", "general");
+              }}
+              text={"Randomize"}
+            />
+          </div>
+          <h2 className="bottt-styling__bottt-title">General Bottt</h2>
+          <div className="bottt-styling__input-label-pairing">
+            <label className="bottt-styling__label">Seed</label>
+            <TextArea
+              handleInput={(e) => handleInput(e, "seed", "general")}
+              value={generalBottt.seed}
+            />
+          </div>
+        </div>
+        <div className="bottt-styling__grouped-inputs bottt-styling__grouped-inputs--drop-downs">
+          {styleOptions && (
+            <CustomSelect
+              label={"Primary Colour"}
+              handleChange={(e) => handleInput(e, "colors", "general", 0)}
+              options={styleOptions.colours}
+            />
+          )}
+          {styleOptions && (
+            <CustomSelect
+              label={"Primary Colour Level"}
+              handleChange={(e) =>
+                handleInput(e, "primaryColorLevel", "general")
+              }
+              options={styleOptions.primary_colour_levels}
+            />
+          )}
+          {styleOptions && (
+            <CustomSelect
+              label={"Secondary Colour"}
+              handleChange={(e) => handleInput(e, "colors", "general", 1)}
+              options={styleOptions.colours}
+            />
+          )}
+          {styleOptions && (
+            <CustomSelect
+              label={"Secondary Colour Level"}
+              handleChange={(e) =>
+                handleInput(e, "secondaryColorLevel", "general")
+              }
+              options={styleOptions.secondary_colour_levels}
+            />
+          )}
+        </div>
+        <div className="bottt-styling__grouped-inputs bottt-styling__grouped-inputs--sliders-radio">
+          <div>
+            <h3 className="bottt-styling__label">Dual colours?</h3>
+            <label htmlFor={"colorfulOne"}>Yes</label>
+            <RadioInput
+              defaultChecked={true}
+              id={"colorfulOne"}
+              name={"colorful"}
+              value={true}
+              handleInput={(e) => handleInput(e, "colorful", "general")}
+            />
+
+            <label htmlFor={"colorfulTwo"}>No</label>
+            <RadioInput
+              id={"colorfulTwo"}
+              name={"colorful"}
+              value={false}
+              handleInput={(e) => handleInput(e, "colorful", "general")}
+            />
+            <h3 className="bottt-styling__label">Flip?</h3>
+            <label htmlFor="flipOne">Yes</label>
+            <RadioInput
+              id="flipOne"
+              name="flip"
+              value={true}
+              handleInput={(e) => handleInput(e, "flip", "general")}
+            />
+
+            <label htmlFor="flipTwo">No</label>
+            <RadioInput
+              id="flipTwo"
+              name="flip"
+              value={false}
+              handleInput={(e) => handleInput(e, "flip", "general")}
+              defaultChecked={true}
+            />
+            <h3 className="bottt-styling__label">Texture Chance</h3>
+            <RangeSlider
+              value={generalBottt.textureChance}
+              min={0}
+              max={100}
+              handleChange={(e) => handleInput(e, "textureChance", "general")}
+              defaultValue={50}
+            />
+            <h3 className="bottt-styling__label">Rotation</h3>
+            <RangeSlider
+              label={"Rotation"}
+              value={generalBottt.rotate}
+              min={0}
+              max={360}
+              handleChange={(e) => handleInput(e, "rotate", "general")}
+            />
+          </div>
+        </div>
       </section>
     </div>
   );

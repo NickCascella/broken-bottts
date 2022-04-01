@@ -1,6 +1,7 @@
 import "./HighscoreTab.scss";
 import HighscoreTable from "../HighscoreTable/HighscoreTable";
 import circuitsImg from "../../assets/images/circuits.gif";
+import Button from "../Button/Button";
 
 const HighscoreTab = ({
   setCurrentView,
@@ -40,14 +41,10 @@ const HighscoreTab = ({
                 newRecord={newRecord}
               />
             )}
-            <button
-              className="home-screen__proceed-btn"
-              onClick={() => {
-                setCurrentView("highscores-to-main");
-              }}
-            >
-              Home
-            </button>
+            <Button
+              handleInput={() => setCurrentView("highscores-to-main")}
+              text="Home"
+            />
           </section>
           <img
             className="menu-background menu-background--colour-one"
