@@ -94,7 +94,7 @@ const Homepage = ({ setUserName, setLevelsData, newRecord }) => {
       let bottts = {};
       let fullName = `${userCharOne}${userCharTwo}${userCharThree}`;
       if (!seed && !showSeedField) {
-        bottts = await getBottts();
+        bottts = await getBottts(null);
         bottts.seed = uuid();
         bottts.newSeed = true;
         setSeed(bottts.seed);

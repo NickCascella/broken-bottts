@@ -8,13 +8,19 @@ import RadioInput from "../Radio/Radio";
 import Button from "../Button/Button";
 import TextArea from "../TextInput/TextArea";
 
-const LevelStyler = () => {
+const LevelStyler = ({
+  setSeedFormatting,
+  seedFormatting,
+  level,
+  currentLevelView,
+}) => {
   const [placeholder, setPlaceHolder] = useState(null);
   const [styleOptions, setStyleOptions] = useState(null);
+  const [differences, setDifferences] = useState("Exact");
   const [targetBottt, setTargetBottt] = useState({
     dataUri: true,
     seed: uuid(),
-    colors: [],
+    colors: ["blue", "yellow"],
     colorful: true,
     textureChance: 50,
     rotate: 0,
@@ -25,7 +31,7 @@ const LevelStyler = () => {
   const [generalBottt, setGeneralBottt] = useState({
     dataUri: true,
     seed: uuid(),
-    colors: [],
+    colors: ["blue", "yellow"],
     colorful: true,
     textureChance: 50,
     rotate: 0,
@@ -49,7 +55,15 @@ const LevelStyler = () => {
 
   useEffect(() => {
     setBotttSvgs([renderBotImg(targetBottt), renderBotImg(generalBottt)]);
-  }, [targetBottt, generalBottt]);
+    setSeedFormatting({
+      ...seedFormatting,
+      [level]: {
+        targetBotttObjInfo: targetBottt,
+        allBotttsObjInfo: generalBottt,
+        generalBotttDifferences: differences,
+      },
+    });
+  }, [targetBottt, generalBottt, differences]);
 
   const handleInput = (e, field, bottt, index) => {
     let targetValue = e.target.value;
@@ -59,6 +73,10 @@ const LevelStyler = () => {
         : setGeneralBottt({ ...generalBottt, [field]: targetValue });
     } else if (field === "colors") {
       let colours = { ...targetBottt }.colors;
+      if (bottt !== "target") {
+        colours = { ...generalBottt }.colors;
+      }
+
       colours[index] = targetValue;
       return bottt === "target"
         ? setTargetBottt({ ...targetBottt, [field]: colours })
@@ -160,11 +178,17 @@ const LevelStyler = () => {
       return bottt === "target"
         ? setTargetBottt(randomBottt)
         : setGeneralBottt(randomBottt);
+    } else if (field === "difference") {
+      setDifferences(targetValue);
     }
   };
 
   return (
-    <div className="level-styler">
+    <div
+      className={`level-styler ${
+        currentLevelView !== level && "level-styler--hidden"
+      }`}
+    >
       <section className="bottt-styling">
         <div className="bottt-styling__grouped-inputs">
           <div className="bottt-styling__img-random-btn">
@@ -183,7 +207,7 @@ const LevelStyler = () => {
           </div>
           <h2 className="bottt-styling__bottt-title">Target Bottt</h2>
           <div className="bottt-styling__input-label-pairing">
-            <label className="bottt-styling__label">Seed</label>
+            <label className="bottt-styling__label">Serial #</label>
             <TextArea
               handleInput={(e) => handleInput(e, "seed", "target")}
               value={targetBottt.seed}
@@ -194,6 +218,7 @@ const LevelStyler = () => {
           {styleOptions && (
             <CustomSelect
               label={"Primary Colour"}
+              value={targetBottt.colors[0]}
               handleChange={(e) => handleInput(e, "colors", "target", 0)}
               options={styleOptions.colours}
             />
@@ -201,6 +226,7 @@ const LevelStyler = () => {
           {styleOptions && (
             <CustomSelect
               label={"Primary Colour Level"}
+              value={targetBottt.primaryColorLevel}
               handleChange={(e) =>
                 handleInput(e, "primaryColorLevel", "target")
               }
@@ -210,12 +236,14 @@ const LevelStyler = () => {
           {styleOptions && (
             <CustomSelect
               label={"Secondary Colour"}
+              value={targetBottt.colors[1]}
               handleChange={(e) => handleInput(e, "colors", "target", 1)}
               options={styleOptions.colours}
             />
           )}
           {styleOptions && (
             <CustomSelect
+              value={targetBottt.secondaryColorLevel}
               label={"Secondary Colour Level"}
               handleChange={(e) =>
                 handleInput(e, "secondaryColorLevel", "target")
@@ -230,32 +258,32 @@ const LevelStyler = () => {
             <label htmlFor={"colorfulOne"}>Yes</label>
             <RadioInput
               defaultChecked={true}
-              id={"colorfulOne"}
-              name={"colorful"}
+              id={`${level}colorfulOne`}
+              name={`${level}colorful`}
               value={true}
               handleInput={(e) => handleInput(e, "colorful", "target")}
             />
 
             <label htmlFor={"colorfulTwo"}>No</label>
             <RadioInput
-              id={"colorfulTwo"}
-              name={"colorful"}
+              id={`${level}colorfulTwo`}
+              name={`${level}colorful`}
               value={false}
               handleInput={(e) => handleInput(e, "colorful", "target")}
             />
             <h3 className="bottt-styling__label">Flip?</h3>
-            <label htmlFor="flipOne">Yes</label>
+            <label htmlFor={`${level}flipOne`}>Yes</label>
             <RadioInput
-              id="flipOne"
-              name="flip"
+              id={`${level}flipOne`}
+              name={`${level}flip`}
               value={true}
               handleInput={(e) => handleInput(e, "flip", "target")}
             />
 
-            <label htmlFor="flipTwo">No</label>
+            <label htmlFor={`${level}flipTwo`}>No</label>
             <RadioInput
-              id="flipTwo"
-              name="flip"
+              id={`${level}flipTwo`}
+              name={`${level}flip`}
               value={false}
               handleInput={(e) => handleInput(e, "flip", "target")}
               defaultChecked={true}
@@ -297,7 +325,7 @@ const LevelStyler = () => {
           </div>
           <h2 className="bottt-styling__bottt-title">General Bottt</h2>
           <div className="bottt-styling__input-label-pairing">
-            <label className="bottt-styling__label">Seed</label>
+            <label className="bottt-styling__label">Serial #</label>
             <TextArea
               handleInput={(e) => handleInput(e, "seed", "general")}
               value={generalBottt.seed}
@@ -307,6 +335,7 @@ const LevelStyler = () => {
         <div className="bottt-styling__grouped-inputs bottt-styling__grouped-inputs--drop-downs">
           {styleOptions && (
             <CustomSelect
+              value={generalBottt.colors[0]}
               label={"Primary Colour"}
               handleChange={(e) => handleInput(e, "colors", "general", 0)}
               options={styleOptions.colours}
@@ -314,6 +343,7 @@ const LevelStyler = () => {
           )}
           {styleOptions && (
             <CustomSelect
+              value={generalBottt.primaryColorLevel}
               label={"Primary Colour Level"}
               handleChange={(e) =>
                 handleInput(e, "primaryColorLevel", "general")
@@ -323,6 +353,7 @@ const LevelStyler = () => {
           )}
           {styleOptions && (
             <CustomSelect
+              value={generalBottt.colors[1]}
               label={"Secondary Colour"}
               handleChange={(e) => handleInput(e, "colors", "general", 1)}
               options={styleOptions.colours}
@@ -330,6 +361,7 @@ const LevelStyler = () => {
           )}
           {styleOptions && (
             <CustomSelect
+              value={generalBottt.secondaryColorLevel}
               label={"Secondary Colour Level"}
               handleChange={(e) =>
                 handleInput(e, "secondaryColorLevel", "general")
@@ -341,35 +373,35 @@ const LevelStyler = () => {
         <div className="bottt-styling__grouped-inputs bottt-styling__grouped-inputs--sliders-radio">
           <div>
             <h3 className="bottt-styling__label">Dual colours?</h3>
-            <label htmlFor={"colorfulOne"}>Yes</label>
+            <label htmlFor={"colorfulThree"}>Yes</label>
             <RadioInput
               defaultChecked={true}
-              id={"colorfulOne"}
-              name={"colorful"}
+              id={`${level}colorfulThree`}
+              name={`${level}colorfulTwo`}
               value={true}
               handleInput={(e) => handleInput(e, "colorful", "general")}
             />
 
-            <label htmlFor={"colorfulTwo"}>No</label>
+            <label htmlFor={"colorfulFour"}>No</label>
             <RadioInput
-              id={"colorfulTwo"}
-              name={"colorful"}
+              id={`${level}colorfulFour`}
+              name={`${level}colorfulTwo`}
               value={false}
               handleInput={(e) => handleInput(e, "colorful", "general")}
             />
             <h3 className="bottt-styling__label">Flip?</h3>
-            <label htmlFor="flipOne">Yes</label>
+            <label htmlFor={`${level}flipThree`}>Yes</label>
             <RadioInput
-              id="flipOne"
-              name="flip"
+              id={`${level}flipThree`}
+              name={`${level}flipTwo`}
               value={true}
               handleInput={(e) => handleInput(e, "flip", "general")}
             />
 
-            <label htmlFor="flipTwo">No</label>
+            <label htmlFor={`${level}flipFour`}>No</label>
             <RadioInput
-              id="flipTwo"
-              name="flip"
+              id={`${level}flipFour`}
+              name={`${level}flipTwo`}
               value={false}
               handleInput={(e) => handleInput(e, "flip", "general")}
               defaultChecked={true}
@@ -389,6 +421,30 @@ const LevelStyler = () => {
               min={0}
               max={360}
               handleChange={(e) => handleInput(e, "rotate", "general")}
+            />
+
+            <label htmlFor={`${level}differencesOne`}>E</label>
+            <RadioInput
+              defaultChecked={true}
+              id={`${level}differencesOne`}
+              name={`${level}differences`}
+              value={"Exact"}
+              handleInput={(e) => handleInput(e, "difference", "general")}
+            />
+
+            <label htmlFor={`${level}differencesTwo`}>S</label>
+            <RadioInput
+              id={`${level}differencesTwo`}
+              name={`${level}differences`}
+              value={"Similar"}
+              handleInput={(e) => handleInput(e, "difference", "general")}
+            />
+            <label htmlFor={`${level}differencesThree`}>D</label>
+            <RadioInput
+              id={`${level}differencesThree`}
+              name={`${level}differences`}
+              value={"Different"}
+              handleInput={(e) => handleInput(e, "difference", "general")}
             />
           </div>
         </div>

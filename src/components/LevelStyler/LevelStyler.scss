@@ -6,6 +6,9 @@
   height: 50%;
   box-sizing: border-box;
   padding: 1rem;
+  &--hidden {
+    display: none;
+  }
 
   .bottt-styling {
     flex-grow: 1;

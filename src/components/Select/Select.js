@@ -1,15 +1,15 @@
 import * as React from "react";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+import ArrowDropDownCircleOutlinedIcon from "@mui/icons-material/ArrowDropDownCircleOutlined";
+import { InputLabel, MenuItem, FormControl, Select } from "@mui/material";
+import { startCase } from "lodash";
 import { v4 as uuid } from "uuid";
 
-const CustomSelect = ({ handleChange, label, options }) => {
+const CustomSelect = ({ handleChange, label, options, value }) => {
   return (
     <FormControl fullWidth>
       <InputLabel
-        id="demo-simple-select-label"
+        shrink
+        id={`demo-label`}
         sx={{
           color: "#ffb101",
           marginTop: "1rem",
@@ -18,42 +18,46 @@ const CustomSelect = ({ handleChange, label, options }) => {
         {label}
       </InputLabel>
       <Select
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
+        labelId={`demo-label`}
+        value={value}
+        id={"demo"}
         label={label}
         onChange={handleChange}
         MenuProps={{
           MenuListProps: { sx: { padding: 0 } },
         }}
+        IconComponent={ArrowDropDownCircleOutlinedIcon}
         sx={{
           color: "primary.main",
-
           height: "80%",
           marginTop: "1rem",
           background: "secondary.main",
+          "& .MuiSelect-icon": {
+            color: "primary.main",
+          },
         }}
       >
         {options.map((option) => (
           <MenuItem
             key={uuid()}
             value={option}
-            sx={{
+            sx={(theme) => ({
               color: "primary.main",
-              background: "#000",
+              background: theme.palette.background.default,
               borderLeft: 1,
               borderRight: 1,
-              "&:nth-child(1)": {
+              "&:nth-of-type(1)": {
                 borderTop: 1,
               },
               "&:last-child": {
                 borderBottom: 1,
               },
               "&.Mui-selected": {
-                backgroundColor: "secondary.two",
+                backgroundColor: theme.palette.secondary.light,
               },
-            }}
+            })}
           >
-            {option}
+            {startCase(option)}
           </MenuItem>
         ))}
       </Select>

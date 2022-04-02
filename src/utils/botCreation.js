@@ -3,7 +3,15 @@ import * as style from "@dicebear/avatars-bottts-sprites";
 import { v4 as uuid } from "uuid";
 import requests from "./requests";
 
-const levelOneBottts = () => {
+const checkCondition = (customSeed) => {
+  if (customSeed.generalBotttDifferences === "Exact") {
+    return customSeed.allBotttsObjInfo.seed;
+  } else if (customSeed.generalBotttDifferences === "Similar") {
+    return uuid();
+  }
+};
+
+const levelOneBottts = (customSeed) => {
   let levelOne = {};
   let levelOneBottts = [];
   let levelOneBotttsObjInfo = [];
@@ -12,12 +20,23 @@ const levelOneBottts = () => {
     seed: uuid(),
   };
 
+  if (customSeed) {
+    targetBotttObjInfo = customSeed.targetBotttObjInfo;
+  }
+
   const targetBottt = createAvatar(style, targetBotttObjInfo);
   for (let i = 0; i < 14; i++) {
     let randomBottt = {
       dataUri: true,
       seed: uuid(),
     };
+    if (customSeed && customSeed.generalBotttDifferences !== "Different") {
+      randomBottt = {
+        ...customSeed.allBotttsObjInfo,
+        seed: checkCondition(customSeed),
+      };
+    }
+
     levelOneBotttsObjInfo.push(randomBottt);
     levelOneBottts.push(createAvatar(style, randomBottt));
   }
@@ -32,7 +51,7 @@ const levelOneBottts = () => {
   return levelOne;
 };
 
-const levelTwoBottts = (botttStyles) => {
+const levelTwoBottts = (botttStyles, customSeed) => {
   let levelTwo = {};
   let levelTwoBottts = [];
   let levelTwoBotttsObjInfo = [];
@@ -52,10 +71,28 @@ const levelTwoBottts = (botttStyles) => {
     primaryColorLevel: primaryColourLevel,
     secondaryColorLevel: secondaryColourLevel,
   };
+  if (customSeed) {
+    customDesign = customSeed.targetBotttObjInfo;
+  }
 
   const targetBottt = createAvatar(style, customDesign);
   for (let i = 0; i < 24; i++) {
     let customDesignCopy = { ...customDesign, seed: uuid() };
+    if (customSeed && customSeed.generalBotttDifferences !== "Different") {
+      customDesignCopy = {
+        ...customSeed.allBotttsObjInfo,
+        seed: checkCondition(customSeed),
+      };
+    } else if (
+      customSeed &&
+      customSeed.generalBotttDifferences === "Different"
+    ) {
+      customDesignCopy = {
+        dataUri: true,
+        seed: uuid(),
+      };
+    }
+
     levelTwoBotttsObjInfo.push(customDesignCopy);
     levelTwoBottts.push(createAvatar(style, customDesignCopy));
   }
@@ -69,7 +106,7 @@ const levelTwoBottts = (botttStyles) => {
   return levelTwo;
 };
 
-const levelThreeBottts = (botttStyles) => {
+const levelThreeBottts = (botttStyles, customSeed) => {
   let levelThree = {};
   let levelThreeBottts = [];
   let levelThreeBotttsObjInfo = [];
@@ -82,10 +119,27 @@ const levelThreeBottts = (botttStyles) => {
     colors: [colourOne],
     textureChance: 100,
   };
+  if (customSeed) {
+    customDesign = customSeed.targetBotttObjInfo;
+  }
 
   const targetBottt = createAvatar(style, customDesign);
   for (let i = 0; i < 41; i++) {
     let customDesignCopy = { ...customDesign, seed: uuid() };
+    if (customSeed && customSeed.generalBotttDifferences !== "Different") {
+      customDesignCopy = {
+        ...customSeed.allBotttsObjInfo,
+        seed: checkCondition(customSeed),
+      };
+    } else if (
+      customSeed &&
+      customSeed.generalBotttDifferences === "Different"
+    ) {
+      customDesignCopy = {
+        dataUri: true,
+        seed: uuid(),
+      };
+    }
     levelThreeBotttsObjInfo.push(customDesignCopy);
     levelThreeBottts.push(createAvatar(style, customDesignCopy));
   }
@@ -101,7 +155,7 @@ const levelThreeBottts = (botttStyles) => {
   return levelThree;
 };
 
-const levelFourBottts = () => {
+const levelFourBottts = (customSeed) => {
   let levelFour = {};
   let levelFourBottts = [];
   let levelFourBotttsObjInfo = [];
@@ -109,10 +163,27 @@ const levelFourBottts = () => {
     dataUri: true,
     seed: uuid(),
   };
+  if (customSeed) {
+    customDesign = customSeed.targetBotttObjInfo;
+  }
 
   const targetBottt = createAvatar(style, { ...customDesign, rotate: 3 });
   for (let i = 0; i < 39; i++) {
     let customDesignCopy = { ...customDesign, flip: true };
+    if (customSeed && customSeed.generalBotttDifferences !== "Different") {
+      customDesignCopy = {
+        ...customSeed.allBotttsObjInfo,
+        seed: checkCondition(customSeed),
+      };
+    } else if (
+      customSeed &&
+      customSeed.generalBotttDifferences === "Different"
+    ) {
+      customDesignCopy = {
+        dataUri: true,
+        seed: uuid(),
+      };
+    }
     levelFourBotttsObjInfo.push(customDesignCopy);
     levelFourBottts.push(createAvatar(style, customDesignCopy));
   }
@@ -129,13 +200,19 @@ const levelFourBottts = () => {
   return levelFour;
 };
 
-const getBottts = async () => {
+const getBottts = async (customSeed) => {
   const botttStyles = await getBotttStyles();
   let bottts = {};
-  bottts.levelOne = levelOneBottts();
-  bottts.levelTwo = levelTwoBottts(botttStyles);
-  bottts.levelThree = levelThreeBottts(botttStyles);
-  bottts.levelFour = levelFourBottts();
+  bottts.levelOne = levelOneBottts(customSeed ? customSeed.levelOne : null);
+  bottts.levelTwo = levelTwoBottts(
+    botttStyles,
+    customSeed ? customSeed.levelTwo : null
+  );
+  bottts.levelThree = levelThreeBottts(
+    botttStyles,
+    customSeed ? customSeed.levelThree : null
+  );
+  bottts.levelFour = levelFourBottts(customSeed ? customSeed.levelFour : null);
   return bottts;
 };
 
