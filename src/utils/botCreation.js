@@ -48,6 +48,7 @@ const levelOneBottts = (customSeed) => {
   levelOne.allBottts = levelOneBottts;
   levelOne.targetBotttObjInfo = targetBotttObjInfo;
   levelOne.allBotttsObjInfo = levelOneBotttsObjInfo;
+
   return levelOne;
 };
 

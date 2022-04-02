@@ -221,6 +221,7 @@ const LevelStyler = ({
               value={targetBottt.colors[0]}
               handleChange={(e) => handleInput(e, "colors", "target", 0)}
               options={styleOptions.colours}
+              bottt="target"
             />
           )}
           {styleOptions && (
@@ -231,6 +232,7 @@ const LevelStyler = ({
                 handleInput(e, "primaryColorLevel", "target")
               }
               options={styleOptions.primary_colour_levels}
+              bottt="target"
             />
           )}
           {styleOptions && (
@@ -239,6 +241,7 @@ const LevelStyler = ({
               value={targetBottt.colors[1]}
               handleChange={(e) => handleInput(e, "colors", "target", 1)}
               options={styleOptions.colours}
+              bottt="target"
             />
           )}
           {styleOptions && (
@@ -249,6 +252,7 @@ const LevelStyler = ({
                 handleInput(e, "secondaryColorLevel", "target")
               }
               options={styleOptions.secondary_colour_levels}
+              bottt="target"
             />
           )}
         </div>
@@ -307,7 +311,7 @@ const LevelStyler = ({
           </div>
         </div>
       </section>
-      <section className="bottt-styling">
+      <section className="bottt-styling bottt-styling--general">
         <div className="bottt-styling__grouped-inputs">
           <div className="bottt-styling__img-random-btn">
             <img
@@ -339,6 +343,7 @@ const LevelStyler = ({
               label={"Primary Colour"}
               handleChange={(e) => handleInput(e, "colors", "general", 0)}
               options={styleOptions.colours}
+              bottt="general"
             />
           )}
           {styleOptions && (
@@ -349,6 +354,7 @@ const LevelStyler = ({
                 handleInput(e, "primaryColorLevel", "general")
               }
               options={styleOptions.primary_colour_levels}
+              bottt="general"
             />
           )}
           {styleOptions && (
@@ -357,6 +363,7 @@ const LevelStyler = ({
               label={"Secondary Colour"}
               handleChange={(e) => handleInput(e, "colors", "general", 1)}
               options={styleOptions.colours}
+              bottt="general"
             />
           )}
           {styleOptions && (
@@ -367,6 +374,7 @@ const LevelStyler = ({
                 handleInput(e, "secondaryColorLevel", "general")
               }
               options={styleOptions.secondary_colour_levels}
+              bottt="general"
             />
           )}
         </div>

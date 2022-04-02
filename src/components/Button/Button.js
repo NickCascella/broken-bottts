@@ -1,8 +1,11 @@
 import "./Button.scss";
 
-const Button = ({ text, handleInput }) => {
+const Button = ({ text, handleInput, additionalClass }) => {
   return (
-    <button className="btn" onClick={handleInput}>
+    <button
+      className={`btn ${additionalClass ? additionalClass : ""}`}
+      onClick={handleInput}
+    >
       {text}
     </button>
   );

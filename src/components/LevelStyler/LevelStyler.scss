@@ -14,6 +14,10 @@
     flex-grow: 1;
     display: flex;
     justify-content: space-between;
+    color: $secondary-colour-five;
+    &--general {
+      color: $primary-colour-three;
+    }
     &__grouped-inputs {
       width: 32%;
       height: 100%;
@@ -31,7 +35,7 @@
     }
     &__bottt-title {
       width: max-content;
-      color: $secondary-colour-five;
+
       font-size: 1.25rem;
       margin: 0.75rem 0;
     }
@@ -45,7 +49,6 @@
       font-weight: 600;
       font-size: 1rem;
       margin: 1rem 0;
-      color: $secondary-colour-five;
     }
     &__img-preview {
       width: 6rem;

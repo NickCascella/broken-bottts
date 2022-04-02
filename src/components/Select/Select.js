@@ -4,14 +4,14 @@ import { InputLabel, MenuItem, FormControl, Select } from "@mui/material";
 import { startCase } from "lodash";
 import { v4 as uuid } from "uuid";
 
-const CustomSelect = ({ handleChange, label, options, value }) => {
+const CustomSelect = ({ handleChange, label, options, value, bottt }) => {
   return (
     <FormControl fullWidth>
       <InputLabel
         shrink
         id={`demo-label`}
         sx={{
-          color: "#ffb101",
+          color: () => (bottt === "target" ? "info.main" : "divider.main"),
           marginTop: "1rem",
         }}
       >
@@ -31,7 +31,7 @@ const CustomSelect = ({ handleChange, label, options, value }) => {
           color: "primary.main",
           height: "80%",
           marginTop: "1rem",
-          background: "secondary.main",
+          background: "background.default",
           "& .MuiSelect-icon": {
             color: "primary.main",
           },

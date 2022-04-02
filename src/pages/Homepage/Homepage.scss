@@ -79,13 +79,17 @@
     margin: 2rem 0 1rem;
     font-size: 1.25rem;
   }
+  &__menu-options {
+    display: flex;
+    justify-content: space-around;
+  }
   &__seed-input {
     color: $primary-colour-one;
     font-size: 1.25rem;
     text-align: center;
     border: none;
     background: none;
-    margin-bottom: 1rem;
+    margin: 1rem 0;
     max-height: 24px;
     border-bottom: 1px solid transparent;
     transition: all 0.5s;

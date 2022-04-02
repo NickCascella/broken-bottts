@@ -13,6 +13,12 @@ const theme = createTheme({
       paper: "#000",
       default: "#000",
     },
+    divider: {
+      main: "#07930c",
+    },
+    info: {
+      main: "#ffb101",
+    },
   },
 });
 

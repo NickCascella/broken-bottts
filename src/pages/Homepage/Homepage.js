@@ -240,21 +240,23 @@ const Homepage = ({ setUserName, setLevelsData, newRecord }) => {
                 Invalid seed. Please enter a valid seed or continue with a
                 randomized seed.
               </p>
-              <Button handleInput={startGame} text="Proceed" />
-              <Button
-                handleInput={(e) => {
-                  e.preventDefault();
-                  transitionPage("highscores");
-                }}
-                text="Highscores"
-              />
-              <Button
-                handleInput={(e) => {
-                  e.preventDefault();
-                  transitionPage("forge");
-                }}
-                text="Assembly Line"
-              />
+              <Button handleInput={startGame} text="Start" />
+              <div className="home-screen__menu-options">
+                <Button
+                  handleInput={(e) => {
+                    e.preventDefault();
+                    transitionPage("forge");
+                  }}
+                  text="Assembly Line"
+                />
+                <Button
+                  handleInput={(e) => {
+                    e.preventDefault();
+                    transitionPage("highscores");
+                  }}
+                  text="Highscores"
+                />
+              </div>
             </form>
           </section>
           <img
