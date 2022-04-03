@@ -52,13 +52,16 @@
       width: 49%;
       word-break: break-all;
       &--description {
-        font-size: 0.75rem;
+        // font-size: 0.75rem;
         line-height: 1rem;
       }
 
       &--header {
         font-weight: bold;
         text-align: center;
+      }
+      &--highlighted {
+        color: $secondary-colour-five;
       }
     }
     &__no-results-title {

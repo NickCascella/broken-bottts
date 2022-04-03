@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import requests from "../../utils/requests";
 import TextInput from "../TextInput/TextInput";
 import Button from "../Button/Button";
+import reactStringReplace from "react-string-replace";
 
 const AllSeedsTab = ({ chevronImg, transitionPage, currentView, newSeed }) => {
   const [seedData, setSeedData] = useState(null);
@@ -17,6 +18,15 @@ const AllSeedsTab = ({ chevronImg, transitionPage, currentView, newSeed }) => {
       try {
         setCurrentSearch("");
         const seeds = await requests.getSeedsData();
+        seeds.sort((a, b) => {
+          if (a.seed < b.seed) {
+            return -1;
+          }
+          if (a.seed > b.seed) {
+            return 1;
+          }
+          return 0;
+        });
         setSeedData(seeds);
         setSeedDataCopy(seeds);
         setSegmentedData(seeds.slice(0, 5));
@@ -60,18 +70,10 @@ const AllSeedsTab = ({ chevronImg, transitionPage, currentView, newSeed }) => {
     ) {
       return str;
     }
-    // let indexOfWord = str.toLowerCase().indexOf(currentSearch.toLowerCase());
-    // let word = str.substring(indexOfWord, currentSearch.length);
-    // let newWord = str
-    //   .toLowerCase()
-    //   .replace(
-    //     currentSearch.toLowerCase(),
-    //     `<span className="test">${currentSearch}</span>`
-    //   );
 
-    // console.log(str.toLowerCase().indexOf(currentSearch.toLowerCase()));
-
-    return str;
+    return reactStringReplace(str, currentSearch, (match) => (
+      <span className="all-seeds-screen__table-item--highlighted">{match}</span>
+    ));
   };
 
   return (
@@ -127,7 +129,12 @@ const AllSeedsTab = ({ chevronImg, transitionPage, currentView, newSeed }) => {
               })}
             {segmentedData && !segmentedData.length && (
               <h2 className="all-seeds-screen__no-results-title">
-                No results found
+                No results found.
+              </h2>
+            )}
+            {!segmentedData && (
+              <h2 className="all-seeds-screen__no-results-title">
+                No seeds in existence.
               </h2>
             )}
           </div>

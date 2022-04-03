@@ -8,7 +8,7 @@ const requests = {
       );
       return botttStylesData.data.results[0];
     } catch (err) {
-      return err;
+      return err.response.data;
     }
   },
   postHighscore: async (data) => {
@@ -19,7 +19,7 @@ const requests = {
       );
       return confirmPost;
     } catch (err) {
-      return err;
+      return err.response.data;
     }
   },
   getHighscores: async () => {
@@ -29,7 +29,7 @@ const requests = {
       );
       return highscores.data.sortedScores;
     } catch (err) {
-      return err;
+      return err.response.data;
     }
   },
   postSeedData: async (levelData) => {
@@ -52,6 +52,7 @@ const requests = {
         targetBotttObjInfo: levelData.levelFour.targetBotttObjInfo,
         allBotttsObjInfo: levelData.levelFour.allBotttsObjInfo,
       },
+      newSeed: levelData.newSeed,
     };
 
     try {
@@ -61,7 +62,7 @@ const requests = {
       );
       return seedData.data;
     } catch (err) {
-      return err;
+      return err.response.data;
     }
   },
   getSeedData: async (seedId) => {
@@ -73,7 +74,7 @@ const requests = {
       );
       return seedData.data.results[0];
     } catch (err) {
-      return err;
+      return err.response.data;
     }
   },
   getSeedsData: async () => {
@@ -83,7 +84,7 @@ const requests = {
       );
       return seedData.data.filteredResults;
     } catch (err) {
-      return err;
+      return err.response.data;
     }
   },
 };

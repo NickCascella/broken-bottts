@@ -13,6 +13,12 @@ import BotttCreator from "../../components/BotttCreatorTab/BotttCreatorTab";
 import AllSeedsTab from "../../components/AllSeedsTab/AllSeedsTab";
 import RadioInput from "../../components/Radio/Radio";
 import Button from "../../components/Button/Button";
+const {
+  uniqueNamesGenerator,
+  adjectives,
+  colors,
+  animals,
+} = require("unique-names-generator");
 
 const Homepage = ({ setUserName, setLevelsData, newRecord }) => {
   const [userCharOne, setUserCharOne] = useState("");
@@ -102,7 +108,11 @@ const Homepage = ({ setUserName, setLevelsData, newRecord }) => {
       let fullName = `${userCharOne}${userCharTwo}${userCharThree}`;
       if (!seed && !showSeedField) {
         bottts = await getBottts(null);
-        bottts.seed = uuid();
+        const randomName = uniqueNamesGenerator({
+          dictionaries: [adjectives, colors, animals],
+          separator: "-",
+        });
+        bottts.seed = randomName;
         bottts.newSeed = true;
         setSeed(bottts.seed);
         let postSeedData = await requests.postSeedData(bottts);

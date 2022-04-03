@@ -25,11 +25,11 @@ const BotttCreator = ({ chevronImg, transitionPage, setNewSeed }) => {
   const [seedName, setSeedName] = useState("");
   const [seedDescription, setSeedDescription] = useState("");
   const [seedNameCopy, setSeedNameCopy] = useState("");
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
 
   const generateSeed = async (e) => {
     e.preventDefault();
-    setError(false);
+    setError("");
     let botttDetails = await getBottts(seedFormatting);
     botttDetails.seed = seedName;
     botttDetails.description = seedDescription;
@@ -47,7 +47,7 @@ const BotttCreator = ({ chevronImg, transitionPage, setNewSeed }) => {
         }, 1000);
       }, 4000);
     } else {
-      setError(true);
+      setError(postSeed.message);
     }
   };
 
@@ -224,7 +224,7 @@ const BotttCreator = ({ chevronImg, transitionPage, setNewSeed }) => {
                       <span className="interactive-menu__rendered-seed--name">
                         {seedName}
                       </span>{" "}
-                      already exists :/
+                      {error}
                     </h3>
                   )}
                   {showSeed && (
