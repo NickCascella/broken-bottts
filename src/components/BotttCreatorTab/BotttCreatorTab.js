@@ -3,14 +3,15 @@ import hammerGif from "../../assets/images/hammer.gif";
 import skylineGif from "../../assets/images/skyline.gif";
 import { useState } from "react";
 import LevelStyler from "../LevelStyler/LevelStyler";
-import { v4 as uuid } from "uuid";
 import getBottts from "../../utils/botCreation";
 import Button from "../Button/Button";
 import { startCase } from "lodash";
 import { renderBotImg } from "../../utils/botCreation";
 import requests from "../../utils/requests";
+import TextArea from "../TextArea/TextArea";
+import TextInput from "../TextInput/TextInput";
 
-const BotttCreator = ({ chevronImg, transitionPage }) => {
+const BotttCreator = ({ chevronImg, transitionPage, setNewSeed }) => {
   const [creationPage, setCreationPage] = useState("levelOne");
   const [loadingSeed, setLoadingSeed] = useState(false);
   const [seedFormatting, setSeedFormatting] = useState({
@@ -21,23 +22,33 @@ const BotttCreator = ({ chevronImg, transitionPage }) => {
     seed: null,
   });
   const [showSeed, setShowSeed] = useState(false);
-  const [placeholder, setPlaceHolder] = useState(false);
+  const [seedName, setSeedName] = useState("");
+  const [seedDescription, setSeedDescription] = useState("");
+  const [seedNameCopy, setSeedNameCopy] = useState("");
+  const [error, setError] = useState(false);
 
-  const generateSeed = async () => {
-    setLoadingSeed(true);
+  const generateSeed = async (e) => {
+    e.preventDefault();
+    setError(false);
     let botttDetails = await getBottts(seedFormatting);
-    botttDetails.seed = uuid();
+    botttDetails.seed = seedName;
+    botttDetails.description = seedDescription;
     botttDetails.newSeed = false;
     setShowSeed(null);
     let postSeed = await requests.postSeedData(botttDetails);
-    setTimeout(() => {
-      console.log(botttDetails.seed);
-      setShowSeed(botttDetails.seed);
+    if (postSeed.message === "Seed stored successfully") {
+      setLoadingSeed(true);
+      setSeedNameCopy(seedName);
+      setNewSeed(botttDetails.seed);
       setTimeout(() => {
-        setLoadingSeed(false);
-      }, 1000);
-    }, 4000);
-    console.log(botttDetails);
+        setShowSeed(botttDetails.seed);
+        setTimeout(() => {
+          setLoadingSeed(false);
+        }, 1000);
+      }, 4000);
+    } else {
+      setError(true);
+    }
   };
 
   const tableRow = (level, obj) => {
@@ -80,7 +91,7 @@ const BotttCreator = ({ chevronImg, transitionPage }) => {
       <div className="background-img-container">
         <section className="bottt-creator-screen">
           <h2 className="bottt-creator-screen__title">
-            ASSEMBLY LINE{" "}
+            <span>ASSEMBLY LINE </span>
             <span className="bottt-creator-screen__title--section">
               {startCase(
                 creationPage === "showSeed" ? "Overview" : creationPage
@@ -157,7 +168,7 @@ const BotttCreator = ({ chevronImg, transitionPage }) => {
                 />
               )}
               {creationPage === "showSeed" && (
-                <div className="interactive-menu__seed-generation">
+                <form className="interactive-menu__seed-generation">
                   <div className="overview-table">
                     <div className="overview-table__headers">
                       <div className="overview-table__block">Level</div>
@@ -174,21 +185,69 @@ const BotttCreator = ({ chevronImg, transitionPage }) => {
                       {tableRow("Four", seedFormatting.levelFour)}
                     </div>
                   </div>
-                  <Button text={"Confirm build"} handleInput={generateSeed} />
-
+                  <div className="interactive-menu__overview-inputs">
+                    <div>
+                      <label htmlFor="seed-name-input">Assembly ID:</label>
+                      <TextInput
+                        id={"seed-name-input"}
+                        additionalClassNames={
+                          error && "interactive-menu__text-input--error"
+                        }
+                        value={seedName}
+                        handleInput={(e) => {
+                          setSeedName(e.target.value);
+                          setError(false);
+                        }}
+                        maxLength={15}
+                      />
+                    </div>
+                    <Button text={"Confirm build"} handleInput={generateSeed} />
+                  </div>
+                  <TextArea
+                    additionalClasses={"interactive-menu__text-area"}
+                    placeHolder={
+                      "(Optional) Write a brief description of your assembly line here..."
+                    }
+                    maxLength={80}
+                    value={seedDescription}
+                    handleInput={(e) => {
+                      setSeedDescription(e.target.value);
+                    }}
+                  />
+                  {!seedName && !showSeed && (
+                    <h3 className="interactive-menu__rendered-seed">
+                      Need to name your assembly line!
+                    </h3>
+                  )}
+                  {error && seedName && (
+                    <h3 className="interactive-menu__rendered-seed">
+                      <span className="interactive-menu__rendered-seed--name">
+                        {seedName}
+                      </span>{" "}
+                      already exists :/
+                    </h3>
+                  )}
                   {showSeed && (
                     <h3 className="interactive-menu__rendered-seed">
-                      {" "}
-                      World Generated
+                      <span className="interactive-menu__rendered-seed--name">
+                        {seedNameCopy}
+                      </span>{" "}
+                      generated
                     </h3>
                   )}
                   {loadingSeed && !showSeed && (
                     <h3 className="interactive-menu__rendered-seed">
-                      Building...
+                      Building{" "}
+                      <span className="interactive-menu__rendered-seed--name">
+                        {seedName}...
+                      </span>
                     </h3>
                   )}
-                  {!showSeed && !loadingSeed && <h3>Status</h3>}
-
+                  {!showSeed && !loadingSeed && !error && seedName && (
+                    <h3 className="interactive-menu__rendered-seed">
+                      Pending confirmation...
+                    </h3>
+                  )}
                   <div className="interactive-menu__loading-bar">
                     {loadingSeed && (
                       <div className="interactive-menu__loading-bar-track">
@@ -207,11 +266,11 @@ const BotttCreator = ({ chevronImg, transitionPage }) => {
                   </div>
 
                   {showSeed && (
-                    <div className="interactive-menu__rendered-seed interactive-menu__rendered-seed--spacing">
+                    <div className="interactive-menu__rendered-seed interactive-menu__rendered-seed--spacing interactive-menu__rendered-seed--name">
                       {showSeed}
                     </div>
                   )}
-                </div>
+                </form>
               )}
             </div>
           </div>

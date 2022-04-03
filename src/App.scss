@@ -1,6 +1,8 @@
 @use "./styles/partials/typography" as *;
 @use "./styles/partials/global" as *;
+@use "./styles/partials/colours" as *;
 
 .app {
+  background-color: $secondary-colour-two;
   text-align: center;
 }

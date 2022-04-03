@@ -23,7 +23,6 @@ const Gamepage = ({ userName, levelsData, setNewRecord }) => {
   const [levelTransition, setLevelTransition] = useState(false);
   const [levelOneComplete, setLevelOneComplete] = useState(false);
   const [levelTwoComplete, setLevelTwoComplete] = useState(false);
-
   const [time, setTime] = useState(null);
   const [gameOver, setGameOver] = useState(false);
   const [highscores, setHighscores] = useState(null);

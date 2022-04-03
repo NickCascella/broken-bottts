@@ -6,7 +6,7 @@ import CustomSelect from "../Select/Select";
 import RangeSlider from "../RangeSlider/RangeSlider";
 import RadioInput from "../Radio/Radio";
 import Button from "../Button/Button";
-import TextArea from "../TextInput/TextArea";
+import TextArea from "../TextArea/TextArea";
 
 const LevelStyler = ({
   setSeedFormatting,

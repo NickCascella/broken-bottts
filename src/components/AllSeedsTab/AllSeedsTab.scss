@@ -1,0 +1,109 @@
+@use "../../styles/partials/colours" as *;
+
+.background-img-container {
+  position: relative;
+  .menu-background {
+    filter: brightness(0.2);
+  }
+}
+
+.all-seeds-records-wrapper {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $secondary-colour-two;
+  transform: translateY(-100%);
+  &--shift-down {
+    animation: shiftDownNorth 1s forwards;
+  }
+  &--shift-up {
+    animation: shiftUpNorth 1s forwards;
+  }
+  .all-seeds-screen {
+    position: relative;
+    color: $primary-colour-one;
+    width: 70vw;
+    height: 75vh;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+    &__table {
+      width: 100%;
+      min-height: 27rem;
+      padding: 1rem 3rem;
+      box-sizing: border-box;
+    }
+    &__table-row {
+      display: flex;
+      justify-content: space-between;
+      &--non-header {
+        margin-top: 2rem;
+      }
+    }
+    &__table-item {
+      text-align: left;
+      width: 49%;
+      word-break: break-all;
+      &--description {
+        font-size: 0.75rem;
+        line-height: 1rem;
+      }
+
+      &--header {
+        font-weight: bold;
+        text-align: center;
+      }
+    }
+    &__no-results-title {
+      margin-top: 10%;
+    }
+    &__next-page-btn {
+      background-image: url("../../assets/images/chevron.svg");
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+      height: 1.5rem;
+      width: 1.5rem;
+      background-color: transparent;
+      outline: none;
+      border: none;
+
+      &--flipped {
+        transform: scale(-1);
+      }
+    }
+    &__btn-nav {
+      display: flex;
+      align-items: center;
+      width: 20%;
+      justify-content: space-between;
+    }
+  }
+}
+
+@keyframes shiftDownNorth {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes shiftUpNorth {
+  0% {
+    transform: translateY(0%);
+  }
+
+  100% {
+    transform: translateY(-100%);
+  }
+}

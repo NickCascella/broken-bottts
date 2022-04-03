@@ -35,6 +35,7 @@ const requests = {
   postSeedData: async (levelData) => {
     const sortedLevelData = {
       seed: levelData.seed,
+      description: levelData.description,
       levelOne: {
         targetBotttObjInfo: levelData.levelOne.targetBotttObjInfo,
         allBotttsObjInfo: levelData.levelOne.allBotttsObjInfo,
@@ -71,6 +72,16 @@ const requests = {
         }`
       );
       return seedData.data.results[0];
+    } catch (err) {
+      return err;
+    }
+  },
+  getSeedsData: async () => {
+    try {
+      const seedData = await axios.get(
+        `${process.env.REACT_APP_URL}/bottts/seeds`
+      );
+      return seedData.data.filteredResults;
     } catch (err) {
       return err;
     }
