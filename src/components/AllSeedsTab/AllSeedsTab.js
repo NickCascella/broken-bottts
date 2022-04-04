@@ -18,15 +18,7 @@ const AllSeedsTab = ({ chevronImg, transitionPage, currentView, newSeed }) => {
       try {
         setCurrentSearch("");
         const seeds = await requests.getSeedsData();
-        seeds.sort((a, b) => {
-          if (a.seed < b.seed) {
-            return -1;
-          }
-          if (a.seed > b.seed) {
-            return 1;
-          }
-          return 0;
-        });
+
         setSeedData(seeds);
         setSeedDataCopy(seeds);
         setSegmentedData(seeds.slice(0, 5));

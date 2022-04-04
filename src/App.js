@@ -22,7 +22,19 @@ function App() {
         <div className="app">
           <Switch>
             <Route
-              path="/home/:param"
+              path="/home"
+              exact
+              render={() => (
+                <Homepage
+                  userName={userName}
+                  setUserName={setUserName}
+                  setLevelsData={setLevelsData}
+                  newRecord={newRecord}
+                />
+              )}
+            />
+            <Route
+              path="/home/view-highscores"
               render={() => (
                 <Homepage
                   userName={userName}
@@ -42,7 +54,7 @@ function App() {
                 />
               )}
             />
-            <Redirect path="*" to="/home/main" />
+            <Redirect path="*" to="/home" />
           </Switch>
         </div>
       </Router>

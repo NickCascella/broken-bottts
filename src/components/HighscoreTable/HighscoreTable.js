@@ -17,17 +17,18 @@ const HighscoreTable = ({ list, newRecord }) => {
         <li className="highscore-screen__table-item highscore-screen__table-item--seed">
           Seed
         </li>
+        <li className="highscore-screen__table-item">Date</li>
         <li className="highscore-screen__table-item">Randomized?</li>
       </ul>
       {list.map((highscore, i) => {
-        delete highscore._id;
-        delete highscore.__v;
         return (
           <ul
             key={uuid()}
             className={`highscore-screen__table-items ${
-              lodash.isEqual(newRecord, highscore) &&
-              "highscore-screen__table-items--new-record"
+              lodash.isEqual(
+                { ...newRecord, date: null },
+                { ...highscore, date: null }
+              ) && "highscore-screen__table-items--new-record"
             }`}
           >
             <li className="highscore-screen__table-item highscore-screen__table-item--small-spacing">
@@ -39,8 +40,14 @@ const HighscoreTable = ({ list, newRecord }) => {
             <li className="highscore-screen__table-item">
               {formatTime(highscore.time)}
             </li>
+
             <li className="highscore-screen__table-item highscore-screen__table-item--seed">
               {highscore.seed}
+            </li>
+            <li className="highscore-screen__table-item">
+              {highscore.date
+                ? new Date(highscore.date).toLocaleDateString()
+                : new Date().toLocaleDateString()}
             </li>
             <li
               className={`highscore-screen__table-item ${

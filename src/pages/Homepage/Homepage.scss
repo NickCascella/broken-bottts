@@ -137,10 +137,15 @@
       margin: 0;
       overflow: hidden;
     }
+
     &--error-message-show {
       color: $secondary-colour-four;
       height: 33px;
       margin: 1rem;
+    }
+    &--error-message-show-username {
+      height: max-content;
+      margin-bottom: 0;
     }
   }
 

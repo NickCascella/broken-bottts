@@ -10,8 +10,9 @@
   outline: 1px solid $primary-colour-one;
   background-color: transparent;
   border-radius: 0.2rem;
-  transition: background 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
   &:hover {
     background: $primary-colour-two;
+    color: $secondary-colour-five;
   }
 }

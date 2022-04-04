@@ -41,11 +41,11 @@
       list-style-type: none;
       width: 18%;
       margin: 0;
-      // border-right: 1px solid $primary-colour-one;
+
       &__item {
         margin-top: 2rem;
         height: 10%;
-        // border-bottom: 1px solid $primary-colour-one;
+
         &:hover {
           cursor: pointer;
         }
@@ -121,16 +121,6 @@
         margin: 0 auto;
       }
       &__text-input {
-        // background-color: transparent;
-        // border: 1px solid $primary-colour-one;
-        // color: $primary-colour-one;
-        // font-size: 1.25rem;
-        // height: 1.6rem;
-        // margin-left: 1rem;
-        // border-radius: 4px;
-        // &:focus {
-        //   outline: none;
-        // }
         &--error {
           color: $secondary-colour-four;
         }
@@ -150,9 +140,6 @@
         }
         &__rows {
           display: flex;
-
-          // justify-content: space-between;
-          // align-items: center;
           flex-direction: column;
         }
         &__row {

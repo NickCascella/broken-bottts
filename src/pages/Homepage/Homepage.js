@@ -1,7 +1,6 @@
 import "./Homepage.scss";
 import { useEffect, useState } from "react";
 import { useLocation, useHistory } from "react-router-dom";
-import { v4 as uuid } from "uuid";
 import requests from "../../utils/requests";
 import InputSingleLetter from "../../components/InputSingleLetter/InputSingleLetter";
 import factorioImg from "../../assets/images/factorio.gif";
@@ -28,6 +27,7 @@ const Homepage = ({ setUserName, setLevelsData, newRecord }) => {
   const [gameStart, setGameStart] = useState(false);
   const [error, setError] = useState(false);
   const [invalidSeed, setInvalidSeed] = useState(null);
+  const [invalidUser, setInvalidUser] = useState(null);
   const [highscores, setHighscores] = useState(null);
   const [initalRender, setInitialRender] = useState(true);
   const [transitiongTabs, setTransitioningTabs] = useState(false);
@@ -37,13 +37,15 @@ const Homepage = ({ setUserName, setLevelsData, newRecord }) => {
   const history = useHistory();
   const location = useLocation();
 
-  useEffect(async () => {
-    if (location.pathname.includes("view-highscores")) {
-      setCurrentView("highscores");
-    }
-    const highscores = await requests.getHighscores();
-
-    setHighscores(highscores);
+  useEffect(() => {
+    const getHighscores = async () => {
+      const highscores = await requests.getHighscores();
+      if (location.pathname.includes("view-highscores")) {
+        setCurrentView("highscores");
+      }
+      setHighscores(highscores);
+    };
+    getHighscores();
   }, []);
 
   const handleInput = (e) => {
@@ -106,6 +108,12 @@ const Homepage = ({ setUserName, setLevelsData, newRecord }) => {
     if (userCharOne && userCharTwo && userCharThree) {
       let bottts = {};
       let fullName = `${userCharOne}${userCharTwo}${userCharThree}`;
+      let validateUsername = await requests.validateUsername(fullName);
+      if (validateUsername.message) {
+        setInvalidUser(validateUsername.message);
+        return;
+      }
+      setInvalidUser(null);
       if (!seed && !showSeedField) {
         bottts = await getBottts(null);
         const randomName = uniqueNamesGenerator({
@@ -119,8 +127,8 @@ const Homepage = ({ setUserName, setLevelsData, newRecord }) => {
       } else {
         const seedData = await requests.getSeedData(seed);
 
-        if (!seedData) {
-          setInvalidSeed(true);
+        if (seedData.message) {
+          setInvalidSeed(seedData.message);
           return;
         }
         setInvalidSeed(false);
@@ -204,13 +212,10 @@ const Homepage = ({ setUserName, setLevelsData, newRecord }) => {
             <section className="home-screen">
               <h1 className="home-screen__title">Broken Bottts</h1>
               <p className="home-screen__welcome-message">
-                Welcome to Broken Bottts! You have been tasked with finding and
-                removing the robots we have discovered to have been infected
-                with a malicious yet inefficent virus...android operating
-                software. You have been tasked too remove these robots from our
-                operation as quickly as possible. If you can complete this in an
-                adequte amount of time we will offer you a promotion from your
-                position as intern to senior intern. Don't mess this up.
+                Welcome to Broken Bottts! Your objective is to find a target
+                amongst others in the fastest time possible. Get it done and I
+                see a special opening for Senior Intern with your name on it.
+                Now get out there!
               </p>
               <form className="home-screen__form">
                 <h2 className="home-screen__credentials-title">Credentials</h2>
@@ -237,6 +242,14 @@ const Homepage = ({ setUserName, setLevelsData, newRecord }) => {
                     gameStart={gameStart}
                   />
                 </div>
+                <p
+                  className={`home-screen__seed-input--error-message ${
+                    invalidUser &&
+                    "home-screen__seed-input--error-message-show home-screen__seed-input--error-message-show-username"
+                  }`}
+                >
+                  {invalidUser}
+                </p>
                 <label className="home-screen__seed-title" htmlFor="seed">
                   SEED?
                 </label>
@@ -279,8 +292,7 @@ const Homepage = ({ setUserName, setLevelsData, newRecord }) => {
                     invalidSeed && "home-screen__seed-input--error-message-show"
                   }`}
                 >
-                  Invalid seed. Please enter a valid seed or continue with a
-                  randomized seed.
+                  {invalidSeed}
                 </p>
                 <Button handleInput={startGame} text="Start" />
                 <div className="home-screen__menu-options">
