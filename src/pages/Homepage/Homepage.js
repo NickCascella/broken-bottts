@@ -148,9 +148,9 @@ const Homepage = ({ setUserName, setLevelsData, newRecord }) => {
         setGameStart(false);
         history.push("/broken-bottts");
       }, 7000);
-      return;
+    } else {
+      setError(true);
     }
-    setError(true);
   };
 
   return (

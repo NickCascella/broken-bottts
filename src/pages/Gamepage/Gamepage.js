@@ -42,7 +42,8 @@ const Gamepage = ({ userName, levelsData, setNewRecord }) => {
     const audio = new Audio(
       "https://badboygaming.github.io/html5game/snd_gamesong.ogg"
     );
-    audio.volume = 0.0001;
+    audio.volume = 0.0003;
+    audio.play();
     setAudio(audio);
   }, []);
 
@@ -113,35 +114,39 @@ const Gamepage = ({ userName, levelsData, setNewRecord }) => {
     }
   }, [selectedChoice]);
 
-  useEffect(async () => {
-    if (gameOver) {
-      const playerRecord = {
-        name: userName,
-        time: time,
-        seed: levelsData.seed,
-        newSeed: levelsData.newSeed,
-      };
-      const highscores = await requests.getHighscores();
-      setHighscores(highscores);
-      setPlayerRecord(playerRecord);
-      if (playerRecord.newSeed) {
-        let checkInTopFive = highscores.randomRuns.some((run) => {
-          return playerRecord.time < run.time;
-        });
-        if (checkInTopFive) {
-          setNewRecord(playerRecord);
-          const postHighscore = await requests.postHighscore(playerRecord);
-        }
-      } else {
-        let checkInTopFive = highscores.seededRuns.some(
-          (run) => playerRecord.time < run.time
-        );
-        if (checkInTopFive) {
-          setNewRecord(playerRecord);
-          const postHighscore = await requests.postHighscore(playerRecord);
+  useEffect(() => {
+    const gameEnd = async () => {
+      if (gameOver) {
+        audio.pause();
+        const playerRecord = {
+          name: userName,
+          time: time,
+          seed: levelsData.seed,
+          newSeed: levelsData.newSeed,
+        };
+        const highscores = await requests.getHighscores();
+        setHighscores(highscores);
+        setPlayerRecord(playerRecord);
+        if (playerRecord.newSeed) {
+          let checkInTopFive = highscores.randomRuns.some((run) => {
+            return playerRecord.time < run.time;
+          });
+          if (checkInTopFive) {
+            setNewRecord(playerRecord);
+            const postHighscore = await requests.postHighscore(playerRecord);
+          }
+        } else {
+          let checkInTopFive = highscores.seededRuns.some(
+            (run) => playerRecord.time < run.time
+          );
+          if (checkInTopFive) {
+            setNewRecord(playerRecord);
+            const postHighscore = await requests.postHighscore(playerRecord);
+          }
         }
       }
-    }
+    };
+    gameEnd();
   }, [gameOver]);
 
   const selectChoiceImg = (src) =>
