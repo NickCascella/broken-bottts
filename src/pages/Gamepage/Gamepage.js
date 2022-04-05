@@ -17,7 +17,7 @@ const Gamepage = ({ userName, levelsData, setNewRecord }) => {
   const [target, setTarget] = useState("");
   const [wrongSelection, setWrongSelection] = useState(false);
   const [correctSelection, setCorrectSelection] = useState(false);
-  const [disableClick, setDisableClick] = useState(false);
+  const [disableClick, setDisableClick] = useState(true);
   const [selectedChoice, setSelectedChoice] = useState("");
   const [levelsCompleted, setLevelsCompleted] = useState(0);
   const [levelTransition, setLevelTransition] = useState(false);
@@ -27,21 +27,23 @@ const Gamepage = ({ userName, levelsData, setNewRecord }) => {
   const [gameOver, setGameOver] = useState(false);
   const [highscores, setHighscores] = useState(null);
   const [playerRecord, setPlayerRecord] = useState(null);
+  const [audio, setAudio] = useState(null);
 
   let history = useHistory();
+
+  useEffect(() => {
+    if (!levelsData || !userName) return history.push("/");
+    setTarget(levelsData.levelOne.targetBottt);
+    setPlaceholderBottts(getBrokenBottts());
+    setNewRecord(null);
+  }, []);
 
   useEffect(() => {
     const audio = new Audio(
       "https://badboygaming.github.io/html5game/snd_gamesong.ogg"
     );
-    // audio.volume = 0.008;
-    // audio.play();
-    // audio.loop = true;
-
-    if (!levelsData || !userName) return history.push("/");
-    setTarget(levelsData.levelOne.targetBottt);
-    setPlaceholderBottts(getBrokenBottts());
-    setNewRecord(null);
+    audio.volume = 0.0001;
+    setAudio(audio);
   }, []);
 
   useEffect(() => {
@@ -90,6 +92,7 @@ const Gamepage = ({ userName, levelsData, setNewRecord }) => {
             } else if (levelsCompletedCopy === 4) {
               setTarget(levelsData.levelOne.targetBottt);
               setGameOver(true);
+              audio.pause();
               setTimeout(() => {
                 history.push("/home/view-highscores");
               }, 19000);
@@ -144,8 +147,9 @@ const Gamepage = ({ userName, levelsData, setNewRecord }) => {
   const selectChoiceImg = (src) =>
     !disableClick ? setSelectedChoice(src) : null;
 
-  if (!placeholderBottts.botttOne)
-    return <div style={{ backgroundColor: "black" }}></div>;
+  if (!placeholderBottts.botttOne) {
+    return <div className="placeholder">Error unable to load game data.</div>;
+  }
 
   return (
     <>
@@ -203,7 +207,11 @@ const Gamepage = ({ userName, levelsData, setNewRecord }) => {
             </div>
           </div>
           <div className="display-three">
-            <Timer setTime={setTime} levelsCompleted={levelsCompleted} />
+            <Timer
+              setTime={setTime}
+              levelsCompleted={levelsCompleted}
+              setDisableClick={setDisableClick}
+            />
           </div>
         </section>
         <div className="game-page__game-wrapper">
@@ -304,7 +312,9 @@ const Gamepage = ({ userName, levelsData, setNewRecord }) => {
                 {wrongSelection && "Cannot believe we hired you for this...."}
                 {correctSelection &&
                   "Wow so you actually ARE good at something!"}
-                {!correctSelection && !wrongSelection && "........"}
+                {!correctSelection && !wrongSelection && (
+                  <span className="dash__chat-text--animated">...</span>
+                )}
               </p>
             </div>
           </div>

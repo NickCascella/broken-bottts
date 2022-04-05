@@ -14,7 +14,6 @@ const LevelStyler = ({
   level,
   currentLevelView,
 }) => {
-  const [placeholder, setPlaceHolder] = useState(null);
   const [styleOptions, setStyleOptions] = useState(null);
   const [differences, setDifferences] = useState("Exact");
   const [targetBottt, setTargetBottt] = useState({
@@ -51,7 +50,7 @@ const LevelStyler = ({
       setStyleOptions(styles);
     };
     getStyles();
-  }, [placeholder]);
+  }, []);
 
   useEffect(() => {
     setBotttSvgs([renderBotImg(targetBottt), renderBotImg(generalBottt)]);
@@ -346,6 +345,7 @@ const LevelStyler = ({
               bottt="general"
             />
           )}
+
           {styleOptions && (
             <CustomSelect
               value={generalBottt.primaryColorLevel}
@@ -430,33 +430,36 @@ const LevelStyler = ({
               max={360}
               handleChange={(e) => handleInput(e, "rotate", "general")}
             />
-
-            <label htmlFor={`${level}differencesOne`}>E</label>
-            <RadioInput
-              defaultChecked={true}
-              id={`${level}differencesOne`}
-              name={`${level}differences`}
-              value={"Exact"}
-              handleInput={(e) => handleInput(e, "difference", "general")}
-            />
-
-            <label htmlFor={`${level}differencesTwo`}>S</label>
-            <RadioInput
-              id={`${level}differencesTwo`}
-              name={`${level}differences`}
-              value={"Similar"}
-              handleInput={(e) => handleInput(e, "difference", "general")}
-            />
-            <label htmlFor={`${level}differencesThree`}>D</label>
-            <RadioInput
-              id={`${level}differencesThree`}
-              name={`${level}differences`}
-              value={"Different"}
-              handleInput={(e) => handleInput(e, "difference", "general")}
-            />
           </div>
         </div>
       </section>
+      <div className="bottt-styling bottt-styling--general bottt-styling__differentiation-inputs">
+        <h3>General bottts likeness</h3>
+        <label htmlFor={`${level}differencesOne`}>Exact</label>
+        <RadioInput
+          defaultChecked={true}
+          id={`${level}differencesOne`}
+          name={`${level}differences`}
+          value={"Exact"}
+          handleInput={(e) => handleInput(e, "difference", "general")}
+        />
+
+        <label htmlFor={`${level}differencesTwo`}>Similar</label>
+        <RadioInput
+          id={`${level}differencesTwo`}
+          name={`${level}differences`}
+          value={"Similar"}
+          handleInput={(e) => handleInput(e, "difference", "general")}
+        />
+
+        <label htmlFor={`${level}differencesThree`}>Different</label>
+        <RadioInput
+          id={`${level}differencesThree`}
+          name={`${level}differences`}
+          value={"Different"}
+          handleInput={(e) => handleInput(e, "difference", "general")}
+        />
+      </div>
     </div>
   );
 };

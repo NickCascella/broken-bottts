@@ -88,16 +88,6 @@ const requests = {
       return err.response.data;
     }
   },
-  validateUsername: async (username) => {
-    try {
-      const highscoreUsers = await axios.get(
-        `${process.env.REACT_APP_URL}/highscores/users/${username}`
-      );
-      return highscoreUsers.data.results;
-    } catch (err) {
-      return err.response.data;
-    }
-  },
 };
 
 export default requests;

@@ -24,7 +24,7 @@ const AllSeedsTab = ({ chevronImg, transitionPage, currentView, newSeed }) => {
         setSegmentedData(seeds.slice(0, 5));
         setCurrentPage(5);
       } catch (err) {
-        console.log(err);
+        return err;
       }
     };
     getAllSeeds();
@@ -167,6 +167,13 @@ const AllSeedsTab = ({ chevronImg, transitionPage, currentView, newSeed }) => {
               }}
             />
           </div>
+          <Button
+            handleInput={() => {
+              transitionPage("north-to-main");
+            }}
+            text="Home"
+            additionalClass={"all-seeds-screen__home-page-btn"}
+          />
         </div>
         <img
           className="menu-background menu-background--colour-three"

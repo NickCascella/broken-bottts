@@ -12,6 +12,8 @@ import BotttCreator from "../../components/BotttCreatorTab/BotttCreatorTab";
 import AllSeedsTab from "../../components/AllSeedsTab/AllSeedsTab";
 import RadioInput from "../../components/Radio/Radio";
 import Button from "../../components/Button/Button";
+import manuMenuAudio from "../../assets/audio/mainMenu.mp3";
+
 const {
   uniqueNamesGenerator,
   adjectives,
@@ -27,13 +29,13 @@ const Homepage = ({ setUserName, setLevelsData, newRecord }) => {
   const [gameStart, setGameStart] = useState(false);
   const [error, setError] = useState(false);
   const [invalidSeed, setInvalidSeed] = useState(null);
-  const [invalidUser, setInvalidUser] = useState(null);
   const [highscores, setHighscores] = useState(null);
   const [initalRender, setInitialRender] = useState(true);
   const [transitiongTabs, setTransitioningTabs] = useState(false);
   const [showSeedField, setShowSeedField] = useState(false);
   const [currentView, setCurrentView] = useState("main");
   const [newSeed, setNewSeed] = useState(null);
+  const [audio, setAudio] = useState(null);
   const history = useHistory();
   const location = useLocation();
 
@@ -46,6 +48,11 @@ const Homepage = ({ setUserName, setLevelsData, newRecord }) => {
       setHighscores(highscores);
     };
     getHighscores();
+  }, []);
+
+  useEffect(() => {
+    const audio = new Audio(manuMenuAudio);
+    setAudio(audio);
   }, []);
 
   const handleInput = (e) => {
@@ -108,12 +115,7 @@ const Homepage = ({ setUserName, setLevelsData, newRecord }) => {
     if (userCharOne && userCharTwo && userCharThree) {
       let bottts = {};
       let fullName = `${userCharOne}${userCharTwo}${userCharThree}`;
-      let validateUsername = await requests.validateUsername(fullName);
-      if (validateUsername.message) {
-        setInvalidUser(validateUsername.message);
-        return;
-      }
-      setInvalidUser(null);
+
       if (!seed && !showSeedField) {
         bottts = await getBottts(null);
         const randomName = uniqueNamesGenerator({
@@ -140,6 +142,8 @@ const Homepage = ({ setUserName, setLevelsData, newRecord }) => {
       setLevelsData(bottts);
       setUserName(fullName);
       setGameStart(true);
+
+      audio.pause();
       setTimeout(() => {
         setGameStart(false);
         history.push("/broken-bottts");
@@ -150,7 +154,7 @@ const Homepage = ({ setUserName, setLevelsData, newRecord }) => {
   };
 
   return (
-    <>
+    <div>
       <AllSeedsTab
         transitionPage={transitionPage}
         chevronImg={chevronImg}
@@ -209,7 +213,15 @@ const Homepage = ({ setUserName, setLevelsData, newRecord }) => {
             }}
           />
           <div className="background-img-container">
-            <section className="home-screen">
+            <section
+              className="home-screen"
+              onClick={() => {
+                if (audio) {
+                  audio.volume = 0.002;
+                  audio.play();
+                }
+              }}
+            >
               <h1 className="home-screen__title">Broken Bottts</h1>
               <p className="home-screen__welcome-message">
                 Welcome to Broken Bottts! Your objective is to find a target
@@ -242,14 +254,7 @@ const Homepage = ({ setUserName, setLevelsData, newRecord }) => {
                     gameStart={gameStart}
                   />
                 </div>
-                <p
-                  className={`home-screen__seed-input--error-message ${
-                    invalidUser &&
-                    "home-screen__seed-input--error-message-show home-screen__seed-input--error-message-show-username"
-                  }`}
-                >
-                  {invalidUser}
-                </p>
+
                 <label className="home-screen__seed-title" htmlFor="seed">
                   SEED?
                 </label>
@@ -336,7 +341,7 @@ const Homepage = ({ setUserName, setLevelsData, newRecord }) => {
           newRecord={newRecord}
         />
       </div>
-    </>
+    </div>
   );
 };
 

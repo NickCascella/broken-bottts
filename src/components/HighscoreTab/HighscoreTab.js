@@ -25,7 +25,9 @@ const HighscoreTab = ({
       <div className="highscores-tab__wrap">
         <div className="background-img-container">
           <section className="highscore-screen">
-            <h2 className="highscore-screen__title">TOP 5 HIGHSCORES</h2>
+            <h2 className="highscore-screen__title">
+              TOP 5 ORIGINAL HIGHSCORES
+            </h2>
             {highscores && (
               <HighscoreTable
                 list={highscores.randomRuns}
@@ -33,7 +35,7 @@ const HighscoreTab = ({
               />
             )}
             <h2 className="highscore-screen__title--not-first">
-              TOP 5 ANY % HIGHSCORES
+              TOP 5 CUSTOM/REPEAT HIGHSCORES
             </h2>
             {highscores && (
               <HighscoreTable

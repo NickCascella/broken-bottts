@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import "./Loadingpage.scss";
-import formatTime from "../../utils/formatTime";
 
 const Loadingpage = ({ page, playerRecord, highscores }) => {
   const [completeLoading, setCompleteLoading] = useState(0);
@@ -10,12 +9,15 @@ const Loadingpage = ({ page, playerRecord, highscores }) => {
     setTimeout(() => {
       setCompleteLoading(1);
     }, 4500);
-    setTimeout(() => {
-      setCompleteLoading(2);
-    }, 9000);
-    setTimeout(() => {
-      setCompleteLoading(3);
-    }, 13500);
+    if (page !== "home") {
+      setTimeout(() => {
+        setCompleteLoading(2);
+      }, 9000);
+      setTimeout(() => {
+        setCompleteLoading(3);
+      }, 13500);
+    }
+
     if (highscores) {
       if (playerRecord.newSeed) {
         let checkInTopFive = highscores.randomRuns.some((run) => {
@@ -51,7 +53,7 @@ const Loadingpage = ({ page, playerRecord, highscores }) => {
           )}
 
           {page === "game" && !completeLoading && (
-            <h1 className="loading-page__title loading-page__title--no-delay">
+            <h1 className="loading-page__title loading-page__title--no-delay loading-page__title--no-delay--end-text">
               Uninstalling all your ram....
             </h1>
           )}

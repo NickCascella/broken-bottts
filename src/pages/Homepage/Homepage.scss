@@ -71,7 +71,7 @@
 .home-screen {
   position: relative;
   width: 100%;
-  max-width: 52rem;
+  max-width: 40rem;
   padding: 2rem;
   z-index: 2;
   &__title {
@@ -142,10 +142,6 @@
       color: $secondary-colour-four;
       height: 33px;
       margin: 1rem;
-    }
-    &--error-message-show-username {
-      height: max-content;
-      margin-bottom: 0;
     }
   }
 

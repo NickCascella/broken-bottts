@@ -1,10 +1,18 @@
 @use "../../styles/partials/colours" as *;
 @use "../../styles/partials/keyframes" as *;
+@use "../../styles/partials/mixins" as *;
+
+.placeholder {
+  color: $secondary-colour-one;
+  background-color: $secondary-colour-two;
+}
 
 .game-page {
   background-color: $secondary-colour-two;
   height: 100vh;
   transition: all 4s;
+  max-width: 96rem;
+  margin: 0 auto;
   color: $primary-colour-one;
   &--game-over {
     background-color: $primary-colour-four;
@@ -50,7 +58,7 @@
         border: 2px solid $primary-colour-one;
         transition: all 4s;
         &--game-over {
-          border-color: $primary-colour-four;
+          border-color: $primary-colour-three;
         }
       }
       &__captured-bottt {
@@ -165,6 +173,11 @@
       padding: 1rem;
       box-sizing: border-box;
       text-align: left;
+      &--animated {
+        &::after {
+          @include ellipsis;
+        }
+      }
     }
   }
 }

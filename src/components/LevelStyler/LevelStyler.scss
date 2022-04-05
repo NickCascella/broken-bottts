@@ -17,6 +17,7 @@
     color: $secondary-colour-five;
     &--general {
       color: $primary-colour-three;
+      margin-top: 2rem;
     }
     &__grouped-inputs {
       width: 32%;
@@ -53,6 +54,10 @@
     &__img-preview {
       width: 6rem;
       margin-bottom: 1rem;
+    }
+    &__differentiation-inputs {
+      display: flex;
+      align-items: center;
     }
   }
 }
