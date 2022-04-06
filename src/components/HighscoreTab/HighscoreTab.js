@@ -28,6 +28,7 @@ const HighscoreTab = ({
             <h2 className="highscore-screen__title">
               TOP 5 ORIGINAL HIGHSCORES
             </h2>
+            {!highscores && <h2>No highscores found :(</h2>}
             {highscores && (
               <HighscoreTable
                 list={highscores.randomRuns}
@@ -37,6 +38,7 @@ const HighscoreTab = ({
             <h2 className="highscore-screen__title--not-first">
               TOP 5 CUSTOM/REPEAT HIGHSCORES
             </h2>
+            {!highscores && <h2>No highscores found :(</h2>}
             {highscores && (
               <HighscoreTable
                 list={highscores.seededRuns}

@@ -2,9 +2,27 @@
 # Broken Bottts
 
 Hello and welcome to Broken Bottts the game. The objective is similar to Where's Waldo. While being timed, the player 
-must to find the target robot amongst other robots to proceed to the next level for a total of 4 levels.
-Each game can be customized by players by choosing how the robots look. These custom games can be set as seeds for anyone else who plays to enjoy.
+must to find the target robot amongst other robots to proceed to the next level for a total of 4 levels. After their game the score will be posted to the leaderboards if they make the top 5. Each game can be customized by players by choosing how the robots look. These custom games can be set as seeds for anyone else who plays to enjoy.
 
+Note: This game was built and meant to be played on devices with dimensions of 3024-by-1964 and no smaller. It can also be played on larger devices as well but was not optimized to do so.
+
+Custom level creator: Level 1
+
+<img src="./src/assets/images/levelOneCustom.png"
+     alt="Markdown Monster icon"
+     style="width: 35rem;" />
+
+Custom level creator: Overview
+
+<img src="./src/assets/images/overview.png"
+     alt="Markdown Monster icon"
+     style="width: 35rem;" />
+
+Playthrough: Level 4
+
+<img src="./src/assets/images/levelFourPlaying.png"
+     alt="Markdown Monster icon"
+     style="width: 35rem;" />
 
 ## Tech Stack
 
